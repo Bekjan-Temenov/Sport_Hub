@@ -49,13 +49,13 @@ const Header = () => {
   );
 };
 
-export const NavItem = ({ text }) => (
+ const NavItem = ({ text }) => (
   <li className="no-underline cursor-pointer hover:text-red-600 hover:underline">
     {text}
   </li>
 );
 
-export const ActionButton = ({ text, isOutlined }) => (
+ const ActionButton = ({ text, isOutlined }) => (
   <button
     className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${
       isOutlined
