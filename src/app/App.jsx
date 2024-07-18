@@ -4,7 +4,7 @@ import MyRoutes from './router'
 function App() {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter >
       <MyRoutes/>
     </BrowserRouter>
   )
