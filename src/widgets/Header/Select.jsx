@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import up from "../../shared/assets/up.svg";
-import down from "../../shared/assets/down.svg";
+import up from "../../shared/assets/svg/up.svg";
+import down from "../../shared/assets/svg/down.svg";
 
 const Select = () => {
   const options = ["Рус", "Кыр", "Анг"];

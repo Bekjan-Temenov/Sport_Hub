@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import Container from "../../shared/helpers/Container";
-import logo from "../../shared/assets/header_logo.svg";
-import player from "../../shared/assets/player.svg";
-import burger from "../../shared/assets/burger.svg";
+import logo from "../../shared/assets/svg/header_logo.svg";
+import player from "../../shared/assets/svg/player.svg";
+import burger from "../../shared/assets/svg/burger.svg";
 import Select from "./Select";
 import Burger from "./Burger";
 
@@ -16,12 +16,12 @@ const Header = () => {
   return (
     <Container>
       <div className="flex items-center justify-between my-5 text-white ">
-        <div>
+        <div className="block md:hidden">
           <img
             onClick={toggleMenu}
-            className="cursor-pointer md:hidden"
+            className="border cursor-pointer "
             src={burger}
-            alt="Menu"
+            alt="Menu"  
           />
           {open && <Burger />}
         </div>
@@ -49,13 +49,13 @@ const Header = () => {
   );
 };
 
-const NavItem = ({ text }) => (
+export const NavItem = ({ text }) => (
   <li className="no-underline cursor-pointer hover:text-red-600 hover:underline">
     {text}
   </li>
 );
 
-const ActionButton = ({ text, isOutlined }) => (
+export const ActionButton = ({ text, isOutlined }) => (
   <button
     className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${
       isOutlined
