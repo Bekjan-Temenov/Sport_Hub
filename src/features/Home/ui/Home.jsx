@@ -5,9 +5,9 @@ import SliderHome from "./SliderHome";
 
 function Home() {
   return (
-    <Container>
-      <SliderHome/>
-    </Container>
+  
+      <SliderHome />
+   
   );
 }
 
