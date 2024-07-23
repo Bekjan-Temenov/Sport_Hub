@@ -1,109 +1,120 @@
 // src/features/Home/ui/SliderHome.jsx
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import Container from '../../../shared/helpers/Container'
+import Container from '../../../shared/helpers/Container';
 import slide1 from '../../../shared/assets/img/Rectangle 4.png';
 import slide2 from '../../../shared/assets/img/slide2.png';
 import phoneicon from '../../../shared/assets/svg/phone.svg';
-import mapPin from '../../../shared/assets/svg/mapPin.svg'
-import instgram from '../../../shared/assets/svg/instagram.svg'
-import vector from '../../../shared/assets/svg/vector.svg'
+import mapPin from '../../../shared/assets/svg/mapPin.svg';
+import instgram from '../../../shared/assets/svg/instagram.svg';
+import vector from '../../../shared/assets/svg/vector.svg';
 
 const SliderHome = () => {
     return (
-
+        <div>
 
         <Swiper
-            modules={[Navigation, Pagination]}
+            modules={[Navigation, Pagination, Autoplay]}
             navigation={{
                 prevEl: '.swiper-button-prev',
                 nextEl: '.swiper-button-next',
             }}
             pagination={{ clickable: true }}
+            autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+            }}
             className="mySwiper"
         >
-            <SwiperSlide>
-                <div style={{ backgroundImage: `url(${slide1})` }} className=" w-full  bg-cover h-[996px] ">
-                    <Container>
-                        <div className=''>
-                            <div className='flex p-[30px]'>
-                                <img src={phoneicon} alt="" />
-                                <span className='text-white text-[24px]'>+996 700-72-77-45</span>
+                <SwiperSlide>
+                    <div
+                        style={{ backgroundImage: `url(${slide1})` }}
+                        className="w-full h-[700px] md:h-[983px] bg-cover bg-center flex items-center justify-center"
+                    >
+                        <Container>
+                            <div>
+                                <div className='flex p-[30px]'>
+                                    <img src={phoneicon} alt="Phone Icon" />
+                                    <span className='text-white text-[15px] md:text-[24px]'>+996 700-72-77-45</span>
+                                </div>
+                                <div className='w-[300px] md:w-[640px] h-auto md:h-[146px]'>
+                                    <h1 className='text-white text-[32px] md:text-[67px] font-bold leading-tight mt-[60px] md:mt-[90px] ml-[5px] md:ml-[30px]'>
+                                        БЕРЕМ НАГРУЗКУ НА СЕБЯ
+                                    </h1>
+                                </div>
+                                <div className="mt-[20px] md:mt-[70px] ml-[10px] md:ml-[30px]">
+                                    <button className='w-[270px] md:w-[474px] h-[40px] md:h-[66px] bg-[#FE0404] rounded-xl text-white text-[15px] md:text-[27px]'>
+                                        РАССРОЧКА 6/9/12 МЕСЯЦЕВ
+                                    </button>
+                                </div>
+                                <ul className="list-disc pl-4 md:pl-6 mb-6 text-white mt-4 md:mt-[70px] ml-4 md:ml-[40px] text-[18px] md:text-[24px]">
+                                    <li>Тренажерный зал</li>
+                                    <li>Фитнес</li>
+                                    <li>Работаем 24/7</li>
+                                </ul>
+                                <div className='flex gap-2 mt-[40px] md:mt-[90px] ml-[30px]'>
+                                    <img src={mapPin} alt="Map Pin" />
+                                    <p className='text-white text-[13px] md:text-[18px]'>
+                                        г. Батайск, M. Горького, д. 84
+                                    </p>
+                                </div>
+                                <div className='flex flex-col ml-[30px] mt-1 md:flex-row md:justify-between md:mt-[90px]'>
+                                    <button className='text-white flex gap-2 justify-center w-[200px] h-[40px] items-center border border-white md:p-[10px] rounded-xl'>
+                                        <img src={instgram} alt="Instagram Icon" />Мы в Instagram
+                                    </button>
+                                    <button className='flex w-[208px] h-[40px] bg-[#E41C26] text-white text-[20px] justify-center mt-[20px] md:mt-0 items-center gap-3 rounded-xl'>
+                                        Смотреть все <img src={vector} alt="Arrow Icon" />
+                                    </button>
+                                </div>
                             </div>
-                            <div className='w-[640px] h-[146px] '>
-                                <h1 className='text-white  text-[67px] font-bold leading-tight mt-[70px] ml-[30px]'>БЕРЕМ НАГРУЗКУ
-                                    НА СЕБЯ</h1>
-                            </div>
-                            <div className=" mt-[70px] ml-[30px]    ">
-                                <button className='w-[474px] h-[66px] bg-[#FE0404]  rounded-xl text-white text-[27px] ' >
-                                     РАССРОЧКА 6/9/12 МЕСЯЦЕВ
-                                </button>
-                               
-                            </div>
+                        </Container>
+                    </div>
+                </SwiperSlide>
 
-                            <ul className="list-disc pl-6 mb-6  text-white  mt-[70px] ml-[40px] text-[24px] ">
-                                <li className=" ">Тренажерный зал</li>
-                                <li className="">Тренажерный зал</li>
-                                <li className="">Работаем 24/7</li>
-                            </ul>
-
-                            <div className='flex  gap-2  mt-[90px] ml-[30px]'>
-                                <img src={mapPin} alt="" />
-                                <p className='text-white  text-[18px]'>г. Батайск, M. Горького, д. 84</p>
+                <SwiperSlide>
+                    <div
+                        style={{ backgroundImage: `url(${slide2})` }}
+                        className="bg-[#030305] w-full h-[700px] md:h-[983px] bg-start flex items-start justify-start md:justify-end transform scale-x-[-1] md:scale-x-100"
+                    >
+                        <Container>
+                            <div className='flex flex-col justify-start md:justify-end transform scale-x-[-1] md:scale-x-100'>
+                                <div className='flex p-4 md:p-[30px] justify-start md:justify-end w-full'>
+                                    <img src={phoneicon} alt="Phone Icon" />
+                                    <span className='text-white text-[15px] md:text-[24px] ml-2 md:ml-4'>+996 700-72-77-45</span>
+                                </div>
+                                <div className='w-full md:w-[823px] text-left md:text-right ml-0 md:ml-auto'>
+                                    <h1 className='text-white text-[32px] md:text-[67px] font-bold leading-tight mt-[40px] md:mt-[70px]'>Более 20 различных групповых программ</h1>
+                                </div>
+                                <p className='w-full md:w-[623px] text-[15px] md:text-[24px] text-white mt-4 md:mt-[30px] text-left md:text-right ml-0 md:ml-auto'>
+                                    Огромный выбор групповых программ, которые проведут наши тренеры. Современный зал и позитивная атмосфера принесет не только пользу, но и доставит удовольствие от тренировок.
+                                </p>
+                                <div className='flex justify-start md:justify-end gap-2 mt-[40px] md:mt-[90px] ml-0 md:ml-auto'>
+                                    <img src={mapPin} alt="Map Pin" />
+                                    <p className='text-white text-[13px] md:text-[18px]'>г. Батайск, M. Горького, д. 84</p>
+                                </div>
+                                <div className='flex justify-start md:justify-end mt-4 md:mt-[20px] ml-0 md:ml-auto'>
+                                    <button className='text-white flex gap-2 justify-center items-center border border-white p-2 md:p-[10px] rounded-xl'>
+                                        <img src={instgram} alt="Instagram Icon" />Мы в Instagram
+                                    </button>
+                                </div>
                             </div>
+                        </Container>
+                    </div>
+                </SwiperSlide>
 
-                            <div className='flex   justify-between mt-[90px] ml-[30px]  '>
-                                <button className='text-white flex gap-2 justify-center items-center border border-white  p-[10px] rounded-xl'> <img src={instgram} alt="" />Мы в Instagram</button>
-                                <button className=' flex w-[208px] h-[40px] bg-[#E41C26] text-white text-[20px] justify-center items-center gap-3 rounded-xl'> Смотреть все <img src={vector} alt="" /></button>
-                            </div>
-                        </div>
-                    </Container>
-                </div>
-            </SwiperSlide>
 
-            <SwiperSlide>
-                <div style={{ backgroundImage: `url(${slide2})` }} className=" bg-[#030305] w-full    bg-cover h-[996px]  ">
-                    <Container>
-                        <div className='flex flex-col justify-end '>
-                            <div className='flex p-[30px] justify-center '>
-                                <img src={phoneicon} alt="" />
-                                <span className='text-white text-[24px]'>+996 700-72-77-45</span>
-                            </div>
-                            <div className='ml-[500px]    w-[823px]  '>
-                                <h1 className='text-white  text-[67px] font-bold leading-tight mt-[70px] '>Более 20 различных
-                                    групповых программ</h1>
-                            </div>
-                           
 
-                            <p className=' w-[623px] text-[24px] text-white mt-[30px]  ml-[550px]'>Огромный выбор групповых программ, которые проведут наши тренеры. Современный зал
-                                и позитивная атмосфера принесет не только пользу, но и доставит удовольствие от тренировок.</p>
 
-                            <div className='flex justify-end gap-2  mt-[90px] ml-[30px]'>
-                                <img src={mapPin} alt="" />
-                                <p className='text-white  text-[18px]'>г. Батайск, M. Горького, д. 84</p>
-                            </div>
-
-                            <div className='flex   justify-end mt-[20px] ml-[30px]  '>
-                                <button className='text-white flex gap-2 justify-center items-center border border-white  p-[10px] rounded-xl'> <img src={instgram} alt="" />Мы в Instagram</button>
-                               
-                            </div>
-                        </div>
-                    </Container>
-                </div>
-            </SwiperSlide>
-
-          
 
             <div className="swiper-button-next m-4 p-7 custom-swiper-button flex items-center justify-center bg-red-900 w-12 h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute right-2 top-1/2 transform -translate-y-1/2"></div>
             <div className="swiper-button-prev m-4 p-7 custom-swiper-button flex items-center justify-center bg-red-900 w-12 h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute left-2 top-1/2 transform -translate-y-1/2"></div>
         </Swiper>
-
+        </div>
     );
 };
 
 export default SliderHome;
-
