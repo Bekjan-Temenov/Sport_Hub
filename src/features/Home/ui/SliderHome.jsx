@@ -17,23 +17,23 @@ const SliderHome = () => {
     return (
         <div>
 
-        <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            navigation={{
-                prevEl: '.swiper-button-prev',
-                nextEl: '.swiper-button-next',
-            }}
-            pagination={{ clickable: true }}
-            autoplay={{
-                delay: 5000,
-                disableOnInteraction: false,
-            }}
-            className="mySwiper"
-        >
+            <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                navigation={{
+                    prevEl: '.swiper-button-prev',
+                    nextEl: '.swiper-button-next',
+                }}
+                pagination={{ clickable: true }}
+                autoplay={{
+                    delay: 5000,
+                    disableOnInteraction: false,
+                }}
+                className="mySwiper"
+            >
                 <SwiperSlide>
                     <div
                         style={{ backgroundImage: `url(${slide1})` }}
-                        className="w-full h-[700px] md:h-[983px] bg-cover bg-center flex items-center justify-center"
+                        className="relative w-full h-[440px] md:h-[983px] bg-cover bg-center bg-fixed md:bg-attachment-scroll flex items-center justify-center md:w-auto"
                     >
                         <Container>
                             <div>
@@ -57,28 +57,31 @@ const SliderHome = () => {
                                     <li>Работаем 24/7</li>
                                 </ul>
                                 <div className='flex gap-2 mt-[40px] md:mt-[90px] ml-[30px]'>
-                                    <img src={mapPin} alt="Map Pin" />
+                                    <img src={mapPin} alt="Map Pin" className="w-[20px] md:w-[30px] h-[20px] md:h-[30px]" />
                                     <p className='text-white text-[13px] md:text-[18px]'>
                                         г. Батайск, M. Горького, д. 84
                                     </p>
                                 </div>
                                 <div className='flex flex-col ml-[30px] mt-1 md:flex-row md:justify-between md:mt-[90px]'>
                                     <button className='text-white flex gap-2 justify-center w-[200px] h-[40px] items-center border border-white md:p-[10px] rounded-xl'>
-                                        <img src={instgram} alt="Instagram Icon" />Мы в Instagram
+                                        <img src={instgram} alt="Instagram Icon" className="w-[20px] md:w-[30px] h-[20px] md:h-[30px]" />Мы в Instagram
                                     </button>
                                     <button className='flex w-[208px] h-[40px] bg-[#E41C26] text-white text-[20px] justify-center mt-[20px] md:mt-0 items-center gap-3 rounded-xl'>
-                                        Смотреть все <img src={vector} alt="Arrow Icon" />
+                                        Смотреть все <img src={vector} alt="Arrow Icon" className="w-[20px] md:w-[30px] h-[20px] md:h-[30px]" />
                                     </button>
                                 </div>
                             </div>
                         </Container>
+                        <div className="absolute bottom-0 left-0 w-full flex justify-center pb-4">
+                            <div className="pagination"></div>
+                        </div>
                     </div>
                 </SwiperSlide>
 
                 <SwiperSlide>
                     <div
-                        style={{ backgroundImage: `url(${slide2})` }}
-                        className="bg-[#030305] w-full h-[700px] md:h-[983px] bg-start flex items-start justify-start md:justify-end transform scale-x-[-1] md:scale-x-100"
+                        style={{ backgroundImage: `url(${slide2})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                        className="relative bg-[#030305]  w-full h-[440px] md:h-[983px] flex items-start justify-start md:justify-end transform scale-x-[-1] md:scale-x-100"
                     >
                         <Container>
                             <div className='flex flex-col justify-start md:justify-end transform scale-x-[-1] md:scale-x-100'>
@@ -89,7 +92,7 @@ const SliderHome = () => {
                                 <div className='w-full md:w-[823px] text-left md:text-right ml-0 md:ml-auto'>
                                     <h1 className='text-white text-[32px] md:text-[67px] font-bold leading-tight mt-[40px] md:mt-[70px]'>Более 20 различных групповых программ</h1>
                                 </div>
-                                <p className='w-full md:w-[623px] text-[15px] md:text-[24px] text-white mt-4 md:mt-[30px] text-left md:text-right ml-0 md:ml-auto'>
+                                <p className='w-[233px] md:w-[623px] text-[12px] md:text-[24px] text-white mt-4 md:mt-[30px] text-left md:text-right ml-0 md:ml-auto'>
                                     Огромный выбор групповых программ, которые проведут наши тренеры. Современный зал и позитивная атмосфера принесет не только пользу, но и доставит удовольствие от тренировок.
                                 </p>
                                 <div className='flex justify-start md:justify-end gap-2 mt-[40px] md:mt-[90px] ml-0 md:ml-auto'>
@@ -110,9 +113,11 @@ const SliderHome = () => {
 
 
 
-            <div className="swiper-button-next m-4 p-7 custom-swiper-button flex items-center justify-center bg-red-900 w-12 h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute right-2 top-1/2 transform -translate-y-1/2"></div>
-            <div className="swiper-button-prev m-4 p-7 custom-swiper-button flex items-center justify-center bg-red-900 w-12 h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute left-2 top-1/2 transform -translate-y-1/2"></div>
-        </Swiper>
+
+                <div className="swiper-button-next  m-4 p-7 custom-swiper-button flex items-center justify-center  md:bg-red-900  md:w-12 md:h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute right-2 top-1/2 transform -translate-y-1/2"></div>
+                <div className="swiper-button-prev m-4 p-7 custom-swiper-button flex items-center justify-center  md:bg-red-900  md:w-12 md:h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute left-2 top-1/2 transform -translate-y-1/2"></div>
+                
+            </Swiper>
         </div>
     );
 };
