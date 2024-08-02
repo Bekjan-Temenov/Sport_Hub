@@ -7,7 +7,7 @@ import insta from "../../shared/assets/svg/footer_insta.svg";
 
 function Footer() {
   return (
-    <div className="bg-[url('../../shared/assets/png/futter.png')]  bg-cover bg-center text-white py-4 md:py-[48px] saturate-200">
+    <div className="bg-[url('../../shared/assets/png/futter.png')]  bg-cover bg-center text-white py-4 md:py-[48px]   ">
       <Container>
         <div className="flex flex-col gap-5 md:gap-14">
           <div className="flex sm:flex-row gap-3 flex-col  items-center md:px-[50px] justify-between ">
