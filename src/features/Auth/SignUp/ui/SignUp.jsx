@@ -1,6 +1,8 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import istockphoto from '../../../../shared/assets/svg/istockphoto.svg';
 import Container from '../../../../shared/helpers/Container';
 
@@ -17,17 +19,16 @@ const SignupSchema = Yup.object().shape({
     rememberMe: Yup.boolean(),
 });
 
-
 const SignUp = () => {
     return (
         <div className="w-full min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${istockphoto})` }}>
             <Container>
-                <div className="bg-white p-5 rounded-lg shadow-lg w-[550px]  mx-auto ">
+                <div className="bg-white p-5 rounded-lg shadow-lg w-[550px] mx-auto">
                     <div className="flex justify-end">
                         <button className="text-xl font-bold">×</button>
                     </div>
-                    <h1 className="text-3xl font-bold  text-center">Регистрация</h1> 
-                    <h2 className="text-xl font-semibold mb-4 ">Создать аккаунт</h2>
+                    <h1 className="text-3xl font-bold text-center">Регистрация</h1>
+                    <h2 className="text-xl font-semibold mb-4">Создать аккаунт</h2>
                     <Formik
                         initialValues={{
                             email: '',
@@ -44,7 +45,7 @@ const SignUp = () => {
                             console.log(values);
                         }}
                     >
-                        {({ errors, touched }) => (
+                        {({ errors, touched, setFieldValue }) => (
                             <Form>
                                 <div className="mb-4">
                                     <Field
@@ -104,11 +105,15 @@ const SignUp = () => {
                                         <label className="block text-gray-700">
                                             Номер телефона <span className="text-red-500">*</span>
                                         </label>
-                                        <Field
-                                            name="phoneNumber"
-                                            type="text"
-                                            placeholder="Номер телефона"
-                                            className={`input ${errors.phoneNumber && touched.phoneNumber ? 'border-red-500' : 'border-gray-300'} w-full h-10 px-4 border-2 rounded-lg bg-gray-100`}
+                                        <PhoneInput
+                                            country={'us'}
+                                            value={''}
+                                            onChange={phone => setFieldValue('phoneNumber', phone)}
+                                            inputProps={{
+                                                name: 'phoneNumber',
+                                                required: true,
+                                                className: `input ${errors.phoneNumber && touched.phoneNumber ? 'border-red-500' : 'border-gray-300'} w-full h-10 px-4 border-2 rounded-lg bg-gray-100`
+                                            }}
                                         />
                                         {errors.phoneNumber && touched.phoneNumber ? <div className="text-red-500 text-sm mt-1">{errors.phoneNumber}</div> : null}
                                     </div>
