@@ -1,6 +1,6 @@
 import React from 'react';
 import istockphoto from '../../../../shared/assets/svg/istockphoto.svg';
-import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
+import { Formik, Form, Field, useField } from 'formik';
 import * as Yup from 'yup';
 
 const CodeInput = () => {
@@ -24,6 +24,27 @@ const CodeInput = () => {
         console.log('Код успешно отправлен:', code);
     };
 
+    const handleChange = (event, fieldName) => {
+        const value = event.target.value;
+        if (/^\d$/.test(value)) {
+            event.target.value = value;
+        } else {
+            event.target.value = '';
+        }
+    };
+
+    const handlePaste = (event, fieldName) => {
+        event.preventDefault();
+        const pastedData = event.clipboardData.getData('text');
+        const sanitizedData = pastedData.replace(/\D/g, '').slice(0, 4);
+        const fields = ['code1', 'code2', 'code3', 'code4'];
+        fields.forEach((field, index) => {
+            if (sanitizedData[index] !== undefined) {
+                document.getElementsByName(field)[0].value = sanitizedData[index];
+            }
+        });
+    };
+
     const CustomInput = ({ name }) => {
         const [field, meta] = useField(name);
         return (
@@ -31,9 +52,11 @@ const CodeInput = () => {
                 <input
                     type="text"
                     {...field}
+                    name={name}
                     maxLength={1}
-                    className={`w-[60px] h-[60px] md:w-[89px] md:h-[100px] bg-gray-200 rounded text-center text-lg ${meta.touched && meta.error ? 'border-2 border-red-500' : ''
-                        }`}
+                    onChange={(e) => handleChange(e, name)}
+                    onPaste={(e) => handlePaste(e, name)}
+                    className={`w-[60px] h-[60px] md:w-[89px] md:h-[100px] bg-gray-200 rounded text-center text-lg ${meta.touched && meta.error ? 'border-2 border-red-500' : ''}`}
                 />
             </div>
         );
