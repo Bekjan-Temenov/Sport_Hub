@@ -27,12 +27,12 @@ const CodeInput = () => {
     const CustomInput = ({ name }) => {
         const [field, meta] = useField(name);
         return (
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col items-center">
                 <input
                     type="text"
                     {...field}
                     maxLength={1}
-                    className={`w-[89px] h-[100px] bg-gray-200 rounded text-center text-lg ${meta.touched && meta.error ? 'border-2 border-red-500' : ''
+                    className={`w-[60px] h-[60px] md:w-[89px] md:h-[100px] bg-gray-200 rounded text-center text-lg ${meta.touched && meta.error ? 'border-2 border-red-500' : ''
                         }`}
                 />
             </div>
@@ -50,28 +50,28 @@ const CodeInput = () => {
                 onSubmit={handleSubmit}
             >
                 {() => (
-                    <Form className="bg-white p-8 rounded-lg shadow-md w-[600px] h-[500px] flex flex-col items-center gap-3 justify-center">
-                        <h1 className="font-semibold mb-4 text-[32px]">Введите 4-значный код</h1>
-                        <p className="text-gray-700 mb-6 text-start text-[20px] w-[400px]">
+                    <Form className="bg-white p-4 md:p-8 rounded-lg shadow-md w-[90%] max-w-[600px] h-auto md:h-[500px] flex flex-col items-center gap-3 justify-center">
+                        <h1 className="font-semibold mb-4 text-[24px] md:text-[32px] text-center">Введите 4-значный код</h1>
+                        <p className="text-gray-700 mb-6 text-start text-[16px] md:text-[20px] w-[80%] md:w-[400px] text-center md:text-start">
                             На адрес электронной почты, который вы указали, должен был прийти четырехзначный код.
                         </p>
-                        <div className="flex gap-4 mb-6">
+                        <div className="flex gap-2 md:gap-4 mb-6">
                             <CustomInput name="code1" />
                             <CustomInput name="code2" />
                             <CustomInput name="code3" />
                             <CustomInput name="code4" />
                         </div>
-                        <div className="flex gap-4 w-full justify-center">
+                        <div className="flex gap-2 md:gap-4 w-full justify-center">
                             <button
                                 type="button"
-                                className=" py-2 bg-[#FE0404] text-white rounded hover:bg-red-600 w-[200px] h-[50px]"
+                                className="py-2 bg-[#FE0404] text-white rounded hover:bg-red-600 w-[120px] md:w-[200px] h-[40px] md:h-[50px]"
                                 onClick={() => console.log('Отмена')}
                             >
                                 Отмена
                             </button>
                             <button
                                 type="submit"
-                                className=" bg-[#FE0404] text-white rounded hover:bg-red-600 w-[200px] h-[50px]"
+                                className="bg-[#FE0404] text-white rounded hover:bg-red-600 w-[120px] md:w-[200px] h-[40px] md:h-[50px]"
                             >
                                 Отправить
                             </button>
