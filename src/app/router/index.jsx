@@ -4,6 +4,7 @@ import HomeRoute from "../../features/Home/route";
 import Home from "../../features/Home/ui/Home";
 import SignUpRoute from "../../features/Auth/SignUp/route";
 import { zallyRoute } from "../../features/Zally/route";
+import CodeInputRoute from "../../features/Auth/CodeInput/route"
 
 
 const MyRoutes = () => {
@@ -14,8 +15,8 @@ const MyRoutes = () => {
 
             children: [{ path: '', element: <Home/> } ,HomeRoute , zallyRoute  ],
         },
-       SignUpRoute
-
+       SignUpRoute,
+     CodeInputRoute
     ])
 }
 export default MyRoutes
