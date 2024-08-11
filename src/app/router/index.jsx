@@ -4,13 +4,14 @@ import HomeRoute from "../../features/Home/route";
 import Home from "../../features/Home/ui/Home";
 import { zallyRoute } from "../../features/Zally/route";
 import { ArenaRouter } from "../../features/Arena/route";
+import { ReviewRoute } from "../../features/ReviewArena/route";
 
 const MyRoutes = () => {
     return useRoutes([
         {
             path:"",
             element:<Layout/>,
-            children: [{ path: '', element: <Home/> } ,HomeRoute ,  zallyRoute , ArenaRouter ],
+            children: [{ path: '', element: <Home/> } ,HomeRoute ,  zallyRoute , ArenaRouter ,ReviewRoute],
         }
     ])
 }

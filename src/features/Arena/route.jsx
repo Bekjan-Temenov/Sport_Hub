@@ -1,6 +1,6 @@
 import Arena from "./index"
 
 export const ArenaRouter = {
-    path:"arena-page",
+    path:"/arena",
     element:<Arena/>
 }
