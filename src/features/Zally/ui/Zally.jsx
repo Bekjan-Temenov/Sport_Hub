@@ -1,8 +1,9 @@
 import React from "react";
 import Container from "../../../shared/helpers/Container";
 import basketball from "../../../shared/assets/png/basketball.png";
-import krugok from "../../../shared/assets/png/Basket_Krugok.png"
-import sports from "../../../shared/assets/png/Basket_Sports.png" 
+import krugok from "../../../shared/assets/png/Basket_Krugok.png";
+import sports from "../../../shared/assets/png/Basket_Sports.png";
+import { Link } from "react-router-dom";
 
 function Zally() {
   return (
@@ -38,7 +39,7 @@ function Zally() {
           />
           <h1 className="text-xl sm:text-4xl md:text-6xl">Кружки</h1>
           <button className="w-[30%] sm:w-[20%] md:w-[10%] py-1 md:py-3 text-center bg-red-500 rounded-md hover:bg-red-700">
-            Открыть
+            <Link to="/arena">Открыть</Link>
           </button>
         </div>
       </div>
