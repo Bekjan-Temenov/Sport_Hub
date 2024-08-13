@@ -7,6 +7,7 @@ import { zallyRoute } from "../../features/Zally/route";
 import CodeInputRoute from "../../features/Auth/CodeInput/route"
 import RegisterReqRoute from "../../features/Auth/RegistrationRequiredAd/router/router";
 import signInRoute from "../../features/Auth/SignIn/router/router";
+import forgotPasswordRoute from "../../features/Auth/ForgotPassword/router/route";
 
 
 const MyRoutes = () => {
@@ -20,7 +21,8 @@ const MyRoutes = () => {
        SignUpRoute,
         CodeInputRoute,
         RegisterReqRoute,
-     signInRoute
+        signInRoute,
+     forgotPasswordRoute
     ])
 }
 export default MyRoutes
