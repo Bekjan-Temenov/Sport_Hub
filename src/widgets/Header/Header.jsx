@@ -15,7 +15,7 @@ const Header = () => {
 
   return (
     <Container>
-      <div className="flex items-center justify-between my-5 text-white ">
+      <div className="flex items-center justify-between my-5 text-white border ">
         <div className="block md:hidden">
           <img
             onClick={toggleMenu}
@@ -23,7 +23,7 @@ const Header = () => {
             src={burger}
             alt="Menu"
           />
-          {open && <Burger />}
+          {open && <Burger  value={setOpen}/>}
         </div>
         <img className="lg:h-[30px] h-[25px]" src={logo} alt="Logo" />
         <img
