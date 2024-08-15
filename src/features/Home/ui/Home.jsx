@@ -4,18 +4,13 @@ import SliderHome from "./SliderHome";
 import HomeSports from "./HomeSports";
 import HomeSelect from "./HomeSelect";
 
-
-
 function Home() {
   return (
-     <>
+    <>
       <SliderHome />
-      <HomeSelect/>
-    <HomeSports/>
-     </>
-    
-   
+      <HomeSelect />
+      <HomeSports />
+    </>
   );
 }
-
 export default Home;
