@@ -54,7 +54,7 @@ function InZally() {
           <img
             className="absolute lg:w-[22%] w-[19%] sm:w-[20%] md:w-[21%] right-[-3%]"
             src={sport.boll}
-            alt="basketball"
+            alt=""
           />
         </div>
     </Container>
