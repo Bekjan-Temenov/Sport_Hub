@@ -16,13 +16,15 @@ const Header = () => {
   return (
     <Container>
       <div className="flex items-center justify-between my-5 text-white border ">
+        <div className="flex items-center justify-between w-full">
+
         <div className="block md:hidden">
           <img
             onClick={toggleMenu}
             className="border cursor-pointer "
             src={burger}
             alt="Menu"
-          />
+            />  
           {open && <Burger  value={setOpen}/>}
         </div>
         <img className="lg:h-[30px] h-[25px]" src={logo} alt="Logo" />
@@ -30,7 +32,8 @@ const Header = () => {
           className="md:hidden w-[44px] rounded-full h-[44px] border-[3px] border-red-600 cursor-pointer"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"
           alt="Profile"
-        />
+          />
+          </div>
         <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
           <Link to="/">
               <NavItem text="Главная" />
