@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { sports } from "../../../../shared/api/api";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -15,21 +15,20 @@ const zally = [
 ];
 
 function InKrugok() {
-  const { id } = useParams();
-  const [sport, setSport] = useState(null);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const sport = JSON.parse(decodeURIComponent(queryParams.get('sport')));
 
-  useEffect(() => {
-    const findSport = sports.find((data) => data.id === parseInt(id));
-    setSport(findSport || null);
-  }, [id]);
-
+  if (!sport) {
+    return <p>Data not found</p>;
+  }
   return (
     <Container>
       {sport ? (
         <div
           className="relative my-8 text-white flex items-center bg-cover mx-auto rounded-r-full justify-between w-[90%] rounded-l-md md:pl-[40px] pl-[20px] border-2 border-white"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${krugok})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${sport.inbackgroundImage})`,
           }}
         >
           <div className="flex flex-col gap-2 w-[30%]">
@@ -46,15 +45,15 @@ function InKrugok() {
               </div>
             ))}
           </div>
-          <Link to="/zally/zally">
+          <Link to={`/zally/zally/${sport.id}`}>
             <button className="flex items-center justify-center w-8 h-8 bg-red-600 rounded-md">
               <ArrowBackIcon />
             </button>
           </Link>
-          <img className="invisible w-[21%]" src={basketball} />
+          <img className="invisible w-[21%]" src={sport.boll} />
           <img
             className="absolute lg:w-[22%] w-[19%] sm:w-[20%] md:w-[21%] right-[-3%]"
-            src={basketball}
+            src={sport.boll}
             alt="basketball"
           />
         </div>

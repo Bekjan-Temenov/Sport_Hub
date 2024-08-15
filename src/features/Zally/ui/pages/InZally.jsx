@@ -22,13 +22,12 @@ function InZally() {
   if (!sport) {
     return <p>Data not found</p>;
   }
-  console.log(sport);
   return (
     <Container>
         <div
           className="relative my-8 text-white flex items-center bg-cover mx-auto rounded-r-full justify-between w-[90%] rounded-l-md md:pl-[40px] pl-[20px] border-2 border-white"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${sport.inbackgroundImage})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${sport.inbackgroundImage2})`,
           }}
         >
           <div className="flex flex-col gap-2 w-[30%]">
