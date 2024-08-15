@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import search from '../../../shared/assets/svg/search.svg';
 import Container from '../../../shared/helpers/Container';
+import { sports } from '../../../shared/api/api';
 
 const HomeSelect = () => {
-    // Массив с вариантами для <select>
     const options = [
         'Залы',
         'Кружки',
         'Турниры',
     ];
 
-    // Состояние для хранения выбранного значения
     const [selectedOption, setSelectedOption] = useState('');
 
-    // Обработчик изменения значения в <select>
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
     };
@@ -21,7 +19,7 @@ const HomeSelect = () => {
     return (
         <Container>
             <div className="flex items-center justify-between mb-8 mt-[30px]  sm:ml-4  md:ml-[70px] ">
-                <div className="flex items-center space-x-2 w-full">
+                <div className="flex items-center w-full space-x-2">
                     <select
                         value={selectedOption}
                         onChange={handleChange}
@@ -42,7 +40,7 @@ const HomeSelect = () => {
                         className="p-2 h-[50px] w-[452px] sm:w-[300px]"
                     />
                     <button className="bg-white h-[50px] w-[69px] sm:w-[50px] flex justify-center items-center rounded-r-lg">
-                        <img src={search} alt="Поиск" className="h-5 w-5 sm:h-4 sm:w-4" />
+                        <img src={search} alt="Поиск" className="w-5 h-5 sm:h-4 sm:w-4" />
                     </button>
                 </div>
             </div>

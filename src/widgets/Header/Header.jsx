@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react";
 import Container from "../../shared/helpers/Container";
 import logo from "../../shared/assets/svg/header_logo.svg";
-import player from "../../shared/assets/svg/player.svg";
 import burger from "../../shared/assets/svg/burger.svg";
 import Select from "./Select";
 import Burger from "./Burger";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -21,7 +21,7 @@ const Header = () => {
             onClick={toggleMenu}
             className="border cursor-pointer "
             src={burger}
-            alt="Menu"  
+            alt="Menu"
           />
           {open && <Burger />}
         </div>
@@ -32,7 +32,9 @@ const Header = () => {
           alt="Profile"
         />
         <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
-          <NavItem text="Главная" />
+          <Link to="/">
+              <NavItem text="Главная" />
+          </Link>
           <NavItem text="Спорт" />
           <NavItem text="Рекламы" />
         </nav>
@@ -40,22 +42,21 @@ const Header = () => {
         <div className="hidden md:block">
           <Select />
         </div>
-        <ActionButton text="Регистрация" isOutlined />
-        <div className="hidden md:block h-[35px] p-2 box-border border border-red-600 rounded-md flex justify-center items-center cursor-pointer">
-          <img src={player} alt="Player" />
-        </div>
+        <Link to="/auth/sign-up">
+          <ActionButton text="Регистрация" isOutlined />
+        </Link>
       </div>
     </Container>
   );
 };
 
- const NavItem = ({ text }) => (
+const NavItem = ({ text }) => (
   <li className="no-underline cursor-pointer hover:text-red-600 hover:underline">
     {text}
   </li>
 );
 
- const ActionButton = ({ text, isOutlined }) => (
+const ActionButton = ({ text, isOutlined }) => (
   <button
     className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${
       isOutlined
