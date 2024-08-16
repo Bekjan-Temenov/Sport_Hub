@@ -97,7 +97,7 @@ const SignUp = () => (
                                 <Field name="rememberMe" type="checkbox" className="mr-2" />
                                 <label htmlFor="rememberMe">Запомнить</label>
                             </div>
-                            <button type="submit" className="w-full h-10 text-lg bg-red-600 text-white rounded-lg">
+                            <button type="submit" className="w-full h-10 text-lg bg-[#FE0404] text-white rounded-lg">
                                 Зарегистрироваться
                             </button>
                             <div className="text-center mt-3">
