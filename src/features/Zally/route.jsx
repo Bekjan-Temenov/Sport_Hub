@@ -8,7 +8,7 @@ export const zallyRoute = {
     element:<Outlet/>,
     children:[
         {
-            path:"zally/:id",
+            path:":id",
             element:<Zally/>
         },
         {

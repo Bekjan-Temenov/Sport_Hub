@@ -33,7 +33,7 @@ const SliderHome = () => {
                 <SwiperSlide>
                     <div
                         style={{ backgroundImage: `url(${slide1})` }}
-                        className="relative w-full border h-[440px] md:h-[983px] bg-cover bg-center bg-fixed md:bg-attachment-scroll flex items-center justify-center md:w-auto"
+                        className="relative w-full  h-[440px] md:h-[983px] bg-cover bg-center bg-fixed md:bg-attachment-scroll flex items-center justify-center md:w-auto"
                     >
                         <Container>
                             <div>
