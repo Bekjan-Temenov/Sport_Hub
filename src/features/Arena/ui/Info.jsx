@@ -14,7 +14,7 @@ function Info() {
           <li className="text-lg text-red-500 ">Кружки</li>
         </header>
         <main className="flex flex-col items-center justify-between lg:items-start lg:flex-row">
-          <div className="flex-1 max-w-[409px] z-50  py-9">
+          <div className="flex-1  max-w-[409px] z-9  py-9">
             <h2 className="mb-4 text-3xl font-bold">“Bilimkana Arena“</h2>
             <p className="mb-4 text-xl">
               Школа Билимкана-Бишкек продолжает набор в секцию баскетбол для

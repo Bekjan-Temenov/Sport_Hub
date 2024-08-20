@@ -18,7 +18,7 @@ const HomeSports = () => {
               className="relative flex flex-col items-center w-[320px] transition-transform transform  hover:scale-105"
             >
               <div className="absolute bottom-[47px]  w-full bg-[#CA0610] h-[100px] z-0 border-start-end-radius rounded-tl-[50px] rounded-b-xl rounded-tr-lg animate-fade-in  transform transition-transform hover:scale-105 "></div>
-              <Link to={`/zally/zally/${sport.id}`}>
+              <Link to={`/zally/${sport.id}`}>
                 <img
                   src={sport.image}
                   alt={sport.name}

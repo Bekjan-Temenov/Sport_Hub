@@ -1,44 +1,63 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import Container from "../../shared/helpers/Container";
 import logo from "../../shared/assets/svg/header_logo.svg";
 import burger from "../../shared/assets/svg/burger.svg";
 import Select from "./Select";
 import Burger from "./Burger";
 import { Link } from "react-router-dom";
+import Sport from "./Sport";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const sortRef = useRef(null);
 
   const toggleMenu = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);
 
+  useEffect(() => {
+    const handleClick = (event) => {
+      const path = event.path || (event.composedPath && event.composedPath());
+      if (sortRef.current && path && !path.includes(sortRef.current)) {
+        setOpen(false);
+        console.log("click outside");
+      }
+    };
+
+    document.body.addEventListener("click", handleClick);
+    return () => {
+      document.body.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
     <Container>
-      <div className="flex items-center justify-between my-5 text-white border ">
-        <div className="flex items-center justify-between w-full">
-
-        <div className="block md:hidden">
-          <img
-            onClick={toggleMenu}
-            className="border cursor-pointer "
-            src={burger}
-            alt="Menu"
-            />  
-          {open && <Burger  value={setOpen}/>}
-        </div>
-        <img className="lg:h-[30px] h-[25px]" src={logo} alt="Logo" />
+      <div
+        ref={sortRef}
+        className="flex items-center justify-between my-5 text-white"
+      >
         <img
-          className="md:hidden w-[44px] rounded-full h-[44px] border-[3px] border-red-600 cursor-pointer"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"
-          alt="Profile"
-          />
+          className="lg:h-[30px] h-[25px] hidden md:block"
+          src={logo}
+          alt="Logo"
+        />
+        <div className="flex items-center block w-full md:hidden">
+          <div>
+            <img
+              onClick={toggleMenu}
+              className="cursor-pointer "
+              src={burger}
+              alt="Menu"
+            />
+           {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
           </div>
+          <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
+        </div>
         <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
           <Link to="/">
-              <NavItem text="Главная" />
+            <NavItem text="Главная" />
           </Link>
-          <NavItem text="Спорт" />
+          <Sport />
           <NavItem text="Рекламы" />
         </nav>
         <ActionButton text="Разместить рекламу" />

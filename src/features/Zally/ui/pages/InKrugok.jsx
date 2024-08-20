@@ -45,7 +45,7 @@ function InKrugok() {
               </div>
             ))}
           </div>
-          <Link to={`/zally/zally/${sport.id}`}>
+          <Link to={`/zally/${sport.id}`}>
             <button className="flex items-center justify-center w-8 h-8 bg-red-600 rounded-md">
               <ArrowBackIcon />
             </button>

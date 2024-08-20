@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation} from "react-router-dom";
-import { sports } from "../../../../shared/api/api";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Container from "../../../../shared/helpers/Container";
-import basketball from "../../../../shared/assets/png/basketball.png";
-import krugok from "../../../../shared/assets/png/Basket_Krugok2.png";
 
 const zally = [
   "Билимкана арена",
@@ -44,7 +41,7 @@ function InZally() {
               </div>
             ))}
           </div>
-          <Link to={`/zally/zally/${sport.id}`}>
+          <Link to={`/zally/${sport.id}`}>
             <button className="flex items-center justify-center w-8 h-8 bg-red-600 rounded-md">
               <ArrowBackIcon />
             </button>
