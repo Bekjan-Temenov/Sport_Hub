@@ -49,7 +49,7 @@ const Header = () => {
               src={burger}
               alt="Menu"
             />
-           {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
+            {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
           </div>
           <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
         </div>
@@ -58,9 +58,10 @@ const Header = () => {
             <NavItem text="Главная" />
           </Link>
           <Sport />
-          <NavItem text="Рекламы" />
         </nav>
-        <ActionButton text="Разместить рекламу" />
+        <Link to="/auth/code">
+          <ActionButton text="Разместить рекламу" />
+        </Link>
         <div className="hidden md:block">
           <Select />
         </div>

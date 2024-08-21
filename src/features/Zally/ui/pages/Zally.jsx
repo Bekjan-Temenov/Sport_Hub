@@ -15,8 +15,8 @@ function Zally() {
   return (
     <Container>
       {sport ? (
-        <div className="flex flex-col gap-[40px] text-white mb-[100px]">
-          <li className="text-4xl">Баскетбол</li>
+        <div  className="flex flex-col gap-[40px] text-white mb-[100px]">
+          <li className="text-4xl">{sport.name}</li>
           <div
             className="relative  flex items-center bg-cover  mx-auto rounded-l-full justify-between w-[90%]  rounded-r-md md:pr-[40px] pr-[20px]   border-2 border-white"
             style={{

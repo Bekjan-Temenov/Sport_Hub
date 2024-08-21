@@ -30,7 +30,7 @@ const Sport = () => {
         <img src={isOpen ? up : down} alt="Toggle" />
       </div>
       {isOpen && (
-        <div className="absolute w-[236px] flex bg-[#1E1D1D] flex-col z-10 mt-[35%] rounded-md">
+        <div className="absolute w-[236px] flex bg-[#1E1D1D] flex-col z-50 mt-[35%] rounded-md">
           {sports
             .filter((option) => option.name !== selectedOption)
             .map((option) => (
