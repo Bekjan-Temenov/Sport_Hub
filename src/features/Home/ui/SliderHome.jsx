@@ -133,7 +133,7 @@ const SliderHome = () => {
                     </button>
                 </div>
 
-            </Container>
+            </Container> 
         </div>
 
     );
