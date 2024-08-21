@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ExpandLessTwoToneIcon from "@mui/icons-material/ExpandLessTwoTone";
 import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone";
 import home from "../../shared/assets/svg/home.svg";
@@ -9,23 +9,27 @@ import ModalProfile from "./modalProfile";
 import { Link } from "react-router-dom";
 import { sports } from "../../shared/api/api";
 
-const Burger = ({ setOpen, sortRef }) => {
+const Burger = ({ setOpen }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
 
+  const modalRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (sortRef.current && !sortRef.current.contains(event.target)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target)
+      ) {
         setOpen(false);
-        console.log("Click outside Burger, closing menu");
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setOpen, sortRef]);
+    };    
+  }, [setOpen,modalRef]);
 
   const UserProfile = () => (
     <div className="flex flex-col items-start">
@@ -39,8 +43,8 @@ const Burger = ({ setOpen, sortRef }) => {
     </div>
   );
 
-  const MenuItem = ({ text, isDropdown }) => (
-    <div className="relative ">
+  const MenuItem = ({ text }) => (
+    <div className="relative">
       <Link to="/">
         <button
           onClick={() => setOpen(false)}
@@ -61,7 +65,7 @@ const Burger = ({ setOpen, sortRef }) => {
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
       >
-        <img className="w-5 h-5 mr-2 " src={sport} alt={text} />
+        <img className="w-5 h-5 mr-2" src={sport} alt={text} />
         <NavItem text={"Спорт"} />
         {isDropdownOpen ? (
           <ExpandMoreTwoToneIcon className="w-5 h-5 ml-auto text-gray-400" />
@@ -72,9 +76,8 @@ const Burger = ({ setOpen, sortRef }) => {
       {isDropdownOpen && (
         <div className="left-0 w-full mt-1 bg-[#1E1D1D] border rounded-lg top-full">
           {sports.map((option, index) => (
-            <Link to={`/zally/${option.id}`}>
+            <Link to={`/zally/${option.id}`} key={index}>
               <button
-                key={index}
                 onClick={() => setOpen(false)}
                 className="w-full p-2 text-left hover:bg-white hover:text-black"
               >
@@ -95,9 +98,12 @@ const Burger = ({ setOpen, sortRef }) => {
   );
 
   return (
-    <div className="w-[100%] h-[700%] top-0 left-0 z-10 absolute">
+    <div className="w-[100%] h-[700%] top-0 left-0 z-50 absolute border">
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80"></div>
-      <div className="relative p-3 pt-[100px] h-auto z-11 text-white bg-[#18171A] w-[75%]">
+      <div
+        className="relative p-3 pt-[100px] h-auto z-11 text-white bg-[#18171A] w-[75%]"
+        ref={modalRef} // Attach the ref to the modal content
+      >
         <div className="flex justify-between">
           <UserProfile />
           <button onClick={() => setIsProfile(!isProfile)}>
@@ -110,7 +116,7 @@ const Burger = ({ setOpen, sortRef }) => {
         </div>
         <hr className="my-3 border border-red-600" />
         <div className="mt-4">
-          {isProfile && <ModalProfile  setOpen={setOpen}/>}
+          {isProfile && <ModalProfile setOpen={setOpen} />}
           <MenuItem />
         </div>
       </div>

@@ -19,6 +19,7 @@ import InFootball2 from "../assets/png/InFootball2.png"
 import InVollay from "../assets/png/Volley_InKrugok.png"
 import Box from "../assets/png/Box.png"
 import InBox from "../assets/png/Box_InSport.png"
+import Box_Boll from "../assets/png/Box_Boll.png"
 import Vollay from "../assets/png/Volley_Krugok.png"
 import Vollay_Sport from "../assets/png/Volley_Sport.png"
 import Tennis1 from "../assets/png/Tennis1.png"
@@ -97,7 +98,7 @@ export const sports = [
     backgroundImage2: Box,
     inbackgroundImage: InBox, 
     inbackgroundImage2: InBox,  
-    boll: "https://s3-alpha-sig.figma.com/img/6810/6c48/4014480b4f2a81937fcbcdbe37646f80?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=K5ZfqYVrlVo831zc8A79Jx9ce9JLcdGidRjrN2~zS~8v6otwxY~pEZD6yo9lCxD85cTUMuQ62qsZ~MVUVR19-WQ14CoqqermH8soGHWOoyjsUh~rbtNZgaUte0VO6ByboajRWrtQavAFD58wyXLtoPWimDM8sTLsTxpRIXFzMtCKMlzNOTHBPC3GuNHQ~I6DRFZ2UPcLtU7pHw5o0wWuEDEd7dukkDFcefyjhEbwcjswZNRGr~j36FQAYtZS7w5LJXnGDPoEbTjpO8-LO~evI4ii99rJZ6GDk14Fz0jKUeC7KI~3VnGao5XJt5TDYaODWwh9GcdbwsX1rjy0vSlNtw__" 
+    boll: Box_Boll
   },
   { 
     id: 8, 
