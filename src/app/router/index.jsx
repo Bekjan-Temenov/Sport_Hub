@@ -6,6 +6,8 @@ import Layout from "../../widgets/Layout/Layout";
 import HomeRoute from "../../features/Home/route";
 import Home from "../../features/Home/ui/Home";
 import AuthRouter from "../../features/Auth/route";
+import AdminLayout from "../../widgets/Layout/AdminLayout";
+import Adversting from "../../features/Adversting/index"
 
 const MyRoutes = () => {
   return useRoutes([
@@ -21,7 +23,14 @@ const MyRoutes = () => {
         ReviewRoute,
       ],
     },
-  ]);
+    {
+      path:"/admin",
+      element:<AdminLayout/>,
+      children:[
+        {path:"/admin",element:<Adversting/>}
+      ]
+    }
+  ])
 };
 
 export default MyRoutes;

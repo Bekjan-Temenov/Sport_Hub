@@ -33,9 +33,9 @@ function InZally() {
     <Container>
       <div
         className="relative my-8 py-2 text-white flex  items-center bg-cover mx-auto rounded-r-full justify-between w-[90%] rounded-l-md md:pl-[40px] pl-[20px] border-2 border-white "
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${sport.inbackgroundImage2})`,
-        }}
+         style={{
+      backgroundImage : `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${img})`
+    }} 
       >
         <div className="hidden lg:grid lg:grid-cols-2 lg:block ">
           {zally.map((item, index) => (
