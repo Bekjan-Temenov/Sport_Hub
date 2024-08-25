@@ -36,11 +36,13 @@ const Header = () => {
         ref={sortRef}
         className="flex items-center justify-between my-5 text-white"
       >
-        <img
-          className="lg:h-[30px] h-[25px] hidden md:block"
-          src={logo}
-          alt="Logo"
-        />
+        <Link to="/">
+          <img
+            className="lg:h-[30px] h-[25px] hidden md:block"
+            src={logo}
+            alt="Logo"
+          />
+        </Link>
         <div className="flex items-center block w-full md:hidden">
           <div>
             <img
@@ -51,7 +53,9 @@ const Header = () => {
             />
             {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
           </div>
-          <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
+          <Link to={"/"} className="mx-auto">
+            <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
+          </Link>
         </div>
         <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
           <Link to="/">
@@ -81,11 +85,10 @@ const NavItem = ({ text }) => (
 
 const ActionButton = ({ text, isOutlined }) => (
   <button
-    className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${
-      isOutlined
-        ? "border text-lg"
-        : "bg-red-600 hover:bg-red-700 md:font-thin lg:font-extralight"
-    }`}
+    className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${isOutlined
+      ? "border text-lg"
+      : "bg-red-600 hover:bg-red-700 md:font-thin lg:font-extralight"
+      }`}
   >
     {text}
   </button>

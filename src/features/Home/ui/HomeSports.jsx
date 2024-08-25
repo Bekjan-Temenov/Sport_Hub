@@ -7,7 +7,7 @@ import { sports } from '../../../shared/api/api';
 const HomeSports = () => {
   return (
     <Container>
-         <div className="text-white lg:p-8 ">
+      <div className="text-white lg:p-8 ">
         <h1 className="text-3xl ml-[70px]  mb-[40px] text-[48px]">
           Виды спорта
         </h1>
@@ -22,15 +22,15 @@ const HomeSports = () => {
                 <img
                   src={sport.image}
                   alt={sport.name}
-                  className="relative w-[93%] mx-auto bg-cover   cursor-pointer h-[300px] object-cover  z-10"
+                  className="relative w-[93%] mx-auto bg-cover  cursor-pointer h-[300px] object-cover  z-10"
                 />
               </Link>
               <div className="text-[32px] mt-2">{sport.name}</div>
             </div>
           ))}
         </div>
-     </div>
-      </Container>
+      </div>
+    </Container>
   );
 };
 

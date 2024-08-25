@@ -11,10 +11,10 @@ const Sport = () => {
   const [isOpen, setIsOpen] = useOutsideClick(sortRef);
 
   const handleSelect = useCallback((option) => {
-    setSelectedOption(option.name); 
+    setSelectedOption(option.name);
     setIsOpen(false);
   }, []);
-  
+
   return (
     <div
       ref={sortRef}
@@ -34,7 +34,7 @@ const Sport = () => {
           {sports
             .filter((option) => option.name !== selectedOption)
             .map((option) => (
-              <Link  to={`/zally/${option.id}`}>
+              <Link to={`/zally/${option.id}`}>
                 <p
                   onClick={() => handleSelect(option)}
                   className="w-full py-1 pl-8 rounded-md cursor-pointer text-start hover:bg-white hover:text-black"

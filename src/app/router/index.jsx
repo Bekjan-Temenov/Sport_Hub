@@ -14,7 +14,7 @@ const MyRoutes = () => {
       path: "",
       element: <Layout />,
       children: [
-        { path: "", element: <Home /> },
+        { path: "/", element: <Home /> },
         HomeRoute,
         zallyRoute,
         ArenaRouter,
