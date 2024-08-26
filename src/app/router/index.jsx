@@ -9,6 +9,7 @@ import AuthRouter from "../../features/Auth/route";
 
 const MyRoutes = () => {
   return useRoutes([
+    AuthRouter,
     {
       path: "",
       element: <Layout />,
@@ -18,9 +19,9 @@ const MyRoutes = () => {
         zallyRoute,
         ArenaRouter,
         ReviewRoute,
-        AuthRouter
       ],
     },
   ]);
 };
+
 export default MyRoutes;
