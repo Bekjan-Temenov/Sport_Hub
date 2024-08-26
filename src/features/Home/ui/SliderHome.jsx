@@ -33,7 +33,7 @@ const SliderHome = () => {
                 <SwiperSlide>
                     <div
                         style={{ backgroundImage: `url(${slide1})` }}
-                        className="relative w-full h-[440px] md:h-[983px] bg-cover bg-center bg-fixed md:bg-attachment-scroll flex items-center justify-center md:w-auto"
+                        className="relative w-full  h-[440px] md:h-[983px] bg-cover bg-center bg-fixed md:bg-attachment-scroll flex items-center justify-center md:w-auto"
                     >
                         <Container>
                             <div>
@@ -72,7 +72,7 @@ const SliderHome = () => {
                                 </div>
                             </div>
                         </Container>
-                        <div className="absolute bottom-0 left-0 w-full flex justify-center pb-4">
+                        <div className="absolute bottom-0 left-0 flex justify-center w-full pb-4">
                             <div className="pagination"></div>
                         </div>
                     </div>
@@ -114,8 +114,8 @@ const SliderHome = () => {
 
 
 
-                <div className="swiper-button-next  m-4 p-7 custom-swiper-button flex items-center justify-center  md:bg-red-900  md:w-12 md:h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute right-2 top-1/2 transform -translate-y-1/2"></div>
-                <div className="swiper-button-prev m-4 p-7 custom-swiper-button flex items-center justify-center  md:bg-red-900  md:w-12 md:h-12 text-white rounded-full shadow-lg hover:bg-white hover:text-red-900 transition duration-300 absolute left-2 top-1/2 transform -translate-y-1/2"></div>
+                <div className="absolute flex items-center justify-center m-4 text-white transition duration-300 transform -translate-y-1/2 rounded-full shadow-lg swiper-button-next p-7 custom-swiper-button md:bg-red-900 md:w-12 md:h-12 hover:bg-white hover:text-red-900 right-2 top-1/2"></div>
+                <div className="absolute flex items-center justify-center m-4 text-white transition duration-300 transform -translate-y-1/2 rounded-full shadow-lg swiper-button-prev p-7 custom-swiper-button md:bg-red-900 md:w-12 md:h-12 hover:bg-white hover:text-red-900 left-2 top-1/2"></div>
                 
             </Swiper>
         </div>

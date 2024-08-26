@@ -30,9 +30,11 @@ const SignUp = () => {
     >
       <Container>
         <div className="bg-white p-5 rounded-lg shadow-lg w-[550px] mx-auto">
-          <div className="flex justify-end">
-            <button className="text-xl font-bold">×</button>
-          </div>
+          <Link to="/">
+            <div className="flex justify-end">
+              <button className="text-xl font-bold">×</button>
+            </div>
+          </Link>
           <h1 className="text-3xl font-bold text-center">Регистрация</h1>
           <h2 className="mb-4 text-xl font-semibold">Создать аккаунт</h2>
           <Formik
@@ -196,14 +198,12 @@ const SignUp = () => {
                   <Field name="rememberMe" type="checkbox" className="mr-2" />
                   <label htmlFor="rememberMe">Запомнить</label>
                 </div>
-                <Link to="/auth/code">
                   <button
                     type="submit"
                     className="w-full h-10 text-lg text-white bg-red-600 rounded-lg"
                   >
                     Зарегистрироваться
                   </button>
-                </Link>
                 <Link to="/auth/sign-in">
                   <div className="flex items-center justify-center gap-2 mt-3">
                     Уже есть аккаунт?{" "}

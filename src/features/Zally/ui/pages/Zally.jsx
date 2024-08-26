@@ -15,8 +15,8 @@ function Zally() {
   return (
     <Container>
       {sport ? (
-        <div className="flex flex-col gap-[40px] text-white mb-[100px]">
-          <li className="text-4xl">Баскетбол</li>
+        <div  className="flex flex-col gap-[40px] text-white mb-[100px]">
+          <li className="text-4xl">{sport.name}</li>
           <div
             className="relative  flex items-center bg-cover  mx-auto rounded-l-full justify-between w-[90%]  rounded-r-md md:pr-[40px] pr-[20px]   border-2 border-white"
             style={{
@@ -30,9 +30,16 @@ function Zally() {
             />
             <img className=" invisible w-[21%]" src={sport.boll} />
             <h1 className="text-xl sm:text-4xl md:text-6xl">Залы</h1>
-            <button className="w-[30%] sm:w-[20%] md:w-[20%] py-1 md:py-3 px-3 text-center bg-red-500 rounded-md hover:bg-red-700 text-sm sm:text-md">
-              Открыть
-            </button>
+            <Link
+              to={`/zally/in-krugok?sport=${encodeURIComponent(
+                JSON.stringify(sport)
+              )}`}
+              className="w-[30%] sm:w-[20%] md:w-[20%] py-1 md:py-3 px-3 text-center bg-red-500 rounded-md hover:bg-red-700 text-sm sm:text-md"
+            >
+              <button >
+                Открыть
+              </button>
+            </Link>
           </div>
           <div
             className="relative  flex items-center bg-cover  mx-auto rounded-l-full justify-between w-[90%]  rounded-r-md md:pr-[40px] pr-[20px]   border-2 border-white"
@@ -48,10 +55,12 @@ function Zally() {
             <img className=" invisible w-[21%]" src={sport.boll} />
             <h1 className="text-xl sm:text-4xl md:text-6xl">Кружки</h1>
             <Link
-              to={`/zally/in-zally?sport=${encodeURIComponent(JSON.stringify(sport))}`}
+              to={`/zally/in-zally?sport=${encodeURIComponent(
+                JSON.stringify(sport)
+              )}`}
               className="w-[30%] sm:w-[20%] md:w-[20%] py-1 md:py-3 px-3 text-center bg-red-500 rounded-md hover:bg-red-700 text-sm sm:text-md"
             >
-              <button >Открыть</button>
+              <button>Открыть</button>
             </Link>
           </div>
         </div>

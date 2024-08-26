@@ -19,11 +19,11 @@ const HomeSelect = () => {
     return (
         <Container>
             <div className="flex items-center justify-between mb-8 mt-[30px]  sm:ml-4  md:ml-[70px] ">
-                <div className="flex items-center w-full space-x-2">
+                <div className="flex items-center w-full space-x-2 ">
                     <select
                         value={selectedOption}
                         onChange={handleChange}
-                        className="text-black p-2 rounded-l-lg h-[50px] shadow-inset-custom bg-white-opacity w-[150px] sm:w-[120px]"
+                        className="text-black p-2  rounded-l-lg h-[50px] shadow-inset-custom bg-white-opacity w-[30%] sm:w-[120px]"
                     >
                         {!selectedOption && (
                             <option value="">Выбрать</option>
@@ -37,7 +37,7 @@ const HomeSelect = () => {
                     <input
                         type="text"
                         placeholder="Укажите адрес"
-                        className="p-2 h-[50px] w-[452px] sm:w-[300px]"
+                        className="p-2 h-[50px] w-[70%] sm:w-[300px]"
                     />
                     <button className="bg-white h-[50px] w-[69px] sm:w-[50px] flex justify-center items-center rounded-r-lg">
                         <img src={search} alt="Поиск" className="w-5 h-5 sm:h-4 sm:w-4" />
