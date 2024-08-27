@@ -25,7 +25,7 @@ function ModalKrugok({ zally }) {
             className="flex items-center justify-between w-full p-2 mb-2 transition duration-300 bg-black bg-opacity-50 border rounded-lg hover:bg-opacity-70"
           >
             <span className="text-sm font-medium text-white">{item}</span>
-            <Link to="/arena">
+            <Link to="/gym">
               <button className="flex items-center justify-center w-6 h-6 transition duration-300 bg-red-600 rounded-full hover:bg-red-700">
                 <ArrowForwardIcon fontSize="small" />
               </button>
