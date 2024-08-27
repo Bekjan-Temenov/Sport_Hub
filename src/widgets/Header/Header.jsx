@@ -6,10 +6,16 @@ import Select from "./Select";
 import Burger from "./Burger";
 import { Link } from "react-router-dom";
 import Sport from "./Sport";
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const sortRef = useRef(null);
+  const { t, i18n } = useTranslation();
+
+  const handleChangeLang = (lang) => {
+    i18n.changeLanguage(lang);
+  }
 
   const toggleMenu = useCallback(() => {
     setOpen((prev) => !prev);
@@ -20,7 +26,6 @@ const Header = () => {
       const path = event.path || (event.composedPath && event.composedPath());
       if (sortRef.current && path && !path.includes(sortRef.current)) {
         setOpen(false);
-        console.log("click outside");
       }
     };
 
@@ -55,18 +60,18 @@ const Header = () => {
         </div>
         <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
           <Link to="/">
-            <NavItem text="Главная" />
+            <NavItem text={t("Главная")} />
           </Link>
           <Sport />
         </nav>
         <Link to="/auth/code">
-          <ActionButton text="Разместить рекламу" />
+          <ActionButton text={t("Разместить рекламу")} />
         </Link>
         <div className="hidden md:block">
-          <Select />
+          <Select handleChangeLang={handleChangeLang} currentLang={i18n.language} />
         </div>
         <Link to="/auth/sign-up">
-          <ActionButton text="Регистрация" isOutlined />
+          <ActionButton text={t("Регистрация")} isOutlined />
         </Link>
       </div>
     </Container>
