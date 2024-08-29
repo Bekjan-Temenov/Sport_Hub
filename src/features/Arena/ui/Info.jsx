@@ -5,7 +5,7 @@ import ellipse1 from "../../../shared/assets/png/Ellipse1.png";
 
 function Info() {
   return (
-    <div className="relative text-white bg-black h-auto lg:h-[632px]   relative">
+    <div className="relative text-white bg-black h-auto lg:h-[632px] pb-[89px]  relative">
       <Container>
         <header className="flex flex-col p-3 ">
           <button className="py-2 ">
@@ -22,9 +22,9 @@ function Info() {
               норм безопасности!
             </p>
           </div>
-          <div className="flex p-4 max-w-[500px] z-10 ">
-            <img
-              className="border rounded-lg shadow-lg"
+          <div className="flex lg:p-4 lg:w-[500px] z-10  max-w-[500px] ">
+          <img
+            className="w-full h-full border rounded-lg shadow-lg "
               src="https://weproject.media/upload/iblock/a50/a5045e5d61614aa385fe29c88921962a.jpg"
               alt="Bilimkana Arena"
             />

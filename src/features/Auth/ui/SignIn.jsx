@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
 import { Link } from "react-router-dom";
 
+
 const SignIn = () => {
   const validationSchema = Yup.object({
     email: Yup.string().email("Неверный формат email").required("Обязательно"),
@@ -59,7 +60,7 @@ const SignIn = () => {
                   name="password"
                   component="div"
                   className="mt-1 text-sm text-red-500"
-                />
+                /> 
               </div>
               <div className="flex flex-row items-center justify-between mb-4 sm:flex-row">
                 <div className="flex items-center">

@@ -1,14 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        custom: ["Pacifico", "cursive"], 
+        comfortaa: ["Comfortaa", "cursive"],
+        sans: ['Montserrat', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
-}
-
-
-
+};
