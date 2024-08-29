@@ -11,10 +11,12 @@ function Navbar() {
           <span >Сабина</span>
         </div>
         <img
-          src="https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png"
+          src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
           alt="User"
           className="w-12 h-12 border-red-600 rounded-full border-[3px]"
         />
+
+        
       </div>
     </div>
   );
