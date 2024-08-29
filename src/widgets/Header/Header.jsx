@@ -6,7 +6,7 @@ import Select from "./Select";
 import Burger from "./Burger";
 import { Link } from "react-router-dom";
 import Sport from "./Sport";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -15,7 +15,7 @@ const Header = () => {
 
   const handleChangeLang = (lang) => {
     i18n.changeLanguage(lang);
-  }
+  };
 
   const toggleMenu = useCallback(() => {
     setOpen((prev) => !prev);
@@ -41,38 +41,49 @@ const Header = () => {
         ref={sortRef}
         className="flex items-center justify-between my-5 text-white"
       >
-        <img
-          className="lg:h-[30px] h-[25px] hidden md:block"
-          src={logo}
-          alt="Logo"
-        />
-        <div className="flex items-center block w-full md:hidden">
-          <div>
+        <div className="flex items-center gap-x-9">
+          <img
+            className="lg:h-[30px] h-[25px] hidden md:block"
+            src={logo}
+            alt="Logo"
+          />
+          <div className="flex items-center block w-full md:hidden">
+            <div>
+              <img
+                onClick={toggleMenu}
+                className="cursor-pointer "
+                src={burger}
+                alt="Menu"
+              />
+              {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
+            </div>
             <img
-              onClick={toggleMenu}
-              className="cursor-pointer "
-              src={burger}
-              alt="Menu"
+              className="lg:h-[30px] h-[25px] mx-auto"
+              src={logo}
+              alt="Logo"
             />
-            {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
           </div>
-          <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
+          <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
+            <Link to="/">
+              <NavItem text={t("Главная")} />
+            </Link>
+            <Sport />
+            <Link to="/auth/code">
+              <NavItem text={t("Рекламы")} />
+            </Link>
+          </nav>
         </div>
-        <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
-          <Link to="/">
-            <NavItem text={t("Главная")} />
+        <div className="flex items-center gap-x-[10%]">
+          <div className="hidden md:block">
+            <Select
+              handleChangeLang={handleChangeLang}
+              currentLang={i18n.language}
+            />
+          </div>
+          <Link to="/auth/sign-up" className="py-[3px] border rounded-md">
+            <ActionButton text={t("Регистрация")} isOutlined />
           </Link>
-          <Sport />
-        </nav>
-        <Link to="/auth/code">
-          <ActionButton text={t("Разместить рекламу")} />
-        </Link>
-        <div className="hidden md:block">
-          <Select handleChangeLang={handleChangeLang} currentLang={i18n.language} />
         </div>
-        <Link to="/auth/sign-up">
-          <ActionButton text={t("Регистрация")} isOutlined />
-        </Link>
       </div>
     </Container>
   );
@@ -84,14 +95,8 @@ const NavItem = ({ text }) => (
   </li>
 );
 
-const ActionButton = ({ text, isOutlined }) => (
-  <button
-    className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${
-      isOutlined
-        ? "border text-lg"
-        : "bg-red-600 hover:bg-red-700 md:font-thin lg:font-extralight"
-    }`}
-  >
+const ActionButton = ({ text }) => (
+  <button className="text-sm whitespace-nowrap  text-lg lg:text-lg  md:block hidden   px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ">
     {text}
   </button>
 );

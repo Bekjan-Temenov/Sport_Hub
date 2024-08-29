@@ -26,7 +26,7 @@ const Select = ({ handleChangeLang, currentLang }) => {
     >
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-center py-1 gap-1 px-[5px] lg:px-5 border rounded-md"
+        className="flex w-full  items-center justify-center py-1 gap-1 px-[5px] lg:px-7 border rounded-md"
       >
         <h1 className="text-white hover:text-red-500 hover:underline">
           {selectedOption}

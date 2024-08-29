@@ -4,7 +4,7 @@ import { ArenaRouter } from "../../features/Arena/route";
 import { ReviewRoute } from "../../features/ReviewArena/route";
 import Layout from "../../widgets/Layout/Layout";
 import HomeRoute from "../../features/Home/route";
-import Home from "../../features/Home/ui/Home";
+import Home from "../../features/Home/index";
 import AuthRouter from "../../features/Auth/route";
 import AdminLayout from "../../widgets/Layout/AdminLayout";
 import Adversting from "../../features/Adversting/index";
