@@ -1,61 +1,84 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import Container from "../../shared/helpers/Container";
 import logo from "../../shared/assets/svg/header_logo.svg";
-import player from "../../shared/assets/svg/player.svg";
 import burger from "../../shared/assets/svg/burger.svg";
 import Select from "./Select";
 import Burger from "./Burger";
+import { Link } from "react-router-dom";
+import Sport from "./Sport";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const sortRef = useRef(null);
 
   const toggleMenu = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);
 
+  useEffect(() => {
+    const handleClick = (event) => {
+      const path = event.path || (event.composedPath && event.composedPath());
+      if (sortRef.current && path && !path.includes(sortRef.current)) {
+        setOpen(false);
+        console.log("click outside");
+      }
+    };
+
+    document.body.addEventListener("click", handleClick);
+    return () => {
+      document.body.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
     <Container>
-      <div className="flex items-center justify-between my-5 text-white ">
-        <div className="block md:hidden">
-          <img
-            onClick={toggleMenu}
-            className="border cursor-pointer "
-            src={burger}
-            alt="Menu"  
-          />
-          {open && <Burger />}
-        </div>
-        <img className="lg:h-[30px] h-[25px]" src={logo} alt="Logo" />
+      <div
+        ref={sortRef}
+        className="flex items-center justify-between my-5 text-white"
+      >
         <img
-          className="md:hidden w-[44px] rounded-full h-[44px] border-[3px] border-red-600 cursor-pointer"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"
-          alt="Profile"
+          className="lg:h-[30px] h-[25px] hidden md:block"
+          src={logo}
+          alt="Logo"
         />
+        <div className="flex items-center block w-full md:hidden">
+          <div>
+            <img
+              onClick={toggleMenu}
+              className="cursor-pointer "
+              src={burger}
+              alt="Menu"
+            />
+           {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
+          </div>
+          <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
+        </div>
         <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
-          <NavItem text="Главная" />
-          <NavItem text="Спорт" />
+          <Link to="/">
+            <NavItem text="Главная" />
+          </Link>
+          <Sport />
           <NavItem text="Рекламы" />
         </nav>
         <ActionButton text="Разместить рекламу" />
         <div className="hidden md:block">
           <Select />
         </div>
-        <ActionButton text="Регистрация" isOutlined />
-        <div className="hidden md:block h-[35px] p-2 box-border border border-red-600 rounded-md flex justify-center items-center cursor-pointer">
-          <img src={player} alt="Player" />
-        </div>
+        <Link to="/auth/sign-up">
+          <ActionButton text="Регистрация" isOutlined />
+        </Link>
       </div>
     </Container>
   );
 };
 
- const NavItem = ({ text }) => (
+const NavItem = ({ text }) => (
   <li className="no-underline cursor-pointer hover:text-red-600 hover:underline">
     {text}
   </li>
 );
 
- const ActionButton = ({ text, isOutlined }) => (
+const ActionButton = ({ text, isOutlined }) => (
   <button
     className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${
       isOutlined
