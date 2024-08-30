@@ -26,7 +26,7 @@ const HomeSelect = () => {
                         className="text-black p-2  rounded-l-lg h-[50px] shadow-inset-custom bg-white-opacity w-[30%] sm:w-[120px]"
                     >
                         {!selectedOption && (
-                            <option value="">Выбрать</option>
+                            <option value=""></option>
                         )}
                         {options.map((option, index) => (
                             <option key={index} value={option}>

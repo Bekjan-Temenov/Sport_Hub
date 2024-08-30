@@ -1,66 +1,142 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { sports } from "../../../../shared/api/api";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import Container from "../../../../shared/helpers/Container";
-import basketball from "../../../../shared/assets/png/basketball.png";
-import krugok from "../../../../shared/assets/png/Basket_Krugok2.png";
+import icon from "../../../../shared/assets/svg/inkrugok_icon.svg";
+import { useTranslation } from "react-i18next";
+import ModalKrugok from "./modalKrugok";
 
 const zally = [
-  "Билимкана арена",
+  "Bilimkana Arena»",
+  "EL CLASICO",
+  "Arsenal",
   "Afb баскетбольный клуб",
+  "SEYTEK SPORT",
+  "Sun City",
+  "Arsenal",
   "Kyrgyzbasketball",
-  "3x3Kyrgyzstan",
 ];
 
-function InKrugok() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sport = JSON.parse(decodeURIComponent(queryParams.get('sport')));
+function InKrugok({ sport }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
-  if (!sport) {
-    return <p>Data not found</p>;
-  }
+  const handleOpenClick = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseClick = () => {
+    setIsOpen(false);
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
   return (
-    <Container>
-      {sport ? (
-        <div
-          className="relative my-8 text-white flex items-center bg-cover mx-auto rounded-r-full justify-between w-[90%] rounded-l-md md:pl-[40px] pl-[20px] border-2 border-white"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${sport.inbackgroundImage})`,
-          }}
-        >
-          <div className="flex flex-col gap-2 w-[30%]">
-            {zally.map((item, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <span className="text-lg font-medium text-white border-b">
-                  {item}
-                </span>
+    <div className="flex flex-col">
+      <motion.div
+        className={`relative flex items-center bg-cover mx-auto justify-between w-[90%] md:pr-[40px] pr-[20px] border-2 border-white transition-all duration-700 ease-in-out ${
+          isOpen ? "rounded-r-full" : "rounded-l-full"
+        }`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${
+            isOpen ? sport.inbackgroundImage : sport.backgroundImage2
+          })`,
+        }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.img
+          initial={{ right: "81%" }}
+          animate={{ right: isOpen ? "-3%" : "81%" }}
+          transition={{ duration: 0.4 }}
+          className="absolute lg:w-[22%] w-[19%] sm:w-[20%] md:w-[21%] "
+          src={sport.boll}
+          alt="basketball"
+        />
+        <motion.img
+          className={`w-[21%] ${isOpen ? "hidden" : "invisible"}`}
+          src={sport.boll}
+        />
+        {isOpen && (
+          <div className="flex items-center justify-between w-full ">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={{ opacity: isOpen ? 1 : 0 }}
+              transition={{ duration: 0.7 }}
+              className="hidden ml-[68px] w-[80%] gap-x-[80px] lg:grid lg:grid-cols-2 lg:block"
+            >
+              {zally.map((item, index) => (
                 <Link to="/arena">
-                  <button className="flex items-center justify-center w-8 h-8 ml-4 bg-red-600 rounded-md">
-                    <ArrowForwardIcon />
-                  </button>
+                  <div
+                    key={index}
+                    className="flex items-center justify-between mt-2 "
+                  >
+                    <span className="font-[600] text-white border-b font-comfortaa text-md xl:text-lg lg:text-md">
+                      {item}
+                    </span>
+                    <button>
+                      <img
+                        src={icon}
+                        className="flex items-center cursor-pointer w-[29px] p-1    h-[29px] justify-center w-full h-full  bg-[#FE0404] rounded-[5px]"
+                      />
+                    </button>
+                  </div>
                 </Link>
-              </div>
-            ))}
-          </div>
-          <Link to={`/zally/${sport.id}`}>
-            <button className="flex items-center justify-center w-8 h-8 bg-red-600 rounded-md">
+              ))}
+            </motion.div>
+            <button
+              className="flex items-center  justify-center p-1 md:p-3 bg-[#FE0404] ml-[20px] rounded-md"
+              onClick={handleCloseClick}
+            >
               <ArrowBackIcon />
             </button>
-          </Link>
-          <img className="invisible w-[21%]" src={sport.boll} />
-          <img
-            className="absolute lg:w-[22%] w-[19%] sm:w-[20%] md:w-[21%] right-[-3%]"
-            src={sport.boll}
-            alt="basketball"
-          />
-        </div>
-      ) : (
-        <p className="text-white">Loading...</p>
-      )}
-    </Container>
+          </div>
+        )}
+        <motion.h1
+          animate={{ opacity: isOpen ? 0 : 1 }}
+          transition={{ duration: 0.7 }}
+          className={`text-xl sm:text-4xl md:text-6xl ${
+            isOpen ? "hidden" : "block"
+          }`}
+        >
+          {t("Кружки")}
+        </motion.h1>
+        {isOpen && (
+          <h1 className={`text-xl sm:text-4xl md:hidden block md:text-6xl `}>
+            {t("Кружки")}
+          </h1>
+        )}
+        <motion.button
+          animate={{ opacity: isOpen ? 0 : 1 }}
+          transition={{ duration: 0.7 }}
+          className={` md:py-4 md:px-7 py-2 px-3 text-xs text-center bg-[#FE0404] rounded-md hover:bg-red-700 sm:text-md md:text-2xl ${
+            isOpen ? "hidden" : "block"
+          }`}
+          onClick={() => handleOpenClick(true)}
+        >
+          {t("Открыть")}
+        </motion.button>
+        <motion.img
+          animate={{ x: isOpen ? 900 : 0 }}
+          transition={{ duration: 0.5 }}
+          className={`w-[21%] ${isOpen ? "invisible" : "hidden"}`}
+          src={sport.boll}
+        />
+      </motion.div>
+      {isOpen && <ModalKrugok sport={sport} zally={zally} />}
+    </div>
   );
 }
+
 export default InKrugok;
