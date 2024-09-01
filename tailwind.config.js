@@ -6,7 +6,8 @@ export default {
       fontFamily: {
         custom: ["Pacifico", "cursive"], 
         comfortaa: ["Comfortaa", "cursive"],
-        sans: ['Montserrat', 'sans-serif'],
+        sans: ['Montserrat', 'sans-serif'], 
+        orelega: ['"Orelega One"', 'cursive'],
       },
     },
   },

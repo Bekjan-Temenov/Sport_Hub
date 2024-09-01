@@ -49,7 +49,8 @@ const SliderHome = () => {
                     >
 
                         <Container>
-                            <div className="flex  flex-col justify-center gap-2">
+
+                            <div className="flex flex-col justify-center gap-2">        
                                 <div className='flex p-[15px]'>
                                     <img src={phoneicon} alt="Phone Icon" />
                                     <span className='text-white text-[12px] md:text-[18px]'>+996 700-72-77-45</span>
