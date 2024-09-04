@@ -9,6 +9,8 @@ import AuthRouter from "../../features/Auth/route";
 import AdminLayout from "../../widgets/Layout/AdminLayout";
 import Adversting from "../../features/Adversting/index";
 import { GymRoute } from "../../features/InfoGym/route";
+import ReviewN from "../../features/Notification/ui/ReviewN";
+import Paymentn from "../../features/Notification/ui/Paymentn";
 
 const MyRoutes = () => {
   return useRoutes([
@@ -30,6 +32,8 @@ const MyRoutes = () => {
       element: <AdminLayout />,
       children: [
         { path: "", element: <Adversting /> },
+        { path: "reviewn", element: <ReviewN /> },
+        { path: 'paymantn' , element:<Paymentn/>}
       ],
     },
   ]);
