@@ -6,9 +6,11 @@ import Layout from "../../widgets/Layout/Layout";
 import HomeRoute from "../../features/Home/route";
 import Home from "../../features/Home/ui/Home";
 import AuthRouter from "../../features/Auth/route";
+import { AdminRouter } from "../../features/Admin/route";
 
 const MyRoutes = () => {
   return useRoutes([
+    AdminRouter,
     AuthRouter,
     {
       path: "",
