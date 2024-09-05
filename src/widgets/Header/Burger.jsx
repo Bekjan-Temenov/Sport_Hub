@@ -8,12 +8,13 @@ import oplata from "../../shared/assets/svg/oplata.svg";
 import ModalProfile from "./modalProfile";
 import { Link } from "react-router-dom";
 import { sports } from "../../shared/api/api";
+import { useTranslation } from "react-i18next";
 
 const Burger = ({ setOpen }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
-
   const modalRef = useRef(null);
+  const {t} = useTranslation()
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -51,7 +52,7 @@ const Burger = ({ setOpen }) => {
           className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
         >
           <img className="w-5 h-5 mr-2" src={home} alt={text} />
-          <NavItem text={"Главная"} />
+          <NavItem text={t("Главная")} />
         </button>
       </Link>
       <button
@@ -59,14 +60,14 @@ const Burger = ({ setOpen }) => {
         className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
       >
         <img className="w-5 h-5 mr-2" src={reklama} alt={text} />
-        <NavItem text={"Реклама"} />
+        <NavItem text={t("Реклама")} />
       </button>
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
       >
         <img className="w-5 h-5 mr-2" src={sport} alt={text} />
-        <NavItem text={"Спорт"} />
+        <NavItem text={t("Спорт")} />
         {isDropdownOpen ? (
           <ExpandMoreTwoToneIcon className="w-5 h-5 ml-auto text-gray-400" />
         ) : (
@@ -81,7 +82,7 @@ const Burger = ({ setOpen }) => {
                 onClick={() => setOpen(false)}
                 className="w-full p-2 text-left hover:bg-white hover:text-black"
               >
-                {option.name}
+                {t(`${option.name}`)}
               </button>
             </Link>
           ))}
@@ -92,7 +93,7 @@ const Burger = ({ setOpen }) => {
         className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
       >
         <img className="w-5 h-5 mr-2" src={oplata} alt={text} />
-        <NavItem text={"Оплата"} />
+        <NavItem text={t("Оплата")} />
       </button>
     </div>
   );
@@ -102,7 +103,7 @@ const Burger = ({ setOpen }) => {
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80"></div>
       <div
         className="relative p-3 pt-[100px] h-auto z-11 text-white bg-[#18171A] w-[75%]"
-        ref={modalRef} // Attach the ref to the modal content
+        ref={modalRef} 
       >
         <div className="flex justify-between">
           <UserProfile />

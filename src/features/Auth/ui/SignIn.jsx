@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../store/action";
 
+
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Для навигации после успешного входа
@@ -75,7 +76,7 @@ const SignIn = () => {
                   name="password"
                   component="div"
                   className="mt-1 text-sm text-red-500"
-                />
+                /> 
               </div>
               <div className="flex flex-row items-center justify-between mb-4 sm:flex-row">
                 <div className="flex items-center">
