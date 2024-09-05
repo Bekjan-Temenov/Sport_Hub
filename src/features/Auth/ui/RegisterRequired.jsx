@@ -21,7 +21,7 @@ const RegisterRequired = () => {
               />
             </div>
             <p className="mb-6 text-base text-center sm:text-lg">
-              Для размещения рекламы сначала зарегистрируйтесь.
+              Для записи сначала зарегистрируйтесь.
             </p>
             <Link
               to="/auth/sign-up"

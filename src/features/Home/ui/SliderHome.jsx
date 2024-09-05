@@ -18,11 +18,11 @@ const SliderHome = () => {
 
             <style>
                 {`
-                        .swiper-button-next::after, 
-                        .swiper-button-prev::after {
-                            font-size: 20px; 
-                        }
-                    `}
+                    .swiper-button-next::after,  
+                    .swiper-button-prev::after {
+                        font-size: 20px; 
+                    }
+                `}
             </style>
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
