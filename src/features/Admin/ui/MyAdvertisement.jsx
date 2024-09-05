@@ -7,11 +7,13 @@ import User from "../../../shared/assets/svg/user-2.svg"
 import Mesenger from "../../../shared/assets/svg/mesenger.svg"
 import Setting from "../../../shared/assets/svg/setting.svg"
 import Login from "../../../shared/assets/svg/login-circle.svg"
+import Search from "../../../shared/assets/svg/search-1.svg"
+import Crop from "../../../shared/assets/svg/crop.svg"
 
 
 const MyAdvertisement = () => {
     return (
-        <div>
+        <div style={{ display: "flex" }}>
             <div style={{ marginLeft: "50px", }}>
                 <img src={Bascet} alt="" style={{ position: "absolute" }} />
                 <div style={{ width: "214px", height: "285px", position: "relative", top: "200px", left: "30px", display: "grid" }}>
@@ -114,12 +116,43 @@ const MyAdvertisement = () => {
                         <img src={Strelca} alt="" />
                     </button>
                 </div>
-                <button style={{ position: "relative", margin: "550px 37px 70px 30px " , width:"198px", height:"36px", borderRadius:"8px" , padding:"8px 15px 8px 15px", gap:"15px", display:"flex", alignItems:"center"}}>
+                <button style={{ position: "relative", margin: "550px 37px 70px 30px ", width: "198px", height: "36px", borderRadius: "8px", padding: "8px 15px 8px 15px", gap: "15px", display: "flex", alignItems: "center" }}>
                     <img src={Login} alt="" />
                     <p style={{
                         color: "#FE0404E5"
                     }}>Выйти</p>
                 </button>
+            </div>
+            <div style={{
+                width: "957px",
+                height: "42px",
+                margin: "30px 81px 38px 88px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+            }}>
+                <div style={{ display: "flex", gap: "15px" }}>
+                    <input style={{
+                        width: "677px",
+                        height: "42px",
+                        borderRadius: "30px",
+                        background: "#E5E4E9",
+                        outline: "none",
+                        padding: "11px 475px 11px 22px",
+                    }} type="text" />
+                    <img src={Search} alt="" style={{ cursor: "pointer" }} />
+                </div>
+                <div>
+                    <div style={{ display: "flex", gap: "9px", alignItems: "center" }}>
+                        <p style={{
+                            fontSize: "12px",
+                            fontWeight: "400",
+                            color: "#fff",
+                            fontFamily: "Comfortaa"
+                        }}>Бекенова <br />Сабина</p>
+                        <img src={Crop} alt="" />
+                    </div>
+                </div>
             </div>
         </div>
     )
