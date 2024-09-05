@@ -17,7 +17,7 @@ const SliderHome = () => {
         <div className="w-full h-full">
             <style>
                 {`
-                    .swiper-button-next::after, 
+                    .swiper-button-next::after,  
                     .swiper-button-prev::after {
                         font-size: 20px; 
                     }

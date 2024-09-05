@@ -2,9 +2,14 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../store/action";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Для навигации после успешного входа
+
   const validationSchema = Yup.object({
     email: Yup.string().email("Неверный формат email").required("Обязательно"),
     password: Yup.string().required("Обязательно"),
@@ -29,8 +34,19 @@ const SignIn = () => {
         <Formik
           initialValues={{ email: "", password: "", remember: false }}
           validationSchema={validationSchema}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              // Отправляем данные пользователя для входа
+              const result = await dispatch(login(values)).unwrap();
+              console.log("Вход успешен:", result);
+
+              // Перенаправляем пользователя после успешного входа
+              navigate("/"); // Замените на нужный путь
+            } catch (error) {
+              console.error("Ошибка входа:", error);
+            } finally {
+              setSubmitting(false);
+            }
           }}
         >
           {({ isSubmitting }) => (
@@ -66,9 +82,9 @@ const SignIn = () => {
                   <Field name="remember" type="checkbox" className="mr-2" />
                   <label>Запомнить</label>
                 </div>
-                <a href="#" className="mt-2 text-blue-500 sm:mt-0">
+                <Link to='/auth/forgot' className="mt-2 text-blue-500 sm:mt-0">
                   Забыли пароль?
-                </a>
+                </Link>
               </div>
               <button
                 type="submit"
