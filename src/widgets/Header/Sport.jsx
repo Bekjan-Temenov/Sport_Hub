@@ -11,6 +11,7 @@ const Sport = () => {
   const sortRef = useRef();
   const [isOpen, setIsOpen] = useOutsideClick(sortRef);
   const {t} = useTranslation()
+  
   const handleSelect = useCallback((option) => {
     setSelectedOption(option.name); 
     setIsOpen(false);

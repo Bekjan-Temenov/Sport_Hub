@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 const modalProfile = ({setOpen}) => {
   const {t} =useTranslation()
   return (
-    <div className="mt-4">
+    <div className="mt-4 ">
       <Link to="/">
         <button  onClick={() => setOpen(false)} className="flex items-center w-full p-3 mb-2 border-2 rounded-lg">
           <img className="w-5 h-5 mr-2" src={profile} />

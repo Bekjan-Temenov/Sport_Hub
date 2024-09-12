@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import TimeSelector from "./TimeSelector";
-import Website from "./Website";
 
-function Schedule() {
+function Schedule( {title}) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col">
         <h1 className="mt-[30px] mb-2 font-sans text-2xl font-medium">
-          График работы
+          {title}
         </h1>
       </div>
       <div className="grid  grid-cols-2 gap-[20px]">
