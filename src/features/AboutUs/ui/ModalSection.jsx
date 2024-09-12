@@ -20,7 +20,7 @@ function ModalSection({setIsOpen}) {
       <Schedule title={"Расписание для взрослых"}/>
       <Schedule title={"Расписание для подростков"}/>
       <Schedule title={"Расписание для детей"}/>
-      <Buttons/>
+      <Buttons setIsOpen={setIsOpen}/>
     </div>
   </div>
   )

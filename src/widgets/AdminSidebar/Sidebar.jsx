@@ -67,8 +67,8 @@ const Sidebar = () => {
           open={openStates.notifications}
           onClick={() => toggleMenu("notifications")}
           items={[
-            { text: "Notification 1", to: "/notification1" },
-            { text: "Notification 2", to: "/notification2" },
+            { text: "Отзыв", to: "reviewn" },
+            { text: "Оплата", to: "paymantn" },
           ]}
         />
         <SidebarItem text="Настройка" img={setting} />
