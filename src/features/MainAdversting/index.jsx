@@ -4,16 +4,16 @@ import Adversting from './ui/Adversting'
 
 function index() {
   const [isHandle, setIsHandle] = useState("Зал");
+  const [open, setOpen] = useState(true);
 
   const handleClick = (tab) => {
     setIsHandle(tab);
   };
-  console.log(isHandle);
 
   return (
     <div>
-      <Header handleClick={handleClick} isHandle={isHandle}/>
-      <Adversting isHandle={isHandle}/>
+      <Header handleClick={handleClick} isHandle={isHandle} setOpen={setOpen} open={open}/>
+      <Adversting isHandle={isHandle} setOpen={setOpen} open={open}/>
     </div>
   )
 }
