@@ -32,6 +32,7 @@ function Hours({
     "21",
     "22",
     "23",
+    "24",
   ];
   const minutes = [
     "00",
@@ -109,7 +110,7 @@ function Hours({
                 <div
                   key={hour}
                   className={`mb-[10px] cursor-pointer ${
-                    selectedHour === hour ? "bg-[#FF0000]   text-white" : ""
+                    selectedHour === hour ? "bg-[#FF0000] text-white" : ""
                   }`}
                   onClick={() => handleHourClick(hour)}
                 >

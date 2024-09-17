@@ -2,11 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Container from "../../../shared/helpers/Container";
 import { sports } from '../../../shared/api/api';
-import { useTranslation } from "react-i18next";
 
 
 const HomeSports = () => {
-  const {t} = useTranslation()
   return (
     <Container>
          <div className="text-white lg:p-8 ">
@@ -27,7 +25,7 @@ const HomeSports = () => {
                   className="relative w-[93%] mx-auto bg-cover   cursor-pointer h-[300px] object-cover  z-10"
                 />
               </Link>
-              <div className="text-[32px] mt-2">{t(`${sport.name}`)}</div>
+              <div className="text-[32px] mt-2">{sport.name}</div>
             </div>
           ))}
         </div>

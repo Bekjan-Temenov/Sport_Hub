@@ -13,6 +13,8 @@ import { AboutUsRoute } from "../../features/AboutUs/route";
 import ReviewN from "../../features/Notification/ui/ReviewN";
 import Paymentn from "../../features/Notification/ui/Paymentn";
 import { MainAdversRoute } from "../../features/MainAdversting/route";
+import CustomerLayout from "../../widgets/Layout/CustomerLayout";
+import Schedule from "../../features/Shedule/ui/Schedule";
 
 const MyRoutes = () => {
   return useRoutes([
@@ -38,6 +40,13 @@ const MyRoutes = () => {
         AboutUsRoute, // Из ветки feature/main_adversting
         { path: "reviewn", element: <ReviewN /> },
         { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
+      ],
+    },
+    {
+      path: "/shedule",
+      element: <CustomerLayout />,
+      children: [
+        { path: "", element: <Schedule /> },
       ],
     },
   ]);
