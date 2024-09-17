@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Home from "./ui/Home";
+import Home from "./index";
 
 const HomeRoute = {
   path: "",

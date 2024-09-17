@@ -4,21 +4,29 @@ import logo from "../../shared/assets/svg/header_logo.svg";
 import facebook from "../../shared/assets/svg/footer_facebook.svg";
 import telega from "../../shared/assets/svg/footeer_telega.svg";
 import insta from "../../shared/assets/svg/footer_insta.svg";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function Footer() {
+  const { t } = useTranslation();
+
   return (
-    <div className="bg-[url('../../shared/assets/png/futter.png')]  bg-cover bg-center text-white py-4 md:py-[48px] saturate-200">
+    <div className="bg-[url('../../shared/assets/png/futter.png')]  bg-cover bg-center text-white py-4 md:py-[48px]   ">
       <Container>
         <div className="flex flex-col gap-5 md:gap-14">
           <div className="flex sm:flex-row gap-3 flex-col  items-center md:px-[50px] justify-between ">
             <img src={logo} alt="logo" />
-            <ActionButton text="Разместить рекламу" />
+            <ActionButton text={t("Разместить рекламу")} />
           </div>
           <div className=" w-[40%] mx-auto">
             <nav className="flex flex-col items-center justify-between gap-3 text-lg no-underline list-none sm:flex-row">
-              <NavItem text="Главная" />
-              <NavItem text="Спорт" />
-              <NavItem text="Рекламы" />
+              <Link to="/">
+                <NavItem text={t("Главная")} />
+              </Link>
+              <NavItem text={t("Спорт")} />
+              <Link to="/auth/code">
+                <NavItem text={t("Рекламы")} />
+              </Link>
             </nav>
           </div>
           <div className="flex flex-col gap-3">
@@ -28,7 +36,7 @@ function Footer() {
               <img src={insta} />
             </div>
             <hr />
-            <p className="mx-auto text-gray-400">Спасибо что выбираете нас !</p>
+            <p className="mx-auto text-gray-400">{t("Спасибо что выбираете нас !")}</p>
           </div>
         </div>
       </Container>
@@ -46,6 +54,5 @@ const ActionButton = ({ text }) => (
     <span className="text-sm">{text}</span>
   </button>
 );
-
 
 export default Footer;
