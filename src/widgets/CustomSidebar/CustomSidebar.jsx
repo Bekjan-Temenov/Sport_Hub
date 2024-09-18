@@ -24,7 +24,7 @@ const CustomSidebar = () => {
         <SidebarItem
           text="Расписание"
           img={adves}
-          to="/shedule"
+          to="/profile"
           isActive={activeItem === "Расписание"}
           onClick={() => handleItemClick("Расписание")}
         />
@@ -37,15 +37,17 @@ const CustomSidebar = () => {
         <SidebarItem
           text="Оплата"
           img={set}
-          to="/shedule/payment"
+          to="/profile/payment"
           isActive={activeItem === "Оплата"}
           onClick={() => handleItemClick("Оплата")}
         />
       </div>
-      <div className="flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer hover:bg-white">
-        <img src={getout} alt="icon" />
-        <span className="text-red-600">Выйти</span>
-      </div>
+      <Link to="/">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer hover:bg-white">
+          <img src={getout} alt="icon" />
+          <span className="text-red-600">Выйти</span>
+        </div>
+      </Link>
     </div>
   );
 };
@@ -58,12 +60,12 @@ const SidebarItem = ({ text, img, to, isActive, onClick }) => (
       ${isActive ? "bg-white text-black " : ""}`}
   >
     <div className="flex items-center gap-x-2">
-    <img
-      className={`w-6 h-6 filter group-hover:invert 
-        ${isActive ? "invert" : "invert-0"}`}  
-      src={img}
-      alt="Icon"
-    />
+      <img
+        className={`w-6 h-6 filter group-hover:invert 
+        ${isActive ? "invert" : "invert-0"}`}
+        src={img}
+        alt="Icon"
+      />
       <span>{text}</span>
     </div>
   </Link>
