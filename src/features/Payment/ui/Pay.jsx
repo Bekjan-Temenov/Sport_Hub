@@ -9,7 +9,7 @@ function Pay() {
     <NavBarContainer>
       <div className="flex flex-col gap-y-3  rounded-lg  px-[55px] py-[35px]">
         <div className="flex items-center gap-4">
-          <Link to="/shedule/card">
+          <Link to="/profile/card">
             <KeyboardBackspaceIcon className="cursor-pointer" />
           </Link>
           <h1 className="text-2xl">Оплатить</h1>

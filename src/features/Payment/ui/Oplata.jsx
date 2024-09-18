@@ -13,7 +13,7 @@ const PaymentStatus = ({ isPaid, date }) => {
           <h1 className="mb-2 font-sans text-2xl text-black">
             {isPaid ? "Вы оплатили !" : "Вы не оплатили !"}
           </h1>
-          {!isPaid && <ActionButton to="/shedule/card"/>}
+          {!isPaid && <ActionButton to="/profile/card"/>}
         </div>
         <hr />
         <div className="flex gap-2 mt-3 font-sans text-xl">

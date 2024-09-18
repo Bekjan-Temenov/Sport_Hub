@@ -1,5 +1,6 @@
 import React from "react";
-import kalendar from "../../shared/assets/svg/custom_kalendar.svg"
+import kalendar from "../../shared/assets/svg/custom_kalendar.svg";
+import { Link } from "react-router-dom";
 
 function CustomNavbar() {
   return (
@@ -14,11 +15,13 @@ function CustomNavbar() {
           <span>Бекенова </span>
           <span>Сабина</span>
         </div>
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
-          alt="User"
-          className="w-12 h-12 border-red-600 rounded-full border-[3px]"
-        />
+        <Link to="/profile/profile">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png"
+            alt="User"
+            className="w-12 h-12 border-red-600 rounded-full border-[3px]"
+          />
+        </Link>
       </div>
     </div>
   );

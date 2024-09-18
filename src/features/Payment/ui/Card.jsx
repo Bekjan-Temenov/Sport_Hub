@@ -10,7 +10,7 @@ function Card() {
     <NavBarContainer>
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <Link to="/shedule/payment">
+          <Link to="/profile/payment">
             <KeyboardBackspaceIcon />
           </Link>
           <img src={protection} />
@@ -59,7 +59,7 @@ const Inputs = () => {
           type="text"
         />
       </div>
-      <Link to="/shedule/pay">
+      <Link to="/profile/pay">
         <button className="text-center mt-9 bg-[#FE0404] hover:bg-red-700 w-full px-[55px] py-[10px] rounded-md">
           Сохранить
         </button>
