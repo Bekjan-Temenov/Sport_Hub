@@ -12,15 +12,11 @@ import { sports } from "../../shared/api/api";
 const Burger = ({ setOpen }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
-
   const modalRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
         setOpen(false);
       }
     };
@@ -28,8 +24,8 @@ const Burger = ({ setOpen }) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-    };    
-  }, [setOpen,modalRef]);
+    };
+  }, [setOpen, modalRef]);
 
   const UserProfile = () => (
     <div className="flex flex-col items-start">
@@ -51,22 +47,24 @@ const Burger = ({ setOpen }) => {
           className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
         >
           <img className="w-5 h-5 mr-2" src={home} alt={text} />
-          <NavItem text={"Главная"} />
+          <NavItem text="Главная" />
         </button>
       </Link>
-      <button
-        onClick={() => setOpen(false)}
-        className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
-      >
-        <img className="w-5 h-5 mr-2" src={reklama} alt={text} />
-        <NavItem text={"Реклама"} />
-      </button>
+      <Link to="/adversting">
+        <button
+          onClick={() => setOpen(false)}
+          className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
+        >
+          <img className="w-5 h-5 mr-2" src={reklama} alt={text} />
+          <NavItem text="Реклама" />
+        </button>
+      </Link>
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
       >
         <img className="w-5 h-5 mr-2" src={sport} alt={text} />
-        <NavItem text={"Спорт"} />
+        <NavItem text="Спорт" />
         {isDropdownOpen ? (
           <ExpandMoreTwoToneIcon className="w-5 h-5 ml-auto text-gray-400" />
         ) : (
@@ -92,28 +90,39 @@ const Burger = ({ setOpen }) => {
         className="flex items-center w-full p-3 mb-2 border-2 rounded-lg"
       >
         <img className="w-5 h-5 mr-2" src={oplata} alt={text} />
-        <NavItem text={"Оплата"} />
+        <NavItem text="Оплата" />
       </button>
     </div>
   );
 
   return (
-    <div className="w-[100%] h-[700%] top-0 left-0 z-50 absolute border">
+    <div className="w-[100%] h-[700%] top-0 left-0 z-50 absolute ">
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80"></div>
       <div
         className="relative p-3 pt-[100px] h-auto z-11 text-white bg-[#18171A] w-[75%]"
-        ref={modalRef} // Attach the ref to the modal content
+        ref={modalRef}
       >
-        <div className="flex justify-between">
-          <UserProfile />
-          <button onClick={() => setIsProfile(!isProfile)}>
-            {isProfile ? (
-              <ExpandMoreTwoToneIcon className="w-5 h-5 ml-auto text-gray-400" />
-            ) : (
-              <ExpandLessTwoToneIcon />
-            )}
-          </button>
-        </div>
+        {open ? (
+          <Link
+            to="/auth/sign-up"
+            // className="py-[3px]  hidden md:block rounded-md"
+          >
+            <button className="text-sm border  whitespace-nowrap  rounded-md  text-lg py-[5px] px-[30px] ">
+              Регистрация
+            </button>
+          </Link>
+        ) : (
+          <div className="flex justify-between ">
+            <UserProfile />
+            <button onClick={() => setIsProfile(!isProfile)}>
+              {isProfile ? (
+                <ExpandMoreTwoToneIcon className="w-5 h-5 ml-auto text-gray-400" />
+              ) : (
+                <ExpandLessTwoToneIcon />
+              )}
+            </button>
+          </div>
+        )}
         <hr className="my-3 border border-red-600" />
         <div className="mt-4">
           {isProfile && <ModalProfile setOpen={setOpen} />}

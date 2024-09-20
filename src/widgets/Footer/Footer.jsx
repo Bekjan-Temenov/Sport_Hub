@@ -47,7 +47,7 @@ const NavItem = ({ text }) => (
 );
 
 const ActionButton = ({ text }) => (
-  <button className="w-full h-8 px-2 bg-red-600 rounded-md sm:w-auto whitespace-nowrap lg:text-lg hover:bg-red-700 font-extralight">
+  <button className="h-8 px-[90px] bg-red-600 rounded-md sm:w-auto whitespace-nowrap lg:text-lg hover:bg-red-700 font-extralight">
     <span className="text-sm">{text}</span>
   </button>
 );

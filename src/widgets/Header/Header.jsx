@@ -2,7 +2,6 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import Container from "../../shared/helpers/Container";
 import logo from "../../shared/assets/svg/header_logo.svg";
 import burger from "../../shared/assets/svg/burger.svg";
-import Select from "./Select";
 import Burger from "./Burger";
 import { Link } from "react-router-dom";
 import Sport from "./Sport";
@@ -20,7 +19,6 @@ const Header = () => {
       const path = event.path || (event.composedPath && event.composedPath());
       if (sortRef.current && path && !path.includes(sortRef.current)) {
         setOpen(false);
-        console.log("click outside");
       }
     };
 
@@ -34,40 +32,49 @@ const Header = () => {
     <Container>
       <div
         ref={sortRef}
-        className="flex items-center justify-between my-5 text-white"
+        className="flex items-center justify-between my-5 text-white "
       >
-        <img
-          className="lg:h-[30px] h-[25px] hidden md:block"
-          src={logo}
-          alt="Logo"
-        />
-        <div className="flex items-center block w-full md:hidden">
-          <div>
+        <div className="flex items-center w-full gap-x-9">
+          <img
+            className="lg:h-[30px] h-[25px]  hidden md:block"
+            src={logo}
+            alt="Logo"
+          />
+          <div className="flex items-center block w-full md:hidden">
+            <div>
+              <img
+                onClick={toggleMenu}
+                className="cursor-pointer "
+                src={burger}
+                alt="Menu"
+              />
+              {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
+            </div>
             <img
-              onClick={toggleMenu}
-              className="cursor-pointer "
-              src={burger}
-              alt="Menu"
+              className="lg:h-[30px] h-[25px] mx-auto"
+              src={logo}
+              alt="Logo"
             />
-            {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
           </div>
-          <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
+
+          <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
+            <Link to="/">
+              <NavItem text="Главная" />
+            </Link>
+            <Sport />
+            <Link to="/adversting">
+              <NavItem text="Рекламы" />
+            </Link>
+          </nav>
         </div>
-        <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
-          <Link to="/">
-            <NavItem text="Главная" />
+        <div className="flex items-center  gap-x-[30px]">
+          <Link
+            to="/auth/sign-up"
+            className="py-[3px]  hidden md:block rounded-md"
+          >
+            <ActionButton text="Регистрация"  />
           </Link>
-          <Sport />
-        </nav>
-        <Link to="/auth/code">
-          <ActionButton text="Разместить рекламу" />
-        </Link>
-        <div className="hidden md:block">
-          <Select />
         </div>
-        <Link to="/auth/sign-up">
-          <ActionButton text="Регистрация" isOutlined />
-        </Link>
       </div>
     </Container>
   );
@@ -79,14 +86,8 @@ const NavItem = ({ text }) => (
   </li>
 );
 
-const ActionButton = ({ text, isOutlined }) => (
-  <button
-    className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${
-      isOutlined
-        ? "border text-lg"
-        : "bg-red-600 hover:bg-red-700 md:font-thin lg:font-extralight"
-    }`}
-  >
+export const ActionButton = ({ text }) => (
+  <button className="text-sm whitespace-nowrap border rounded-md  text-lg lg:text-lg  md:block hidden   px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ">
     {text}
   </button>
 );
