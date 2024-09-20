@@ -33,20 +33,23 @@ const infoSections = [
 const InfoGym = () => (
   <Container>
     <div className="p-6 text-white">
-      <h2 className="mb-6 text-4xl ">Зал {details.name}</h2>
+      <h2 className="mb-6 text-4xl">Зал {details.name}</h2>
       <div className="flex flex-col sm:flex-row sm:justify-between">
         {infoSections.map((section, index) => (
-          <ul key={index} className="sm:w-[45%] w-full  ">
-            {section.items.map((item, itemIndex) => (
-              <div className="flex items-center gap-3 ">
-                <div className="sm:bg-red-500 bg-white sm:w-[10px] sm:h-[10px] w-[5px] h-[5px] rounded-full"></div>
-                <li className="flex justify-between sm:w-full  w-[300px] " key={itemIndex}>
-                  <span className="text-md md:text-xl lg:text-2xl">{item.label}:</span>
-                  <span className="text-red-600 md:text-xl sm:text-white text-md lg:text-2xl ">{item.value}</span>
+          <div key={index} className="sm:w-[45%] w-full">
+            <h3 className="text-2xl font-semibold mb-4">{section.title}</h3>
+            <ul>
+              {section.items.map((item, itemIndex) => (
+                <li key={itemIndex} className="flex items-center gap-3 mb-2">
+                  <div className="sm:bg-red-500 bg-white sm:w-[10px] sm:h-[10px] w-[5px] h-[5px] rounded-full"></div>
+                  <span className="flex justify-between sm:w-full w-[300px]">
+                    <span className="text-md md:text-xl lg:text-2xl">{item.label}:</span>
+                    <span className="text-red-600 md:text-xl sm:text-white text-md lg:text-2xl">{item.value}</span>
+                  </span>
                 </li>
-              </div>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          </div>
         ))}
       </div>
     </div>

@@ -1,7 +1,10 @@
-import React from "react";
+
+import React from 'react';
 import { Link } from "react-router-dom";
 import Container from "../../../shared/helpers/Container";
 import { sports } from '../../../shared/api/api';
+
+
 
 
 const HomeSports = () => {
@@ -31,6 +34,7 @@ const HomeSports = () => {
         </div>
      </div>
       </Container>
+
 
   );
 };

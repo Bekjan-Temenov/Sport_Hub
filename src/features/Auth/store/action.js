@@ -42,7 +42,7 @@ export const login = createAsyncThunk(
         try {
             const response = await api.login(credentials);
             console.log("Ответ сервера при входе:", response.data);
-            return response.data;
+            return response.data; // Убедитесь, что ответ содержит token
         } catch (error) {
             console.error("Ошибка входа:", error.response?.data || error.message);
             return rejectWithValue(error.response?.data || 'Ошибка входа');

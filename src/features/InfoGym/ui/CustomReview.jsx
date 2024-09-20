@@ -1,31 +1,26 @@
-import React from "react";
-import Reviews from "./Reviews";
+// src/components/CustomerReviews.jsx
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchReviews } from '../store/action';
 import fon from "../../../shared/assets/png/ReviewsFon.png";
 import Container from "../../../shared/helpers/Container";
 import { Link } from "react-router-dom";
-
-const reviews = [
-  {
-    text: "Баскетбол - это удивительный спорт, который сочетает в себе физическую активность, стратегию и командную работу. Я играю в баскетбол уже несколько лет и могу с уверенностью сказать, что это одна из самых захватывающих игр.",
-    rating: 5,
-    name: "Кортни Генри",
-    photo: "https://via.placeholder.com/150",
-  },
-  {
-    text: "Баскетбол - это удивительный спорт, который сочетает в себе физическую активность, стратегию и командную работу. Я играю в баскетбол уже несколько лет и могу с уверенностью сказать, что это одна из самых захватывающих игр.",
-    rating: 5,
-    name: "Антонов Павел",
-    photo: "https://via.placeholder.com/150",
-  },
-  {
-    text: "Баскетбол - это удивительный спорт, который сочетает в себе физическую активность, стратегию и командную работу. Я играю в баскетбол уже несколько лет и могу с уверенностью сказать, что это одна из самых захватывающих игр.",
-    rating: 5,
-    name: "Анна Каренина",
-    photo: "https://via.placeholder.com/150",
-  },
-];
+import Reviews from "./Reviews";
 
 const CustomerReviews = () => {
+  const dispatch = useDispatch();
+  const reviewsState = useSelector((state) => state.reviews); // Используйте правильный ключ
+  const { reviews, status, error } = reviewsState || { reviews: [], status: 'idle', error: null };
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchReviews());
+    }
+  }, [dispatch, status]);
+
+  if (status === 'loading') return <p>Loading...</p>;
+  if (status === 'failed') return <p>Error: {error}</p>;
+
   return (
     <section
       style={{
@@ -33,16 +28,16 @@ const CustomerReviews = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="w-[100% ]  h-auto py-12 text-white"
+      className="w-[100%] h-auto py-12 text-white"
     >
       <Container>
-        <div className="">
+        <div>
           <h2 className="mb-8 text-3xl font-bold text-center">
             Отзывы клиентов
           </h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 ">
-            {reviews.map((review, index) => (
-              <Reviews key={index} {...review} />
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {reviews.map((review) => (
+              <Reviews key={review.id} {...review} />
             ))}
           </div>
           <div className="flex justify-center mt-8">
