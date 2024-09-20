@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import icon from "../../../../shared/assets/svg/inkrugok_icon.svg";
-import { useTranslation } from "react-i18next";
 import ModalKrugok from "./modalKrugok";
 
 const zally = [
@@ -19,7 +18,6 @@ const zally = [
 
 function InKrugok({ sport }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { t } = useTranslation();
 
   const handleOpenClick = () => {
     setIsOpen(true);
@@ -110,11 +108,11 @@ function InKrugok({ sport }) {
             isOpen ? "hidden" : "block"
           }`}
         >
-          {t("Кружки")}
+          Кружки
         </motion.h1>
         {isOpen && (
           <h1 className={`text-xl sm:text-4xl md:hidden block md:text-6xl `}>
-            {t("Кружки")}
+            Кружки
           </h1>
         )}
         <motion.button
@@ -125,7 +123,7 @@ function InKrugok({ sport }) {
           }`}
           onClick={() => handleOpenClick(true)}
         >
-          {t("Открыть")}
+          Открыть
         </motion.button>
         <motion.img
           animate={{ x: isOpen ? 900 : 0 }}

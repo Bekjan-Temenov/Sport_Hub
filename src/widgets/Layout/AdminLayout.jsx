@@ -9,7 +9,7 @@ function AdminLayout() {
     <AdminContainer>
       <div className="flex text-white gap-[49px]">
           <Sidebar />
-        <div className="flex flex-col gap-[38px]">
+        <div className="flex  flex-col gap-[38px]">
         <Navbar />
           <Outlet />
         </div>

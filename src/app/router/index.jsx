@@ -9,20 +9,27 @@ import AuthRouter from "../../features/Auth/route";
 import AdminLayout from "../../widgets/Layout/AdminLayout";
 import Adversting from "../../features/Adversting/index";
 import { GymRoute } from "../../features/InfoGym/route";
+import { AboutUsRoute } from "../../features/AboutUs/route";
+import ReviewN from "../../features/Notification/ui/ReviewN";
+import Paymentn from "../../features/Notification/ui/Paymentn";
+import { MainAdversRoute } from "../../features/MainAdversting/route";
+import CustomerLayout from "../../widgets/Layout/CustomerLayout";
+import Schedule from "../../features/Shedule/ui/Schedule";
 
 const MyRoutes = () => {
   return useRoutes([
-    AuthRouter, 
+    AuthRouter,
     {
       path: "",
       element: <Layout />,
       children: [
-        { path: "", element: <Home /> },  
+        { path: "", element: <Home /> },
         HomeRoute,
         zallyRoute,
         ArenaRouter,
         ReviewRoute,
         GymRoute,
+        MainAdversRoute, // Из ветки feature/main_adversting
       ],
     },
     {
@@ -30,6 +37,16 @@ const MyRoutes = () => {
       element: <AdminLayout />,
       children: [
         { path: "", element: <Adversting /> },
+        AboutUsRoute, // Из ветки feature/main_adversting
+        { path: "reviewn", element: <ReviewN /> },
+        { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
+      ],
+    },
+    {
+      path: "/shedule",
+      element: <CustomerLayout />,
+      children: [
+        { path: "", element: <Schedule /> },
       ],
     },
   ]);

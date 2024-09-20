@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useTranslation } from "react-i18next";
 import icon from "../../../../shared/assets/svg/inkrugok_icon.svg";
-import ModalZally from "./ModalZally"
+import ModalZally from "./ModalZally";
 
 const zally = [
   "Bilimkana Arena»",
@@ -19,7 +18,6 @@ const zally = [
 
 function InZally({ sport }) {
   const [isClicked, setIsClicked] = useState(false);
-  const { t } = useTranslation();
   const handleButtonClick = () => {
     setIsClicked(true);
   };
@@ -107,18 +105,13 @@ function InZally({ sport }) {
             isClicked ? "hidden" : "block"
           }`}
         >
-          {t("Заллы")}
+          Заллы
         </motion.h1>
-        {
-          isClicked && (
-
-        <h1
-          className={`text-xl sm:text-4xl md:hidden block md:text-6xl `}
-        >
-          {t("Заллы")}
-        </h1>
-          )
-        }
+        {isClicked && (
+          <h1 className={`text-xl sm:text-4xl md:hidden block md:text-6xl `}>
+            Заллы
+          </h1>
+        )}
         <motion.button
           animate={{ opacity: isClicked ? 0 : 1 }}
           transition={{ duration: 0.7 }}
@@ -127,7 +120,7 @@ function InZally({ sport }) {
           }`}
           onClick={() => handleButtonClick(true)}
         >
-          {t("Открыть")}
+          Открыть
         </motion.button>
         <motion.img
           animate={{ x: isClicked ? 900 : 0 }}
@@ -136,11 +129,7 @@ function InZally({ sport }) {
           src={sport.boll}
         />
       </motion.div>
-      {
-        isClicked && (
-          <ModalZally sport={sport} zally={zally}/>
-        )
-      }
+      {isClicked && <ModalZally sport={sport} zally={zally} />}
     </div>
   );
 }
