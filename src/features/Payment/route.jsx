@@ -16,8 +16,8 @@ export const PaymentRoute = {
       element: <Card />,
     },
     {
-        path: "pay",
-        element: <Pay />,
-      },
+      path: "pay",
+      element: <Pay />,
+    },
   ],
 };

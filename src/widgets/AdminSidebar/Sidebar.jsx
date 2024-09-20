@@ -56,8 +56,8 @@ const Sidebar = () => {
           open={openStates.settings}
           onClick={() => toggleMenu("settings")}
           items={[
-            { text: "Setting 1", to: "/setting1" },
-            { text: "Setting 2", to: "/setting2" },
+            { text: "Тренер", to: "trainer" },
+            { text: "Клиент", to: "client" },
           ]}
         />
         <SidebarMenu
