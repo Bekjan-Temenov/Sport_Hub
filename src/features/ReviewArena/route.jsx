@@ -1,6 +1,6 @@
 import Review from "./ui/Review";
 
 export const ReviewRoute = {
-  path: "/arena-review",
+  path: "review",
   element: <Review />,
 };

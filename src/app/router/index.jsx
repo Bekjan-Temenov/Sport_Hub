@@ -15,6 +15,8 @@ import Paymentn from "../../features/Notification/ui/Paymentn";
 import { MainAdversRoute } from "../../features/MainAdversting/route";
 import CustomerLayout from "../../widgets/Layout/CustomerLayout";
 import Schedule from "../../features/Shedule/ui/Schedule";
+import { PaymentRoute } from "../../features/Payment/route";
+import { RouteProfile } from "../../features/Profile/route";
 
 const MyRoutes = () => {
   return useRoutes([
@@ -43,13 +45,14 @@ const MyRoutes = () => {
       ],
     },
     {
-      path: "/shedule",
+      path: "/profile",
       element: <CustomerLayout />,
       children: [
         { path: "", element: <Schedule /> },
+        PaymentRoute,
+        RouteProfile,
       ],
     },
   ]);
 };
-
 export default MyRoutes;

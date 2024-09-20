@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Container from "../../../shared/helpers/Container";
 import fon from "../../../shared/assets/png/ReviewsFon.png";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
 import { postReview } from "../../InfoGym/store/action";
