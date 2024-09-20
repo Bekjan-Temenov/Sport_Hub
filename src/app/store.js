@@ -1,11 +1,12 @@
-// store.js
-import { configureStore } from '@reduxjs/toolkit';
+
+import { configureStore } from "@reduxjs/toolkit";
 import authSlice from '../features/Auth/store/slice'
+import reviewReducer from '../features/InfoGym/store/slice'
 
 export const store = configureStore({
     reducer: {
-        auth:authSlice,
-        
-    },
-});
+        auth: authSlice,
+        reviews: reviewReducer,
+    }
+})
 
