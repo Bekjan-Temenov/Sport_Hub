@@ -116,8 +116,9 @@ const CodeInput = () => {
               </div>
             </div>
 
-            <div className="flex justify-center w-full gap-2 md:gap-4 mt-4">
-              <Link to="/auth/required">
+            <div className="flex justify-center w-full gap-2 md:gap-4">
+              <Link to="/">
+
                 <button
                   type="button"
                   className="py-2 bg-[#FE0404] text-white rounded hover:bg-red-600 w-[120px] md:w-[200px] h-[40px] md:h-[50px]"
