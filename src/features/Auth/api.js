@@ -6,6 +6,4 @@ export const api = {
     login: (credentials) => apiRoot.post('/user/login/', credentials),
     requestPasswordReset: (email) => apiRoot.post('/user/reset-password/', { email }),
     resetPasswordVerify: (reset_code) => apiRoot.post('/user/reset-password-verify/', { reset_code })
-
-
 };
