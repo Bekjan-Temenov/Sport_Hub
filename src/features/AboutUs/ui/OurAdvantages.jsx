@@ -23,10 +23,7 @@ function OurAdvantages() {
         {inputGroups.map((group, index) => (
           <div
             key={index}
-            className={`flex w-[45%] flex-col gap-3 ${
-              index === 2 ? "mx-auto mt-[30px]" : ""
-            }`}
-          >
+            className={`flex w-[45%] flex-col gap-3 ${index === 2 ? "mx-auto mt-[30px]" : ""}`}>
             {group.map((field, subIndex) => (
               <input
                 key={subIndex}

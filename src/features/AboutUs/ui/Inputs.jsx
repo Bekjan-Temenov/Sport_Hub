@@ -67,4 +67,4 @@ function Inputs() {
   );
 }
 
-export default Inputs;
+export default Inputs;// src/components/Inputs.js

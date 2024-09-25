@@ -9,8 +9,8 @@ import { login } from "../store/action";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Для навигации после успешного входа
-
+  const navigate = useNavigate(); 
+  
   const validationSchema = Yup.object({
     email: Yup.string().email("Неверный формат email").required("Обязательно"),
     password: Yup.string().required("Обязательно"),

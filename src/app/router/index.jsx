@@ -31,7 +31,7 @@ const MyRoutes = () => {
         ArenaRouter,
         ReviewRoute,
         GymRoute,
-        MainAdversRoute, // Из ветки feature/main_adversting
+        MainAdversRoute, 
       ],
     },
     {
@@ -39,9 +39,9 @@ const MyRoutes = () => {
       element: <AdminLayout />,
       children: [
         { path: "", element: <Adversting /> },
-        AboutUsRoute, // Из ветки feature/main_adversting
+        AboutUsRoute, 
         { path: "reviewn", element: <ReviewN /> },
-        { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
+        { path: "paymantn", element: <Paymentn /> },
       ],
     },
     {
