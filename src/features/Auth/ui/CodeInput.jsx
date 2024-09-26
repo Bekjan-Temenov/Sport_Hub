@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -11,6 +10,8 @@ const CodeInput = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [code, setCode] = useState(["", "", "", ""]);
+  const [timer, setTimer] = useState(30);
+  const [isTimerActive, setIsTimerActive] = useState(false);
 
   const validationSchema = Yup.object({
     code: Yup.string().required("Обязательное поле"),
@@ -23,7 +24,7 @@ const CodeInput = () => {
       newCode[index] = value;
       setCode(newCode);
       setFieldValue("code", newCode.join(""));
-      
+
       // Автоматический переход на следующий инпут
       if (value && index < 3) {
         document.getElementById(`code-input-${index + 1}`).focus();
@@ -46,6 +47,25 @@ const CodeInput = () => {
         console.error("Ошибка активации:", error);
       });
   };
+
+  const handleResendSMS = () => {
+    // Логика для повторной отправки SMS
+    console.log("SMS отправлено снова");
+    setTimer(30);
+    setIsTimerActive(true);
+  };
+
+  useEffect(() => {
+    let interval = null;
+    if (isTimerActive && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      setIsTimerActive(false);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerActive, timer]);
 
   return (
     <div
@@ -79,8 +99,26 @@ const CodeInput = () => {
                 />
               ))}
             </div>
+
+            <div className="flex justify-start">
+              <div className="flex justify-between items-center gap-[190px] text-blue-500">
+                <button
+                  type="button"
+                  onClick={handleResendSMS}
+                  disabled={isTimerActive}
+                  className={`py-2 px-4 rounded ${isTimerActive ? 'bg-gray-400' : 'bg-transparent'}`}
+                >
+                  Отправить SMS ещё раз
+                </button>
+                {isTimerActive && (
+                  <span>{`00:${timer < 5 ? `0${timer}` : timer}`}</span>
+                )}
+              </div>
+            </div>
+
             <div className="flex justify-center w-full gap-2 md:gap-4">
               <Link to="/">
+
                 <button
                   type="button"
                   className="py-2 bg-[#FE0404] text-white rounded hover:bg-red-600 w-[120px] md:w-[200px] h-[40px] md:h-[50px]"
