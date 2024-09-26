@@ -46,7 +46,7 @@ const CustomerReviews = () => {
             ))}
           </div>
           <div className="flex justify-center mt-8">
-            <Link to="/arena-review">
+            <Link to="/review">
               <button className="py-2 font-normal text-white bg-red-600 rounded-md px-7 text-md hover:bg-red-700">
                 Оставить отзыв
               </button>

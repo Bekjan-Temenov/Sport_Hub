@@ -1,11 +1,11 @@
 import React from 'react'
 
-function AboutUs() {
+function index() {
   return (
     <div>
-      about
+      index
     </div>
   )
 }
 
-export default AboutUs
+export default index
