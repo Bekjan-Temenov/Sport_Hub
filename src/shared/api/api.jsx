@@ -40,7 +40,8 @@ export const sports = [
     backgroundImage2: sportss, 
     inbackgroundImage: krugoks, 
     inbackgroundImage2: krugoks, 
-    boll: basketballs 
+    boll: basketballs ,
+    api:""
   },
   { 
     id: 2, 

@@ -6,6 +6,4 @@ const apiRoot = axios.create({
         'Content-Type': 'application/json'
     }
 })
-
-
-export default apiRoot;
+export default apiRoot

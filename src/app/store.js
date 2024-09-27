@@ -1,12 +1,16 @@
-// store.js
-import { configureStore } from '@reduxjs/toolkit';
+
+import { configureStore } from "@reduxjs/toolkit";
 import authSlice from '../features/Auth/store/slice'
+import reviewReducer from '../features/InfoGym/store/slice'
+import aboutReducer from '../features/AboutUs/store/slice'
 
-const store = configureStore({
+
+export const store = configureStore({
     reducer: {
-        auth:authSlice,
-        
-    },
-});
+        auth: authSlice,
+        reviews: reviewReducer,
+        about: aboutReducer
 
-export default store;
+    }
+})
+
