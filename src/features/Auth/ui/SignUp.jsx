@@ -14,7 +14,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Неверный email").required("Обязательно"),
   password: Yup.string()
-    .min(8, "Пароль должен содержать не менее 8 символов")
+    .min(5, "Пароль должен содержать не менее 5 символов")
     .matches(/[0-9]/, "Пароль должен включать хотя бы одну цифру")
     .matches(/[A-Z]/, "Пароль должен содержать хотя бы одну заглавную букву")
     .required("Обязательно"),
