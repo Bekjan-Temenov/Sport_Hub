@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../store/action";
 
-
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
@@ -32,7 +31,7 @@ const SignIn = () => {
           Добро пожаловать!
         </h2>
         <p className="mb-6 text-gray-500 text-start">Войдите в свой аккаунт!</p>
-        <Formik
+        <Formik 
           initialValues={{ email: "", password: "", remember: false }}
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
@@ -41,10 +40,16 @@ const SignIn = () => {
               const result = await dispatch(login(values)).unwrap();
               console.log("Вход успешен:", result);
 
+              // Сохранение токена в localStorage
+              if (result.token) {
+                localStorage.setItem('token', result.token);
+              }
+
               // Перенаправляем пользователя после успешного входа
               navigate("/"); // Замените на нужный путь
             } catch (error) {
               console.error("Ошибка входа:", error);
+              // Вы можете добавить отображение ошибки пользователю здесь
             } finally {
               setSubmitting(false);
             }
@@ -76,7 +81,7 @@ const SignIn = () => {
                   name="password"
                   component="div"
                   className="mt-1 text-sm text-red-500"
-                /> 
+                />
               </div>
               <div className="flex flex-row items-center justify-between mb-4 sm:flex-row">
                 <div className="flex items-center">

@@ -14,6 +14,7 @@ function Adversting() {
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
+  
   return (
     <NavBarContainer>
       <div className="flex flex-col items-center gap-y-[50px]">

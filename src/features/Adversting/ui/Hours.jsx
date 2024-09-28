@@ -102,7 +102,7 @@ function Hours({
       {open && (
         <div 
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        className="absolute w-[99px] z-10   top-[33px] right-[0px] h-[121px] overflow-auto text-black bg-white  shadow-md right-3">
+        className="absolute  w-[99px] z-10   top-[33px]  h-[121px] overflow-auto text-black bg-white  shadow-md right-0">
           
           <div className="flex ">
             <div className="flex-1 p-2 text-center ">

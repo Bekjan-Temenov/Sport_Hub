@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Container from "../../../shared/helpers/Container";
-import {sports} from "../../../shared/api/api"
+import { sports } from "../../../shared/api/api";
 // import { useDispatch, useSelector } from "react-redux";
 // import { sport } from "../store/action";
 
@@ -13,7 +13,7 @@ const HomeSports = () => {
 
   // console.log(sports);
   // useEffect(() => {
-  //   dispatch(sport()); 
+  //   dispatch(sport());
   // }, [dispatch]);
 
   // // Обработка разных состояний загрузки данных
@@ -51,7 +51,7 @@ const HomeSports = () => {
         </div>
       </div>
     </Container>
-  );
+  );      
 };
 
 export default HomeSports;

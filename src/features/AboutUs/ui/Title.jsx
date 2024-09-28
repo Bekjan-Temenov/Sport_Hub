@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import gallery from "../../../shared/assets/svg/admin_gallery.svg";
 
-function Title({section}) {
+function Title() {
   const [selectedImages, setSelectedImages] = useState(Array(3).fill(null));
 
-  console.log(section);
   const handleImageUpload = (event, index) => {
     const file = event.target.files[0];
     if (file) {
