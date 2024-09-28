@@ -3,8 +3,8 @@ import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { activateUser } from "../store/action";
+import { useDispatch , useSelector} from "react-redux";
+import { activateUser, resendActivationCode } from "../store/action";
 
 const CodeInput = () => {
   const dispatch = useDispatch();
@@ -12,20 +12,20 @@ const CodeInput = () => {
   const [code, setCode] = useState(["", "", "", ""]);
   const [timer, setTimer] = useState(30);
   const [isTimerActive, setIsTimerActive] = useState(false);
+  const email = useSelector((state) => state.auth.email);
 
   const validationSchema = Yup.object({
-    code: Yup.string().required("Обязательное поле"),
+    code: Yup.string().length(4, "Код должен состоять из 4 цифр").required("Обязательное поле"),
   });
 
   const handleChange = (e, index, setFieldValue) => {
     const { value } = e.target;
-    if (/^\d*$/.test(value)) {
+    if (/^\d*$/.test(value) && value.length <= 1) {
       const newCode = [...code];
       newCode[index] = value;
       setCode(newCode);
       setFieldValue("code", newCode.join(""));
 
-      // Автоматический переход на следующий инпут
       if (value && index < 3) {
         document.getElementById(`code-input-${index + 1}`).focus();
       }
@@ -35,7 +35,7 @@ const CodeInput = () => {
   const handleSubmit = (values) => {
     const { code } = values;
 
-    console.log("Отправляемый payload:", code); // Лог для проверки
+    console.log("Отправляемый payload:", code);
 
     dispatch(activateUser(code))
       .unwrap()
@@ -49,11 +49,22 @@ const CodeInput = () => {
   };
 
   const handleResendSMS = () => {
-    // Логика для повторной отправки SMS
-    console.log("SMS отправлено снова");
-    setTimer(30);
-    setIsTimerActive(true);
+    if (!email) {
+      console.error("Email не указан для повторной отправки");
+      return;
+    }
+
+    dispatch(resendActivationCode(email))
+      .unwrap()
+      .then(() => {
+        console.log("Код активации отправлен снова");
+      })
+      .catch((error) => {
+        console.error("Ошибка при повторной отправке кода:", error);
+      });
   };
+
+
 
   useEffect(() => {
     let interval = null;
@@ -77,7 +88,7 @@ const CodeInput = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, errors, touched }) => (
           <Form className="bg-white p-4 md:p-8 rounded-lg shadow-md w-[90%] max-w-[600px] h-auto md:h-[500px] flex flex-col items-center gap-3 justify-center">
             <h1 className="font-semibold mb-4 text-[24px] md:text-[32px] text-center">
               Введите 4-значный код
@@ -95,10 +106,13 @@ const CodeInput = () => {
                   maxLength={1}
                   onChange={(e) => handleChange(e, index, setFieldValue)}
                   value={code[index]}
-                  className="w-[50px] h-[50px] md:w-[80px] md:h-[80px] bg-gray-200 rounded text-center text-lg"
+                  className={`w-[50px] h-[50px] md:w-[80px] md:h-[80px] bg-gray-200 rounded text-center text-lg ${errors.code && touched.code ? 'border-red-500' : ''}`}
                 />
               ))}
             </div>
+            {errors.code && touched.code && (
+              <div className="text-red-500 text-sm">{errors.code}</div>
+            )}
 
             <div className="flex justify-start">
               <div className="flex justify-between items-center gap-[190px] text-blue-500">
@@ -111,14 +125,13 @@ const CodeInput = () => {
                   Отправить SMS ещё раз
                 </button>
                 {isTimerActive && (
-                  <span>{`00:${timer < 5 ? `0${timer}` : timer}`}</span>
+                  <span>{`00:${timer < 10 ? `0${timer}` : timer}`}</span>
                 )}
               </div>
             </div>
 
             <div className="flex justify-center w-full gap-2 md:gap-4">
               <Link to="/">
-
                 <button
                   type="button"
                   className="py-2 bg-[#FE0404] text-white rounded hover:bg-red-600 w-[120px] md:w-[200px] h-[40px] md:h-[50px]"
