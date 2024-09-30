@@ -14,7 +14,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Неверный email").required("Обязательно"),
   password: Yup.string()
-    .min(8, "Пароль должен содержать не менее 8 символов")
+    .min(5, "Пароль должен содержать не менее 5 символов")
     .matches(/[0-9]/, "Пароль должен включать хотя бы одну цифру")
     .matches(/[A-Z]/, "Пароль должен содержать хотя бы одну заглавную букву")
     .required("Обязательно"),
@@ -27,7 +27,6 @@ const SignupSchema = Yup.object().shape({
   birth_date: Yup.date().required("Обязательно"),
   rememberMe: Yup.boolean(),
 });
-
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -46,11 +45,18 @@ const SignUp = () => {
 
   return (
     <div
-      className="flex items-center justify-center w-full min-h-screen bg-center bg-cover"
+      className="
+    flex items-center justify-center w-full min-h-screen 
+    bg-no-repeat bg-center bg-cover 
+    sm:bg-[url(${istockphoto})] 
+    md:bg-[url(${istockphoto})] 
+    lg:bg-[url(${istockphoto})]
+    xl:bg-[url(${istockphoto})]
+  "
       style={{ backgroundImage: `url(${istockphoto})` }}
     >
       <Container>
-        <div className="bg-white p-4 rounded-lg shadow-lg w-[550px] h-full mx-auto">
+        <div className="bg-white p-4 rounded-lg shadow-lg w-[350px] h-full mx-auto md:w-[500px] lg:max-w-[550px] sm:max-w-full">
           <Link to="/">
             <div className="flex justify-end">
               <button className="text-xl font-bold">×</button>
@@ -118,7 +124,6 @@ const SignUp = () => {
                     className="absolute transform -translate-y-1/2 right-2 top-4 "
                   >
                     {showPassword ? (
-
                       <VisibilityIcon className="w-4 h-4" />
                     ) : (
                       <VisibilityOffIcon className="w-4 h-4" />
@@ -146,7 +151,6 @@ const SignUp = () => {
                     className="absolute transform -translate-y-1/2 right-2 top-4 "
                   >
                     {showPasswordConfirm ? (
-                      
                       <VisibilityIcon className="w-4 h-4" />
                     ) : (
                       <VisibilityOffIcon className="w-4 h-4" />
@@ -238,23 +242,28 @@ const SignUp = () => {
                         } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
                     />
                     {errors.birth_date && touched.birth_date && (
-                      <div className="mt-1 text-sm text-[#FE0404]">
+                      <div className="mt-1 text-sm text-red-500">
                         {errors.birth_date}
                       </div>
                     )}
                   </div>
                 </div>
-                <div className="flex items-center mb-4">
-                  <Field name="rememberMe" type="checkbox" className="mr-2" />
-                  <label htmlFor="rememberMe">Запомнить</label>
-                </div>
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-9 text-lg text-white bg-[#FE0404] rounded-lg hover:bg-red-600"
+                  className="w-full h-10 text-white bg-[#FE0404] rounded-lg hover:bg-opacity-90"
                 >
                   Зарегистрироваться
                 </button>
+                <div className="mt-4 text-center">
+                  <p className="text-sm sm:text-base text-[#242424]">
+                    Уже есть аккаунт?{" "}
+                    <Link to="/auth/sign-in" className="text-[#6b6bf7]">
+                      Авторизация
+                    </Link>
+                  </p>
+                </div>
               </Form>
             )}
           </Formik>
@@ -265,10 +274,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-
-
-
-
-
-

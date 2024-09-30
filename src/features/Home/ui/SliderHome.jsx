@@ -80,9 +80,7 @@ const SliderHome = () => {
                     г. Батайск, M. Горького, д. 84
                   </p>
                 </div>
-                <Link
-                  to="https://www.instagram.com/aiizhn/"
-                >
+                <Link to="https://www.instagram.com/aiizhn/">
                   <button className="text-white flex gap-2 justify-center w-[160px] p-2 items-center border border-white md:p-[6px] rounded-xl">
                     <img
                       src={instgram}

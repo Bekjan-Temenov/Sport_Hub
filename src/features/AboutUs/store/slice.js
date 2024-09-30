@@ -8,7 +8,7 @@ import {
 } from "./action";
 
 const aboutSlice = createSlice({
-  name: "about", // Changed from "circle" for better context
+  name: "about", 
   initialState: {
     circle: null,
     error: null,

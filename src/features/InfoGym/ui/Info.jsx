@@ -5,7 +5,7 @@ import ellipse1 from "../../../shared/assets/png/Ellipse1.png";
 
 function Info() {
   return (
-    <div className="relative text-white bg-black h-auto lg:h-[632px]  pb-[89px]  relative">
+    <div className=" text-white bg-black h-auto lg:h-[632px]  pb-[89px]  relative">
     <Container>
       <header className="flex flex-col p-3 ">
         <button className="py-2 ">

@@ -65,7 +65,7 @@ const data = [
 
 function Section() {
   const [open , setIsOpen] = useState(false)
-
+  
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
