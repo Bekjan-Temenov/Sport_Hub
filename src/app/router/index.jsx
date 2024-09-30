@@ -19,6 +19,7 @@ import { PaymentRoute } from "../../features/Payment/route";
 import { RouteProfile } from "../../features/Profile/route";
 import Trainer from "../../features/User/ui/Trainer";
 import Client from "../../features/User/ui/Client";
+import { AttendenceRoute } from "../../features/Attendense/Route";
 
 const MyRoutes = () => {
   return useRoutes([
@@ -55,6 +56,7 @@ const MyRoutes = () => {
         { path: "", element: <Schedule /> },
         PaymentRoute,
         RouteProfile,
+        AttendenceRoute
       ],
     },
   ]);
