@@ -7,6 +7,12 @@ export const signup = createAsyncThunk(
         try {
             const response = await api.register(userData);
             console.log("Ответ сервера:", response.data);
+
+            // Сохраняем токен в localStorage
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
+
             return response.data;
         } catch (error) {
             console.error("Ошибка регистрации:", error.response?.data || error.message);
@@ -14,6 +20,7 @@ export const signup = createAsyncThunk(
         }
     }
 );
+
 
 export const activateUser = createAsyncThunk(
     'auth/activateUser',
@@ -42,13 +49,20 @@ export const login = createAsyncThunk(
         try {
             const response = await api.login(credentials);
             console.log("Ответ сервера при входе:", response.data);
-            return response.data; // Убедитесь, что ответ содержит token
+
+            // Сохраняем токен в localStorage
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
+
+            return response.data;
         } catch (error) {
             console.error("Ошибка входа:", error.response?.data || error.message);
             return rejectWithValue(error.response?.data || 'Ошибка входа');
         }
     }
 );
+
 
 export const requestPasswordReset = createAsyncThunk(
     'auth/requestPasswordReset',
@@ -73,5 +87,14 @@ export const resetPasswordVerify = createAsyncThunk(
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
+    }
+);
+
+
+export const resendActivationCode = createAsyncThunk(
+    "user/resendActivationCode",
+    async (email) => {
+        const response = await api.resendActivationCode(email); // Убедитесь, что передаете только email
+        return response.data;
     }
 );
