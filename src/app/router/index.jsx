@@ -33,7 +33,8 @@ const MyRoutes = () => {
         ArenaRouter,
         ReviewRoute,
         GymRoute,
-        MainAdversRoute, // Из ветки feature/main_adversting
+        MainAdversRoute,
+         // Из ветки feature/main_adversting
       ],
     },
     {
@@ -46,6 +47,7 @@ const MyRoutes = () => {
         { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
         {path: "trainer", element: <Trainer/>},
         {path: "client", element: <Client/> },
+        
       ],
     },
     {
