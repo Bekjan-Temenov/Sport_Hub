@@ -9,8 +9,8 @@ import { fetchAdminHalls , deleteAdminHall} from "../store/action";
 
 
 function Gym() {
-  const dispatch = useDispatch(); // Создаем dispatch
-  const { halls, status } = useSelector((state) => state.section); // Получаем данные из Redux
+  const dispatch = useDispatch(); 
+  const { halls, status } = useSelector((state) => state.section); 
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = useCallback(() => {
@@ -18,17 +18,16 @@ function Gym() {
   }, []);
 
   const handleDeleteHall = (hallId) => {
-    dispatch(deleteAdminHall(hallId)); // Удаление зала
+    dispatch(deleteAdminHall(hallId)); 
   };
 
   useEffect(() => {
-    // Вызываем fetchAdminHalls при монтировании компонента
     dispatch(fetchAdminHalls());
   }, [dispatch]);
 
   return (
     <NavBarContainer>
-      <div className="flex flex-col text-white">
+      <div className="flex flex-col text-white ">
         <div className="flex items-center justify-between w-full">
           <h1 className="font-sans text-2xl font-bold">Залы</h1>
           <button

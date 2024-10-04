@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux"; // Importing useDispatch from react-redux
-import TimeSelector from "../../Adversting/ui/TimeSelector"; // Importing the TimeSelector component
-import { section } from "../store/action"; // Import your action creator for adding circles
+import { useDispatch } from "react-redux";
+import TimeSelector from "../../Adversting/ui/TimeSelector"; 
+import { section } from "../store/action"; 
 import Title from "./Title";
 import Inputs from "./Inputs";
 import OurAdvantages from "./OurAdvantages";
 import Schedule from "../../Adversting/ui/Schedule";
+
 const ModalSection = ({ setIsOpen }) => {
-  const dispatch = useDispatch(); // Initializing dispatch from Redux
+  const dispatch = useDispatch(); 
   const [image, setImage] = useState(null);
   const [formValues, setFormValues] = useState({
     title: "",
@@ -30,22 +31,20 @@ const ModalSection = ({ setIsOpen }) => {
     image: null,
   });
 
-  // Handler for input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
-  // Handler for image selection
   const handleImageChange = (e) => {
-    const files = e.target.files[0]; // Converting FileList to an array
+    const files = e.target.files[0]; 
     setImage(files);
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formValues); // Here you can send data to the server
-    dispatch(section({...formValues, image: image})); // Dispatching the action to add circle data
+    console.log("Form submitted:", formValues); 
+    dispatch(section({...formValues, image: image}));
   };
 
   return (
@@ -159,7 +158,6 @@ const ModalSection = ({ setIsOpen }) => {
             </div>
           </div>
 
-          {/* Submit button */}
           <div className="flex justify-center">
             <button
               type="submit"

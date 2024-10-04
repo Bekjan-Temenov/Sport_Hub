@@ -4,6 +4,7 @@ import sportSlice from "../features/Home/store/slice";
 import arenaSlice from "../features/Arena/store/slice";
 import aboutSlice from "../features/AboutUs/store/slice";
 import reviewReducer from "../features/InfoGym/store/slice";
+import adverstingSlice from "../features/Adversting/store/slice";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     arena: arenaSlice,
     section: aboutSlice,
     reviews: reviewReducer,
+    adversting: adverstingSlice,
   },
 });

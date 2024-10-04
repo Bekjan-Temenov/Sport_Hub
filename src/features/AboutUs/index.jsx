@@ -70,6 +70,8 @@ function Section() {
     setIsOpen((prev) => !prev);
   }, []);
 
+  
+  
   return (
     <NavBarContainer>
       <div className="flex flex-col text-white">
