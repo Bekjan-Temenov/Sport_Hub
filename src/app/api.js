@@ -7,4 +7,4 @@ const apiRoot = axios.create({
     }
 })
 
-export default apiRoot
+export default apiRoot;

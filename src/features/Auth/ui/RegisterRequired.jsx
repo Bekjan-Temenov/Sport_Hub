@@ -1,4 +1,3 @@
-import React from "react";
 import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
 import Container from "../../../shared/helpers/Container";
 import iconsBack from "../../../shared/assets/svg/iconsBack.svg";
