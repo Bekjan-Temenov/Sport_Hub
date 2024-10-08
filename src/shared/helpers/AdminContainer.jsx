@@ -7,5 +7,4 @@ function AdminContainer({ children }) {
     </div>
   );
 }
-
 export default AdminContainer;

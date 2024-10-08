@@ -63,7 +63,7 @@ const SignUp = () => {
             </div>
           </Link>
           <h1 className="text-2xl font-bold text-center">Регистрация</h1>
-          <h2 className="mb-4 text-l font-semibold">Создать аккаунт</h2>
+          <h2 className="mb-4 font-semibold text-l">Создать аккаунт</h2>
           <Formik
             initialValues={{
               email: "",
@@ -108,7 +108,7 @@ const SignUp = () => {
                     </div>
                   )}
                 </div>
-                <div className="mb-4 relative">
+                <div className="relative mb-4">
                   <Field
                     name="password"
                     type={showPassword ? "text" : "password"}
@@ -121,7 +121,7 @@ const SignUp = () => {
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="absolute right-2 top-4 transform -translate-y-1/2 "
+                    className="absolute transform -translate-y-1/2 right-2 top-4 "
                   >
                     {showPassword ? (
                       <VisibilityIcon className="w-4 h-4" />
@@ -135,7 +135,7 @@ const SignUp = () => {
                     </div>
                   )}
                 </div>
-                <div className="mb-4 relative">
+                <div className="relative mb-4">
                   <Field
                     name="password_confirm"
                     type={showPasswordConfirm ? "text" : "password"}
@@ -148,7 +148,7 @@ const SignUp = () => {
                   <button
                     type="button"
                     onClick={togglePasswordConfirmVisibility}
-                    className="absolute right-2 top-4 transform -translate-y-1/2 "
+                    className="absolute transform -translate-y-1/2 right-2 top-4 "
                   >
                     {showPasswordConfirm ? (
                       <VisibilityIcon className="w-4 h-4" />

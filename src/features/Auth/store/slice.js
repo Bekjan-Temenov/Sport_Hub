@@ -35,7 +35,6 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // Обработка signup
         builder
             .addCase(signup.pending, (state) => {
                 state.status = 'loading';

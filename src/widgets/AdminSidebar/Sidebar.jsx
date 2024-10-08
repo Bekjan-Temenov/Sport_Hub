@@ -95,7 +95,7 @@ const SidebarMenu = ({ title, img, open, onClick, items, setOpenStates }) => (
     {open && (
       <div className="w-full text-2xl">
         {items.map((item, index) => (
-          <Link to={item.to}>
+          <Link key={index} to={item.to}>
             <li
               onClick={() => {
                 setOpenStates((prev) => ({

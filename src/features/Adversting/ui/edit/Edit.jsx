@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import gallery from "../../../shared/assets/svg/admin_gallery.svg";
-import { postAdminAdversting, putAdversting } from "../store/action";
+import gallery from "../../../../shared/assets/svg/admin_gallery.svg";
+import { putAdversting } from "../../store/action"; // Removed postAdminAdversting import
 import { useDispatch } from "react-redux";
 
 const InputField = ({
@@ -22,12 +22,12 @@ const InputField = ({
   />
 );
 
-function ModalAdversting({ setIsOpen, adversting }) {
+function Edit({ setIsOpen, adversting }) {
   const dispatch = useDispatch();
-  const [isEditMode] = useState(!!adversting);
   const [imagePreview, setImagePreview] = useState(adversting?.file || gallery);
   const [loading, setLoading] = useState(false);
 
+  console.log(adversting);
   const [formValue, setFormValue] = useState({
     title: "",
     file: null,
@@ -75,11 +75,7 @@ function ModalAdversting({ setIsOpen, adversting }) {
     );
 
     try {
-      if (isEditMode) {
-        await dispatch(putAdversting({ id: adversting.id, putData: formData }));
-      } else {
-        await dispatch(postAdminAdversting(formData));
-      }
+      await dispatch(putAdversting({ id: adversting.id, putData: formData }));
       setIsOpen(false);
     } catch (error) {
       console.error("Submission failed:", error);
@@ -195,7 +191,7 @@ function ModalAdversting({ setIsOpen, adversting }) {
               value={formValue.site_name}
               onChange={handleInputChange}
               name="site_name"
-              class="w-[40%] p-2 border  bg-[#131313] rounded"
+              className="w-[40%] p-2 border bg-[#131313] rounded"
               type="name"
               placeholder="Название"
             />
@@ -203,14 +199,14 @@ function ModalAdversting({ setIsOpen, adversting }) {
               value={formValue.site_link}
               onChange={handleInputChange}
               name="site_link"
-              class="w-[40%] p-2 border  bg-[#131313] rounded"
+              className="w-[40%] p-2 border bg-[#131313] rounded"
               type="url"
               placeholder="Ссылка"
             />
           </div>
           <h1 className="font-sans text-2xl mb-[10px]">Рассрочка</h1>
           <input
-            class="w-[40%] p-2 border  bg-[#131313] rounded"
+            className="w-[40%] p-2 border bg-[#131313] rounded"
             type="text"
             name="installment_plan"
             value={formValue.installment_plan}
@@ -241,5 +237,5 @@ function ModalAdversting({ setIsOpen, adversting }) {
     </form>
   );
 }
-export default ModalAdversting;
 
+export default Edit;
