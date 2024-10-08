@@ -9,7 +9,7 @@ import ModalSection from "./ModalSection";
 
 function Section() {
   const dispatch = useDispatch();
-  const { circles, status, error } = useSelector((state) => state.section); // Извлечение данных из хранилища, включая ошибку
+  const { circles, status, error } = useSelector((state) => state.section)
   const [open, setIsOpen] = useState(false);
 
   const toggleMenu = useCallback(() => {
@@ -17,13 +17,12 @@ function Section() {
   }, []); 
 
   const handleDeleteCircle = (circleId) => {
-    dispatch(deleteAdminCircle(circleId)); // Удаление кружка
+    dispatch(deleteAdminCircle(circleId))
   };
-
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchAdminCircles()); // Вызов асинхронного действия
+      dispatch(fetchAdminCircles())
     }
   }, [status, dispatch]);
 

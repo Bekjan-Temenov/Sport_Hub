@@ -1,13 +1,13 @@
 import React from "react";
 
-function Website({ setIsOpen, loading, handleInputChange }) {
+function Website({ setIsOpen,formValues, loading, handleInputChange }) {
   return (
     <div className="flex flex-col mt-[50px]">
       <div className="flex flex-col">
         <h1 className="font-sans text-2xl mb-[10px]">Сайт</h1>
         <div className="flex items-center mb-[47px] justify-between">
           <input
-            value={handleInputChange.site_name}
+            value={formValues.site_name}
             onChange={handleInputChange}
             name="site_name"
             class="w-[40%] p-2 border  bg-[#131313] rounded"
@@ -15,7 +15,7 @@ function Website({ setIsOpen, loading, handleInputChange }) {
             placeholder="Название"
           />
           <input
-            value={handleInputChange.site_link}
+            value={formValues.site_link}
             onChange={handleInputChange}
             name="site_link"
             class="w-[40%] p-2 border  bg-[#131313] rounded"
@@ -28,7 +28,7 @@ function Website({ setIsOpen, loading, handleInputChange }) {
           class="w-[40%] p-2 border  bg-[#131313] rounded"
           type="text"
           name="installment_plan"
-          value={handleInputChange.installment_plan}
+          value={formValues.installment_plan}
           onChange={handleInputChange}
           placeholder="6\9\12 месяцев"
         />

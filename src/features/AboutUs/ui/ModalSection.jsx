@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import TimeSelector from "../../Adversting/ui/TimeSelector"; 
-import { section } from "../store/action"; 
+import TimeSelector from "../../Adversting/ui/TimeSelector";
+import { section } from "../store/action";
 import Title from "./Title";
 import Inputs from "./Inputs";
 import OurAdvantages from "./OurAdvantages";
 import Schedule from "../../Adversting/ui/Schedule";
 
 const ModalSection = ({ setIsOpen }) => {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   const [formValues, setFormValues] = useState({
     title: "",
@@ -27,7 +27,7 @@ const ModalSection = ({ setIsOpen }) => {
     day_of_week: "monday",
     start_time: "09:00",
     end_time: "18:00",
-    circle_images: [],
+    // circle_images: [],
     image: null,
   });
 
@@ -37,14 +37,15 @@ const ModalSection = ({ setIsOpen }) => {
   };
 
   const handleImageChange = (e) => {
-    const files = e.target.files[0]; 
+    const files = e.target.files[0];
     setImage(files);
   };
-  
+
+  console.log(formValues);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formValues); 
-    dispatch(section({...formValues, image: image}));
+    console.log("Form submitted:", formValues);
+    dispatch(section({ ...formValues, image: image }));
   };
 
   return (
@@ -54,7 +55,7 @@ const ModalSection = ({ setIsOpen }) => {
         className="absolute left-0 w-full h-full bg-black border border-red-500 opacity-70"
       ></div>
       <div className="bg-[#222224] top-[58px] w-[60%] right-[20%]  absolute flex flex-col px-[60px] py-[40px] rounded">
-        {/* <Title /> */}
+        
         <hr className="border-[#B6B7BC]  w-full mt-[50px] mb-[50px]" />
         <form onSubmit={handleSubmit} className="w-full p-4 mx-auto ">
           <Inputs

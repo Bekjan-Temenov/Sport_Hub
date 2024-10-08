@@ -77,3 +77,12 @@ export const deleteAdminCircle = createAsyncThunk(
     }
 );
 
+export const updateAdvertisement = createAsyncThunk(
+    'advertisements/updateAdvertisement',
+    async ({ id, data }) => {
+      const response = await axios.put(`/administrator/advertisements/${id}/`, {
+        data, // Данные из формы
+      });
+      return response.data; // Возвращаем обновленные данные
+    }
+  );

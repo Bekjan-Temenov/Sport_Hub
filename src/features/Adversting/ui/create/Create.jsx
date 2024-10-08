@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
-import gallery from "../../../shared/assets/svg/admin_gallery.svg";
-import { postAdminAdversting, putAdversting } from "../store/action";
+import React, { useState, useCallback } from "react";
+import gallery from "../../../../shared/assets/svg/admin_gallery.svg";
+import { postAdminAdversting } from "../../store/action"; // Import only the POST action
 import { useDispatch } from "react-redux";
 
 const InputField = ({
@@ -22,10 +22,9 @@ const InputField = ({
   />
 );
 
-function ModalAdversting({ setIsOpen, adversting }) {
+function Create({ setIsOpen }) {
   const dispatch = useDispatch();
-  const [isEditMode] = useState(!!adversting);
-  const [imagePreview, setImagePreview] = useState(adversting?.file || gallery);
+  const [imagePreview, setImagePreview] = useState(gallery);
   const [loading, setLoading] = useState(false);
 
   const [formValue, setFormValue] = useState({
@@ -41,15 +40,6 @@ function ModalAdversting({ setIsOpen, adversting }) {
     title2: "",
     title3: "",
   });
-
-  useEffect(() => {
-    if (adversting) {
-      setFormValue((prev) => ({
-        ...prev,
-        ...adversting,
-      }));
-    }
-  }, [adversting]);
 
   const handleImageClick = useCallback((e) => {
     const file = e.target.files[0];
@@ -75,11 +65,7 @@ function ModalAdversting({ setIsOpen, adversting }) {
     );
 
     try {
-      if (isEditMode) {
-        await dispatch(putAdversting({ id: adversting.id, putData: formData }));
-      } else {
-        await dispatch(postAdminAdversting(formData));
-      }
+      await dispatch(postAdminAdversting(formData));
       setIsOpen(false);
     } catch (error) {
       console.error("Submission failed:", error);
@@ -91,9 +77,7 @@ function ModalAdversting({ setIsOpen, adversting }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex items-center justify-between w-full">
-        <h1 className="ml-[50px] font-sans text-3xl font-semibold">
-          Заголовок
-        </h1>
+        <h1 className="ml-[50px] font-sans text-3xl font-semibold">Заголовок</h1>
         <div className="flex items-center cursor-pointer">
           <div className="w-[355px] h-[225px] border rounded bg-[#131313]">
             <img
@@ -106,9 +90,7 @@ function ModalAdversting({ setIsOpen, adversting }) {
         </div>
       </div>
       <hr className="border-[#B6B7BC] w-full mt-[15px] mb-[50px]" />
-      <h1 className="mb-3 font-sans text-2xl font-semibold">
-        Добавить обзор активности
-      </h1>
+      <h1 className="mb-3 font-sans text-2xl font-semibold">Добавить обзор активности</h1>
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-y-[50px] ">
           <input
@@ -195,22 +177,22 @@ function ModalAdversting({ setIsOpen, adversting }) {
               value={formValue.site_name}
               onChange={handleInputChange}
               name="site_name"
-              class="w-[40%] p-2 border  bg-[#131313] rounded"
-              type="name"
+              className="w-[40%] p-2 border bg-[#131313] rounded"
+              type="text"
               placeholder="Название"
             />
             <input
               value={formValue.site_link}
               onChange={handleInputChange}
               name="site_link"
-              class="w-[40%] p-2 border  bg-[#131313] rounded"
+              className="w-[40%] p-2 border bg-[#131313] rounded"
               type="url"
               placeholder="Ссылка"
             />
           </div>
           <h1 className="font-sans text-2xl mb-[10px]">Рассрочка</h1>
           <input
-            class="w-[40%] p-2 border  bg-[#131313] rounded"
+            className="w-[40%] p-2 border bg-[#131313] rounded"
             type="text"
             name="installment_plan"
             value={formValue.installment_plan}
@@ -241,5 +223,4 @@ function ModalAdversting({ setIsOpen, adversting }) {
     </form>
   );
 }
-export default ModalAdversting;
-
+export default Create;

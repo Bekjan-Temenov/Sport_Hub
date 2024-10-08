@@ -48,6 +48,7 @@ const MyRoutes = () => {
         { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
         {path: "trainer", element: <Trainer/>},
         {path: "client", element: <Client/> },
+        
       ],
     },
     {

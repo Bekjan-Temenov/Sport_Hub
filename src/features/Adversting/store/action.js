@@ -67,3 +67,19 @@ export const postShedule = createAsyncThunk(
     }
   }
 )
+export const putAdversting = createAsyncThunk(
+  "admin/putAdversting",
+  async ({ id, putData }, { rejectWithValue }) => {
+    console.log(id); 
+    try {
+      const res = await api.putAdversting(id, putData); 
+      console.log("редактирована реклама:", res.data);
+      return res.data; 
+    } catch (error) {
+      console.error("ошибка редакторе рекламы:", error);
+      const message =
+        error.response?.data?.message || "Ошибка редактировании рекламы.";
+      return rejectWithValue(message);
+    }
+  }
+);
