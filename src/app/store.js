@@ -4,6 +4,7 @@ import authSlice from '../features/Auth/store/slice'
 import reviewReducer from '../features/InfoGym/store/slice'
 import aboutReducer from '../features/AboutUs/store/slice'
 import trainersReducer from '../features/User/store/slice'
+import clientsReducer from '../features/User/store/slice'
 
 
 export const store = configureStore({
@@ -11,8 +12,8 @@ export const store = configureStore({
         auth: authSlice,
         reviews: reviewReducer,
         about: aboutReducer,
-        trainers: trainersReducer
-
+        trainers: trainersReducer,
+        clients: clientsReducer
     }
 })
 

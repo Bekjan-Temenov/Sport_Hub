@@ -9,8 +9,7 @@ export const signup = createAsyncThunk(
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }
-      
-      return { email: userData.email, response: response.data }
+      return { email: userData.email, response: response.data };
     } catch (error) {
       console.error(
         "Ошибка регистрации:",
@@ -87,9 +86,25 @@ export const resetPasswordVerify = createAsyncThunk(
   async (reset_code, { rejectWithValue }) => {
     try {
       const response = await api.resetPasswordVerify(reset_code);
-      return response.data;
+      return { email: reset_code.email, response: response.data };
     } catch (error) {
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const resetPasswordVerifyCode = createAsyncThunk(
+  "user/resetPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await api.resetPasswordVerifyCode(email);
+      console.log(email, "userData.email");
+      return response.data;
+    } catch (error) {
+      console.error("Ошибка при повторной отправке кода:", error);
+      return rejectWithValue(
+        error.response?.data || "Ошибка при повторной отправке кода"
+      );
     }
   }
 );

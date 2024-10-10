@@ -45,7 +45,6 @@ const SignUp = () => {
   };
   const handleSubmit = (values) => {
     dispatch(signup(values));
-    // dispatch(setEmail(values.email));
   };
 
   return (

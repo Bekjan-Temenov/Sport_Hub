@@ -1,36 +1,81 @@
-import { createSlice} from '@reduxjs/toolkit';
-import { createTrainer } from './action';
-
-
+import { createSlice } from "@reduxjs/toolkit";
+import { createClient, createTrainer, getClients, getTrainers } from "./action";
 
 const trainerSlice = createSlice({
-    name: 'trainers',
-    initialState: {
-        trainers: [],
-        loading: false,
-        error: null,
-    },
-    reducers: {
-        resetError: (state) => {
-            state.error = null;
-        },
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(createTrainer.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(createTrainer.fulfilled, (state, action) => {
-                state.loading = false;
-                state.trainers.push(action.payload); // Добавляем нового тренера в массив
-            })
-            .addCase(createTrainer.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload; // Устанавливаем ошибку
-            });
-    },
+  name: "trainers",
+  initialState: {
+    trainers: [],
+    status: "idle", // idle | loading | succeeded | failed
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // Обработка получения тренеров
+      .addCase(getTrainers.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getTrainers.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.trainers = action.payload;
+      })
+      .addCase(getTrainers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+
+      // Обработка создания тренера
+      .addCase(createTrainer.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createTrainer.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.trainers.push(action.payload); // Добавляем нового тренера в список
+      })
+      .addCase(createTrainer.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  },
 });
 
-export const { resetError } = trainerSlice.actions;
-export default trainerSlice.reducer;
+const clientSlice = createSlice({
+  name: "clients",
+  initialState: {
+    clients: [],
+    status: "idle", // idle | loading | succeeded | failed
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // Обработка получения клиентов
+      .addCase(getClients.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getClients.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.clients = action.payload;
+      })
+      .addCase(getClients.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+
+      // Обработка создания клиента
+      .addCase(createClient.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(createClient.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.clients.push(action.payload); // Добавляем нового клиента в список
+      })
+      .addCase(createClient.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  },
+});
+
+export default { trainerSlice, clientSlice };
+export { getClients, getTrainers, createClient, createTrainer };
