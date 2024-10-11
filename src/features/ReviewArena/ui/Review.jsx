@@ -4,7 +4,6 @@ import Container from "../../../shared/helpers/Container";
 import fon from "../../../shared/assets/png/ReviewsFon.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
-// import CloseIcon from '@mui/icons-material/Close';
 import { postReview } from "../../InfoGym/store/action";
 import clsx from 'clsx';
 
@@ -45,7 +44,7 @@ const Review = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="w-full h-auto py-[58px] bg-center bg-cover"
+      className="w-full h-auto  py-[58px] bg-center bg-cover"
     >
       <Container>
         <div className="md:p-6 p-2 flex flex-col gap-1 relative mx-auto lg:w-[70%] w-full">
@@ -53,10 +52,10 @@ const Review = () => {
             <CloseIcon className="absolute text-white cursor-pointer right-1 top-2 md:top-5 md:right-12" />
           </Link>
           <h2 className="text-xl font-medium text-white lg:text-4xl">
-            What do you think?
+          Что вы думаете ?
           </h2>
           <p className="text-sm text-gray-400">
-            Please give us your rating
+          Пожалуйста, дайте свою оценку
           </p>
           <div className="flex gap-2 mb-4">
             {[...Array(5)].map((_, index) => (

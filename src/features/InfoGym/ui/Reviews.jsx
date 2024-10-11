@@ -5,7 +5,7 @@ const Reviews = ({ content, rating, author, photo }) => {
   const safeRating = Math.max(0, Math.min(5, rating));
 
   return (
-    <div className="lg:w-[80%] w-[100%]">
+    <div className="lg:w-[80%] w-[100%] border">
       <div className="lg:p-6 p-3 text-white bg-[#05050599] flex flex-col lg:gap-9 gap-4 shadow-lg">
         <p className="text-sm md:text-xs">{content}</p>
         <span className="flex text-red-500 ">

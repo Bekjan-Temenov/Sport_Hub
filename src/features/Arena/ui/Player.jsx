@@ -19,7 +19,7 @@ function Player() {
 
   return (
     <Container>
-      <div className="relative w-[100%] max-h-[548px] mx-auto my-[50px]">
+      <div className="relative w-[100%] border max-h-[548px] mx-auto my-[50px]">
         <video
           ref={videoRef}
           onClick={togglePlay}

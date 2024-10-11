@@ -50,6 +50,24 @@ const authSlice = createSlice({
         state.email = action.payload.email; // Сохранение email
         localStorage.setItem("email", action.payload.email); // Сохранение в localStorage
       })
+    extraReducers: (builder) => {
+        builder
+            .addCase(signup.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(signup.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.user = action.payload;
+                state.email = action.payload.email; // Сохранение email
+                localStorage.setItem('email', action.payload.email); // Сохранение в localStorage
+            })
+
+            .addCase(signup.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            
 
       .addCase(signup.rejected, (state, action) => {
         state.status = "failed";
