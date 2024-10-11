@@ -1,15 +1,32 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/action";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
-  
+  const navigate = useNavigate();
+  // const [email, setEmail] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("email");
+    if (savedEmail) {
+      // setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
+
   const validationSchema = Yup.object({
     email: Yup.string().email("Неверный формат email").required("Обязательно"),
     password: Yup.string().required("Обязательно"),
@@ -31,18 +48,24 @@ const SignIn = () => {
           Добро пожаловать!
         </h2>
         <p className="mb-6 text-gray-500 text-start">Войдите в свой аккаунт!</p>
+
         <Formik 
           initialValues={{ email: "", password: "", remember: false }}
+
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
             try {
               // Отправляем данные пользователя для входа
+              if (values.remember) {
+                localStorage.setItem("email", values.email);
+              } else {
+                localStorage.removeItem("email");
+              }
               const result = await dispatch(login(values)).unwrap();
               console.log("Вход успешен:", result);
-
               // Сохранение токена в localStorage
               if (result.token) {
-                localStorage.setItem('token', result.token);
+                localStorage.setItem("token", result.token);
               }
 
               // Перенаправляем пользователя после успешного входа
@@ -55,7 +78,7 @@ const SignIn = () => {
             }
           }}
         >
-          {({ isSubmitting }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form className="space-y-4">
               <div className="mb-4">
                 <Field
@@ -70,13 +93,24 @@ const SignIn = () => {
                   className="mt-1 text-sm text-red-500"
                 />
               </div>
-              <div className="mb-4">
+              <div className="mb-4 relative">
                 <Field
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Пароль"
-                  className="w-full h-10 px-4 bg-gray-100 border-2 rounded-lg input"
+                  className={ `${errors.password && touched.password? "border-red-500"  : "border-gray-300"} w-full h-10 px-4 border-2 rounded-lg bg-gray-100`}
                 />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-2 top-[18px] transform -translate-y-1/2"
+                >
+                  {showPassword ? (
+                    <VisibilityIcon className="display-flex justify-center align-items-center w-4 h-4" />
+                  ) : (
+                    <VisibilityOffIcon className="w-4 h-4" />
+                  )}
+                </button>
                 <ErrorMessage
                   name="password"
                   component="div"
@@ -88,7 +122,7 @@ const SignIn = () => {
                   <Field name="remember" type="checkbox" className="mr-2" />
                   <label>Запомнить</label>
                 </div>
-                <Link to='/auth/forgot' className="mt-2 text-blue-500 sm:mt-0">
+                <Link to="/auth/forgot" className="mt-2 text-blue-500 sm:mt-0">
                   Забыли пароль?
                 </Link>
               </div>

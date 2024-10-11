@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
+import { Formik, Field, Form } from "formik";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
-import Container from "../../../shared/helpers/Container";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { signup } from "../store/action";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Container from "../../../shared/helpers/Container";
+import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email("Неверный email").required("Обязательно"),
   password: Yup.string()
-    .min(5, "Пароль должен содержать не менее 5 символов")
+    .min(5, "Пароль должен содержать 8 символов")
     .matches(/[0-9]/, "Пароль должен включать хотя бы одну цифру")
     .matches(/[A-Z]/, "Пароль должен содержать хотя бы одну заглавную букву")
     .required("Обязательно"),
@@ -35,6 +35,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -42,17 +43,20 @@ const SignUp = () => {
   const togglePasswordConfirmVisibility = () => {
     setShowPasswordConfirm((prev) => !prev);
   };
+  const handleSubmit = (values) => {
+    dispatch(signup(values));
+  };
 
   return (
     <div
       className="
-    flex items-center justify-center w-full min-h-screen 
-    bg-no-repeat bg-center bg-cover 
-    sm:bg-[url(${istockphoto})] 
-    md:bg-[url(${istockphoto})] 
-    lg:bg-[url(${istockphoto})]
-    xl:bg-[url(${istockphoto})]
-  "
+      flex items-center justify-center w-full min-h-screen 
+      bg-no-repeat bg-center bg-cover 
+      sm:bg-[url(${istockphoto})] 
+      md:bg-[url(${istockphoto})] 
+      lg:bg-[url(${istockphoto})]
+      xl:bg-[url(${istockphoto})]
+    "
       style={{ backgroundImage: `url(${istockphoto})` }}
     >
       <Container>
@@ -80,7 +84,7 @@ const SignUp = () => {
               dispatch(signup(values))
                 .unwrap()
                 .then(() => {
-                  navigate("/auth/code");
+                  navigate("/auth/code", { state: { email: values.email } });
                 })
                 .catch((error) => {
                   console.error("Ошибка регистрации:", error);
@@ -97,10 +101,11 @@ const SignUp = () => {
                     name="email"
                     type="email"
                     placeholder="E-mail"
-                    className={`${errors.email && touched.email
-                      ? "border-red-500"
-                      : "border-gray-300"
-                      } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
+                    className={`${
+                      errors.email && touched.email
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
                   />
                   {errors.email && touched.email && (
                     <div className="mt-1 text-sm text-red-500">
@@ -108,23 +113,27 @@ const SignUp = () => {
                     </div>
                   )}
                 </div>
-                <div className="relative mb-4">
+                <div className="mb-4 relative display-flex justify-content-center align-items-center">
+
                   <Field
                     name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Пароль"
-                    className={`${errors.password && touched.password
-                      ? "border-red-500"
-                      : "border-gray-300"
-                      } w-full h-10 px-4 border-2 rounded-lg bg-gray-100`}
+                    className={`${
+                      errors.password && touched.password
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } w-full h-10 px-4 border-2 rounded-lg bg-gray-100`}
                   />
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
+
                     className="absolute transform -translate-y-1/2 right-2 top-4 "
+
                   >
                     {showPassword ? (
-                      <VisibilityIcon className="w-4 h-4" />
+                      <VisibilityIcon className="display-flex justify-center align-items-center w-4 h-4" />
                     ) : (
                       <VisibilityOffIcon className="w-4 h-4" />
                     )}
@@ -140,15 +149,18 @@ const SignUp = () => {
                     name="password_confirm"
                     type={showPasswordConfirm ? "text" : "password"}
                     placeholder="Подтвердите пароль"
-                    className={`${errors.password_confirm && touched.password_confirm
-                      ? "border-red-500"
-                      : "border-gray-300"
-                      } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
+                    className={`${
+                      errors.password_confirm && touched.password_confirm
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } w-full h-9 px-4 pr-10 border-2 rounded-lg bg-gray-100`}
                   />
                   <button
                     type="button"
                     onClick={togglePasswordConfirmVisibility}
-                    className="absolute transform -translate-y-1/2 right-2 top-4 "
+
+                    className="absolute right-2 top-[18px] transform -translate-y-1/2 "
+
                   >
                     {showPasswordConfirm ? (
                       <VisibilityIcon className="w-4 h-4" />
@@ -170,11 +182,12 @@ const SignUp = () => {
                     <Field
                       name="first_name"
                       type="text"
-                      placeholder="Имя"
-                      className={`${errors.first_name && touched.first_name
-                        ? "border-red-500"
-                        : "border-gray-300"
-                        } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
+                      // placeholder="Имя"
+                      className={`${
+                        errors.first_name && touched.first_name
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
                     />
                     {errors.first_name && touched.first_name && (
                       <div className="mt-1 text-sm text-[#FE0404]">
@@ -189,11 +202,12 @@ const SignUp = () => {
                     <Field
                       name="last_name"
                       type="text"
-                      placeholder="Фамилия"
-                      className={`${errors.last_name && touched.last_name
-                        ? "border-red-500"
-                        : "border-gray-300"
-                        } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
+                      // placeholder="Фамилия"
+                      className={`${
+                        errors.last_name && touched.last_name
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
                     />
                     {errors.last_name && touched.last_name && (
                       <div className="mt-1 text-sm text-[#FE0404]">
@@ -210,16 +224,15 @@ const SignUp = () => {
                     <PhoneInput
                       country="us"
                       value={""}
-                      onChange={(phone) =>
-                        setFieldValue("phone_number", phone)
-                      }
+                      onChange={(phone) => setFieldValue("phone_number", phone)}
                       inputProps={{
                         name: "phone_number",
                         required: true,
-                        className: `${errors.phone_number && touched.phone_number
-                          ? "border-red-500"
-                          : "border-gray-300"
-                          } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`,
+                        className:
+                          (errors.phone_number && touched.phone_number
+                            ? "border-red-500"
+                            : "border-gray-300") +
+                          " w-[190] h-9 px-4 border-2 rounded-lg bg-gray-100 ml-6",
                       }}
                     />
                     {errors.phone_number && touched.phone_number && (
@@ -236,10 +249,11 @@ const SignUp = () => {
                       name="birth_date"
                       type="date"
                       placeholder="Дата рождения"
-                      className={`${errors.birth_date && touched.birth_date
-                        ? "border-red-500"
-                        : "border-gray-300"
-                        } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
+                      className={`${
+                        errors.birth_date && touched.birth_date
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      } w-full h-9 px-4 border-2 rounded-lg bg-gray-100`}
                     />
                     {errors.birth_date && touched.birth_date && (
                       <div className="mt-1 text-sm text-red-500">
@@ -252,6 +266,7 @@ const SignUp = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
+                  onClick={handleSubmit}
                   className="w-full h-10 text-white bg-[#FE0404] rounded-lg hover:bg-opacity-90"
                 >
                   Зарегистрироваться
