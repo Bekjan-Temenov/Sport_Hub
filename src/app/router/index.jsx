@@ -45,7 +45,7 @@ const MyRoutes = () => {
         AboutUsRoute, 
         { path: "reviewn", element: <ReviewN /> },
         { path: "paymantn", element: <Paymentn /> },
-        { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
+        { path: "paymantn", element: <Paymentn /> }, 
         {path: "trainer", element: <Trainer/>},
         {path: "client", element: <Client/> },
         

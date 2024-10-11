@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux"; // Импортируем useDispatch и useSelector
-import NavBarContainer from "../../../shared/helpers/NavBarContainer";
-import log from "../../../shared/assets/svg/admin_logo.svg";
-import delate from "../../../shared/assets/svg/admin-delete.svg";
-import edit from "../../../shared/assets/svg/admin-edit.svg";
+import { useDispatch, useSelector } from "react-redux";
+import NavBarContainer from "../../../../shared/helpers/NavBarContainer";
+import log from "../../../../shared/assets/svg/admin_logo.svg";
+import delate from "../../../../shared/assets/svg/admin-delete.svg";
+import edit from "../../../../shared/assets/svg/admin-edit.svg";
 import ModalGym from "./ModalGym";
-import { fetchAdminHalls , deleteAdminHall} from "../store/action";
-
+import { fetchAdminHalls, deleteAdminHall } from "../../store/action";
+import FullScreenModal from "../../../../shared/FullScreenModal/FullScreenModal";
 
 function Gym() {
-  const dispatch = useDispatch(); 
-  const { halls, status } = useSelector((state) => state.section); 
+  const dispatch = useDispatch();
+  const { halls, status } = useSelector((state) => state.about);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = useCallback(() => {
@@ -18,7 +18,7 @@ function Gym() {
   }, []);
 
   const handleDeleteHall = (hallId) => {
-    dispatch(deleteAdminHall(hallId)); 
+    dispatch(deleteAdminHall(hallId));
   };
 
   useEffect(() => {
@@ -37,11 +37,15 @@ function Gym() {
             + Добавить
           </button>
         </div>
-        {isOpen && <ModalGym setIsOpen={setIsOpen} />}
+        {isOpen && (
+          <FullScreenModal setIsOpen={setIsOpen}>
+            <ModalGym setIsOpen={toggleMenu} />
+          </FullScreenModal>
+        )}
         <hr className="border-[#B6B7BC] border w-full mt-[15px] mb-[50px]" />
 
-        {status === 'loading' && <p>Загрузка...</p>}
-        {status === 'failed' && <p>Ошибка при загрузке залов.</p>}
+        {status === "loading" && <p>Загрузка...</p>}
+        {status === "failed" && <p>Ошибка при загрузке залов.</p>}
 
         <div className="flex flex-col gap-y-[30px]">
           {halls.map((item, index) => (
@@ -51,7 +55,11 @@ function Gym() {
             >
               <div className="flex items-center justify-between w-[49%]">
                 <div className="flex items-center gap-x-4">
-                  <img className="w-[35px] h-[35px] mb-[5px]" src={log} alt="" />
+                  <img
+                    className="w-[35px] h-[35px] mb-[5px]"
+                    src={log}
+                    alt=""
+                  />
                   <h1 className="text-2xl font-semibold font-comfortaa text-[#FF6600]">
                     {item.title}
                   </h1>
@@ -60,7 +68,12 @@ function Gym() {
               </div>
 
               <div className="flex items-center ml-[50px]">
-                <img className="cursor-pointer" src={delate} alt="Удалить" onClick={() => handleDeleteHall(item.id)} />
+                <img
+                  className="cursor-pointer"
+                  src={delate}
+                  alt="Удалить"
+                  onClick={() => handleDeleteHall(item.id)}
+                />
                 <hr className="w-[1px] h-[36px] mx-[25px] border border-[#B6B7BC]" />
                 <img className="cursor-pointer" src={edit} alt="" />
               </div>

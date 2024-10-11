@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import TimeSelector from "../../Adversting/ui/TimeSelector";
-import { section } from "../store/action";
-import Title from "./Title";
-import Inputs from "./Inputs";
-import OurAdvantages from "./OurAdvantages";
-import Schedule from "../../Adversting/ui/Schedule";
+import TimeSelector from "../../../../Adversting/ui/TimeSelector";
+import { section } from "../../../store/action";
+import Title from "../../Title";
+import Inputs from "../../Inputs";
+import OurAdvantages from "../../OurAdvantages";
+import Schedule from "../../../../Adversting/ui/Schedule";
 
-const ModalSection = ({ setIsOpen }) => {
+const Create = ({ setIsOpen }) => {
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   const [formValues, setFormValues] = useState({
@@ -27,8 +27,7 @@ const ModalSection = ({ setIsOpen }) => {
     day_of_week: "monday",
     start_time: "09:00",
     end_time: "18:00",
-    // circle_images: [],
-    image: null,
+    image: "https://cms.imgworlds.com/assets/473cfc50-242c-46f8-80be-68b867e28919.jpg?key=home-gallery",
   });
 
   const handleInputChange = (e) => {
@@ -44,18 +43,26 @@ const ModalSection = ({ setIsOpen }) => {
   console.log(formValues);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formValues);
-    dispatch(section({ ...formValues, image: image }));
+    
+    const formData = new FormData();
+    
+    Object.keys(formValues).forEach((key) => {
+      formData.append(key, formValues[key]);
+    });
+    
+    if (image) {
+      formData.append('image', image);
+    }
+  
+    console.log("FormData submitted:", formData);
+  
+    dispatch(section(formData));
   };
+  
 
   return (
-    <div className="absolute top-0 border left-0 z-50 w-full h-[295%]">
-      <div
-        onClick={() => setIsOpen(false)}
-        className="absolute left-0 w-full h-full bg-black border border-red-500 opacity-70"
-      ></div>
-      <div className="bg-[#222224] top-[58px] w-[60%] right-[20%]  absolute flex flex-col px-[60px] py-[40px] rounded">
-        
+      <div className="flex flex-col rounded">
+    
         <hr className="border-[#B6B7BC]  w-full mt-[50px] mb-[50px]" />
         <form onSubmit={handleSubmit} className="w-full p-4 mx-auto ">
           <Inputs
@@ -102,7 +109,6 @@ const ModalSection = ({ setIsOpen }) => {
             </select>
           </div>
 
-          {/* Time selection */}
           <div className="flex gap-4 mb-6">
             <div className="flex flex-col">
               <label className="mb-2 text-lg font-medium">Начало</label>
@@ -134,7 +140,6 @@ const ModalSection = ({ setIsOpen }) => {
             </div>
           </div>
 
-          {/* Image selection */}
           <div className="mb-6">
             <label className="block mb-2 text-lg font-medium">
               Изображения круга
@@ -169,8 +174,7 @@ const ModalSection = ({ setIsOpen }) => {
           </div>
         </form>
       </div>
-    </div>
   );
 };
 
-export default ModalSection;
+export default Create;

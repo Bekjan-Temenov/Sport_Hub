@@ -85,4 +85,4 @@ function Inputs({ handleInputChange, formValues }) {
   );
 }
 
-export default Inputs; // src/components/Inputs.js
+export default Inputs; 

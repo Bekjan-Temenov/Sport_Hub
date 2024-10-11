@@ -5,6 +5,7 @@ import {
   section,
   deleteAdminCircle,
   deleteAdminHall,
+  postHalls,
 } from "./action";
 
 const aboutSlice = createSlice({
@@ -64,6 +65,19 @@ const aboutSlice = createSlice({
       })
       .addCase(deleteAdminCircle.rejected, (state, action) => {
         state.error = action.payload;
+      })
+
+      .addCase(postHalls.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(postHalls.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.circle = action.payload
+      })
+      .addCase(postHalls.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Произошла ошибка"; 
       });
   },
 });

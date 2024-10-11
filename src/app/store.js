@@ -11,7 +11,7 @@ export const store = configureStore({
     auth: authSlice,
     sport: sportSlice,
     arena: arenaSlice,
-    section: aboutSlice,
+    about: aboutSlice,
     reviews: reviewReducer,
     adversting: adverstingSlice,
   },
