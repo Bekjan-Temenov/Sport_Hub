@@ -19,6 +19,7 @@ import { MainAdversRoute } from "../../features/MainAdversting/route";
 import Schedule from "../../features/Shedule/ui/Schedule";
 import { PaymentRoute } from "../../features/Payment/route";
 import { RouteProfile } from "../../features/Profile/route";
+import { AttendenceRoute } from "../../features/Attendense/Route";
 
 const MyRoutes = () => {
   return useRoutes([
@@ -33,7 +34,7 @@ const MyRoutes = () => {
         ArenaRouter,
         ReviewRoute,
         GymRoute,
-        MainAdversRoute, // Из ветки feature/main_adversting
+        MainAdversRoute, 
       ],
     },
     {
@@ -41,8 +42,9 @@ const MyRoutes = () => {
       element: <AdminLayout />,
       children: [
         { path: "", element: <Adversting /> },
-        AboutUsRoute, // Из ветки feature/main_adversting
+        AboutUsRoute, 
         { path: "reviewn", element: <ReviewN /> },
+        { path: "paymantn", element: <Paymentn /> },
         { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
         { path: "trainer", element: <Trainer /> },
         { path: "client", element: <Client /> },
@@ -55,6 +57,7 @@ const MyRoutes = () => {
         { path: "", element: <Schedule /> },
         PaymentRoute,
         RouteProfile,
+        AttendenceRoute
       ],
     },
   ]);

@@ -9,7 +9,7 @@ import ModalSection from "./ModalSection";
 
 function Section() {
   const dispatch = useDispatch();
-  const { circles, status, error } = useSelector((state) => state.about); // Извлечение данных из хранилища, включая ошибку
+  const { circles, status, error } = useSelector((state) => state.section)
   const [open, setIsOpen] = useState(false);
 
   const toggleMenu = useCallback(() => {
@@ -17,19 +17,18 @@ function Section() {
   }, []); 
 
   const handleDeleteCircle = (circleId) => {
-    dispatch(deleteAdminCircle(circleId)); // Удаление кружка
+    dispatch(deleteAdminCircle(circleId))
   };
-
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchAdminCircles()); // Вызов асинхронного действия
+      dispatch(fetchAdminCircles())
     }
   }, [status, dispatch]);
 
   return (
     <NavBarContainer>
-      <div className="flex flex-col text-white">
+      <div className="flex flex-col text-white ">
         <div className="flex items-center justify-between w-full">
           <h1 className="font-sans text-2xl font-bold">Кружки</h1>
           <button
@@ -43,14 +42,13 @@ function Section() {
         <hr className="border-[#B6B7BC] border w-full mt-[15px] mb-[50px]" />
 
         <div className="flex flex-col gap-y-[30px]">
-          {/* Проверяем статус и выводим соответствующие сообщения */}
           {status === 'loading' && <p>Загрузка кружков...</p>}
           {status === 'failed' && <p>Ошибка: {error}</p>}
 
           {status === 'succeeded' && circles.length > 0 ? (
             circles.map((item) => (
               <div
-                key={item.id} // Используйте уникальный идентификатор
+                key={item.id} 
                 className="flex bg-[#252525] rounded-md items-center justify-between px-[20px] py-[15px]"
               >
                 <div className="flex items-center justify-between w-[60%]">

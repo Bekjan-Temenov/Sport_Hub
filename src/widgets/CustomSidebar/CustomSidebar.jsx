@@ -6,6 +6,7 @@ import setting from "../../shared/assets/svg/custom_attendance.svg";
 import set from "../../shared/assets/svg/custom_oplata.svg";
 import getout from "../../shared/assets/svg/admin_getout.svg";
 
+
 const CustomSidebar = () => {
   const [activeItem, setActiveItem] = useState("Расписание");
 
@@ -31,6 +32,7 @@ const CustomSidebar = () => {
         <SidebarItem
           text="Посещаемость"
           img={setting}
+          to="/profile/attendence"
           isActive={activeItem === "Посещаемость"}
           onClick={() => handleItemClick("Посещаемость")}
         />

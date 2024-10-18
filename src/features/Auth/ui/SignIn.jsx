@@ -48,8 +48,10 @@ const SignIn = () => {
           Добро пожаловать!
         </h2>
         <p className="mb-6 text-gray-500 text-start">Войдите в свой аккаунт!</p>
-        <Formik
-          initialValues={{ email: "", password: "", remember: rememberMe }}
+
+        <Formik 
+          initialValues={{ email: "", password: "", remember: false }}
+
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
             try {

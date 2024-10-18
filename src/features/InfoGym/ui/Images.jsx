@@ -3,8 +3,8 @@ import Container from "../../../shared/helpers/Container";
 
 const images = [
   "https://olympic.kz/images/1627437788.png",
-  "https://scontent.ffru1-4.fna.fbcdn.net/v/t1.6435-9/188131458_246983717223789_2363293312121498488_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=265h4sm9DoYQ7kNvgF5PU_z&_nc_ht=scontent.ffru1-4.fna&oh=00_AYAVXp4UK7ohLEyIe4IYvPaef07gDLZNlG9bNVZZzIIuLg&oe=66F010BE",
-  "https://s3-alpha-sig.figma.com/img/338c/ba6d/aaf6d9335e86c71b269fc0220e675ece?Expires=1725235200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=NicOIFt2wtMVrSn~MqTaG6b~29gAF3zsbIzTcbOgcSZoXD2IroinaNOutL6bzs5YIwbfLKZWLcxzOJN8VvhASicThbmGo6yBLtJ-j7v~3dDrWxyPoQOj8hshhtcE0LNd4bANcgEqbI3120ds9fMoEluckbWRh-LhxtLPA0Z2~XR4-J4kLqo5jXsQHqTD5wDWzNDd1f1rkAEy~r-WrR~M0t5TjVwx4uSRqVmrFglzqECSCYWapPjGZHxHal5bXjmnuaiNN7wQcVb3neEPLvJgYk7~allLLqeEG6eoWgEeabVvMl0~f39nmOmzO5Ux0C6ocerPBe3gL6BUjctUrepwjQ__",
+  "https://www.ballgames.ru/img/volleyball-gamers-H4.jpg",
+  "https://sport.bsmu.by/assets/cache_image/images/service/volebol_750x400_4f5.jpg",
 ];
 function Images() {
   const [activeImage, setactiveImage] = useState(images[0]);

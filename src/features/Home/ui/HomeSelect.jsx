@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import search from '../../../shared/assets/svg/search.svg';
 import Container from '../../../shared/helpers/Container';
-import { sports } from '../../../shared/api/api';
 
 const HomeSelect = () => {
     const options = [
