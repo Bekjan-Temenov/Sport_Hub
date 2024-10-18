@@ -1,4 +1,3 @@
-import React from "react";
 
 const Reviews = ({ content, rating, author, photo }) => {
   // Убедитесь, что рейтинг является числом от 0 до 5

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import profileicons from "../../../shared/assets/svg/profiletrainer.svg";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { createTrainer } from "../store/action";
 
-const TrainerModal = ({ isOpen }) => {
+const TrainerModal = ({ onClosed }) => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -13,12 +14,23 @@ const TrainerModal = ({ isOpen }) => {
     imagePreview: profileicons,
   });
 
+  const [errorMessages, setErrorMessages] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    sport: "",
+  });
+
+  const dispatch = useDispatch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+    setErrorMessages((prev) => ({ ...prev, [name]: "" })); // Clear error for the field being edited
   };
 
   const handleImageChange = (e) => {
@@ -27,7 +39,7 @@ const TrainerModal = ({ isOpen }) => {
       setFormData((prevData) => ({
         ...prevData,
         image_files: files,
-        imagePreview: URL.createObjectURL(files[0]), // Предпросмотр только первого изображения
+        imagePreview: URL.createObjectURL(files[0]),
       }));
     }
   };
@@ -35,24 +47,32 @@ const TrainerModal = ({ isOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { first_name, last_name, email, phone, sport, image_files } =
-      formData;
+    const { first_name, last_name, email, phone, sport } = formData;
+    const newErrors = {};
 
-    // Проверка валидности данных перед отправкой
+    // Validation checks
+    if (!first_name) {
+      newErrors.first_name = "Введите имя";
+    }
+    if (!last_name) {
+      newErrors.last_name = "Введите фамилию";
+    }
     if (!validateEmail(email)) {
-      console.error("Введите правильный адрес электронной почты.");
-      return;
+      newErrors.email = "Введите правильный адрес электронной почты";
     }
-
     if (phone.length > 20) {
-      console.error(
-        "Убедитесь, что это значение содержит не более 20 символов."
-      );
-      return;
+      newErrors.phone =
+        "Убедитесь, что это значение содержит не более 20 символов";
+    } else if (phone.length  == 0) {
+      newErrors.phone = "Введите телефон";
+    }
+    if (!sport) {
+      newErrors.sport = "Выберите вид спорта";
     }
 
-    if (!sport) {
-      console.error("Выберите вид спорта.");
+   
+    if (Object.keys(newErrors).length > 0) {
+      setErrorMessages(newErrors);
       return;
     }
 
@@ -64,31 +84,24 @@ const TrainerModal = ({ isOpen }) => {
     formDataToSend.append("sport", sport);
 
     try {
-      const response = await axios.post(
-        "http://192.168.68.134:3000/administrator/trainers/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("Тренер успешно добавлен:", response.data);
+      const response = await dispatch(createTrainer(formDataToSend));
+      if (response) {
+        resetForm();
+        onClosed();
+      }
     } catch (error) {
+      // Handle error in adding trainer
       if (error.response) {
-        console.error("Ошибка при добавлении тренера:", error.response.data);
-      } else if (error.request) {
-        console.error(
-          "Запрос был отправлен, но ответ не получен:",
-          error.request
-        );
+        setErrorMessages({
+          general: "Ошибка при добавлении тренера: " + error.response.data,
+        });
       } else {
-        console.error("Ошибка:", error.message);
+        setErrorMessages({ general: "Ошибка: " + error.message });
       }
     }
   };
 
-  // Функция для проверки корректности email
+  // Email validation function
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -104,9 +117,10 @@ const TrainerModal = ({ isOpen }) => {
       image_files: [],
       imagePreview: profileicons,
     });
+    setErrorMessages({}); // Reset all error messages
   };
 
-  if (!isOpen) return null;
+  console.log(formData);
 
   return (
     <div className="absolute top-0 bg-black bg-opacity-50 left-0 w-full h-full">
@@ -115,6 +129,12 @@ const TrainerModal = ({ isOpen }) => {
           <h1 className="text-[32px] font-normal">Добавить тренера</h1>
         </div>
 
+        {errorMessages.general && (
+          <div className="text-red-500 text-center">
+            {errorMessages.general}
+          </div>
+        )}
+
         <div className="flex flex-col items-center m-2 gap-1">
           <img
             id="image"
@@ -122,7 +142,7 @@ const TrainerModal = ({ isOpen }) => {
             src={formData.imagePreview}
             alt="Предпросмотр"
           />
-          <label className="block text-white" htmlFor="imageInput">
+          <label className="block" htmlFor="imageInput">
             Добавить фото
           </label>
           <input
@@ -141,7 +161,10 @@ const TrainerModal = ({ isOpen }) => {
         >
           <div>
             <label className="block text-white" htmlFor="first_name">
-              Имя
+              Имя{" "}
+              {errorMessages.first_name && (
+                <span className="text-red-500">{errorMessages.first_name}</span>
+              )}
             </label>
             <input
               type="text"
@@ -152,12 +175,15 @@ const TrainerModal = ({ isOpen }) => {
               required
               maxLength="255"
               minLength="1"
-              className="w-full p-2 rounded"
+              className="w-full p-2 rounded text-black"
             />
           </div>
           <div>
             <label className="block text-white" htmlFor="last_name">
-              Фамилия
+              Фамилия{" "}
+              {errorMessages.last_name && (
+                <span className="text-red-500">{errorMessages.last_name}</span>
+              )}
             </label>
             <input
               type="text"
@@ -168,12 +194,15 @@ const TrainerModal = ({ isOpen }) => {
               required
               maxLength="255"
               minLength="1"
-              className="w-full p-2 rounded"
+              className="w-full p-2 rounded text-black"
             />
           </div>
           <div>
             <label className="block text-white" htmlFor="email">
-              Электронная почта
+              Электронная почта{" "}
+              {errorMessages.email && (
+                <span className="text-red-500">{errorMessages.email}</span>
+              )}
             </label>
             <input
               type="email"
@@ -184,12 +213,15 @@ const TrainerModal = ({ isOpen }) => {
               required
               maxLength="254"
               minLength="1"
-              className="w-full p-2 rounded"
+              className="w-full p-2 rounded text-black"
             />
           </div>
           <div>
             <label className="block text-white" htmlFor="phone">
-              Телефон
+              Телефон{" "}
+              {errorMessages.phone && (
+                <span className="text-red-500">{errorMessages.phone}</span>
+              )}
             </label>
             <input
               type="text"
@@ -200,12 +232,15 @@ const TrainerModal = ({ isOpen }) => {
               required
               maxLength="20"
               minLength="1"
-              className="w-full p-2 rounded"
+              className="w-full p-2 rounded text-black"
             />
           </div>
           <div>
             <label className="block text-white" htmlFor="sport">
-              Спорт
+              Спорт{" "}
+              {errorMessages.sport && (
+                <span className="text-red-500">{errorMessages.sport}</span>
+              )}
             </label>
             <select
               name="sport"
@@ -216,21 +251,24 @@ const TrainerModal = ({ isOpen }) => {
               className="w-full p-2 bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-red-600"
             >
               <option value="">Выберите спорт</option>
-              <option value="basketball">Баскетбол</option>
-              <option value="football">Футбол</option>
-              <option value="volleyball">Волейбол</option>
-              <option value="tennis">Теннис</option>
-              <option value="boxing">Бокс</option>
-              <option value="cycling">Велоспорт</option>
-              <option value="taekwondo">Тхэквондо</option>
-              <option value="swimming">Плавание</option>
-              <option value="yoga">Йога</option>
+              <option value="Баскетбол">Баскетбол</option>
+              <option value="Футбол">Футбол</option>
+              <option value="Валейбол">Волейбол</option>
+              <option value="Тенис">Теннис</option>
+              <option value="Бокс">Бокс</option>
+              <option value="Велоспорт">Велоспорт</option>
+              <option value="Таэквондо">Тхэквондо</option>
+              <option value="Плавание">Плавание</option>
+              <option value="Йога">Йога</option>
             </select>
           </div>
         </form>
         <div className="mt-5 flex justify-end space-x-3">
           <button
-            onClick={onClose}
+            onClick={() => {
+              resetForm();
+              onClosed();
+            }}
             className="w-[152px] h-[40px] bg-red-700 rounded-[10px]"
           >
             Назад
@@ -238,9 +276,9 @@ const TrainerModal = ({ isOpen }) => {
           <button
             type="submit"
             onClick={handleSubmit}
-            className="w-[204px] h-[40px] bg-red-700 rounded-[10px]"
+            className="w-[152px] h-[40px] bg-red-700 rounded-[10px]"
           >
-            Сохранить
+            Добавить
           </button>
         </div>
       </div>

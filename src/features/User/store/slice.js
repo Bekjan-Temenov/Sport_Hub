@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createClient, createTrainer, getClients, getTrainers } from "./action";
+import {  createTrainer, getClients, getTrainers } from "./action";
 
 const trainerSlice = createSlice({
   name: "trainers",
@@ -60,22 +60,11 @@ const clientSlice = createSlice({
       .addCase(getClients.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      })
-
-      // Обработка создания клиента
-      .addCase(createClient.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(createClient.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.clients.push(action.payload); // Добавляем нового клиента в список
-      })
-      .addCase(createClient.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
       });
   },
 });
 
-export default { trainerSlice, clientSlice };
-export { getClients, getTrainers, createClient, createTrainer };
+// Экспорт редукторов
+export const trainersReducer = trainerSlice.reducer;
+export const clientsReducer = clientSlice.reducer;
+export { getClients, getTrainers, createTrainer };
