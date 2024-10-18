@@ -1,4 +1,3 @@
-// authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import {
   signup,
@@ -38,7 +37,6 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Обработка signup
     builder
       .addCase(signup.pending, (state) => {
         state.status = "loading";
@@ -50,34 +48,10 @@ const authSlice = createSlice({
         state.email = action.payload.email; // Сохранение email
         localStorage.setItem("email", action.payload.email); // Сохранение в localStorage
       })
-    extraReducers: (builder) => {
-        builder
-            .addCase(signup.pending, (state) => {
-                state.status = 'loading';
-                state.error = null;
-            })
-            .addCase(signup.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.user = action.payload;
-                state.email = action.payload.email; // Сохранение email
-                localStorage.setItem('email', action.payload.email); // Сохранение в localStorage
-            })
-
-            .addCase(signup.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.payload;
-            })
-            
-
       .addCase(signup.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      });
-
-    // В обработчике fulfilled для signup
-
-    // Обработка login
-    builder
+      })
       .addCase(login.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -90,10 +64,7 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      });
-
-    // Обработка activateUser
-    builder
+      })
       .addCase(activateUser.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -106,10 +77,7 @@ const authSlice = createSlice({
       .addCase(activateUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      });
-
-    // Обработка requestPasswordReset
-    builder
+      })
       .addCase(requestPasswordReset.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -122,10 +90,7 @@ const authSlice = createSlice({
       .addCase(requestPasswordReset.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      });
-
-    // Обработка resetPasswordVerify
-    builder
+      })
       .addCase(resetPasswordVerify.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -137,10 +102,7 @@ const authSlice = createSlice({
       .addCase(resetPasswordVerify.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      });
-
-    // Обработка resendActivationCode
-    builder
+      })
       .addCase(resendActivationCode.pending, (state) => {
         state.status = "loading";
         state.error = null;

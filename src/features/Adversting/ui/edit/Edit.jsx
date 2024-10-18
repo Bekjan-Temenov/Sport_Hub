@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import gallery from "../../../../shared/assets/svg/admin_gallery.svg";
-import { putAdversting } from "../../store/action"; // Removed postAdminAdversting import
+import { putAdversting } from "../../store/action";
 import { useDispatch } from "react-redux";
 
 const InputField = ({
@@ -24,13 +24,11 @@ const InputField = ({
 
 function Edit({ setIsOpen, adversting }) {
   const dispatch = useDispatch();
-  const [imagePreview, setImagePreview] = useState(adversting?.file || gallery);
+  const [imagePreview, setImagePreview] = useState(adversting.file);
   const [loading, setLoading] = useState(false);
-
-  console.log(adversting);
   const [formValue, setFormValue] = useState({
     title: "",
-    file: null,
+    file: adversting.file,
     title1: "",
     description: "",
     phone: "",
@@ -41,21 +39,29 @@ function Edit({ setIsOpen, adversting }) {
     title2: "",
     title3: "",
   });
-
+  console.log(formValue);
+  console.log(imagePreview);
   useEffect(() => {
     if (adversting) {
       setFormValue((prev) => ({
         ...prev,
         ...adversting,
       }));
+      setImagePreview(adversting.file); // Убедитесь, что вы обновляете изображение при изменении adversting
     }
   }, [adversting]);
 
   const handleImageClick = useCallback((e) => {
     const file = e.target.files[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!validTypes.includes(file.type)) {
+        alert("Пожалуйста, загрузите файл в формате JPEG, PNG или GIF.");
+        return;
+      }
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
+      // Обновляем file только если изображение действительно изменилось
       setFormValue((prev) => ({ ...prev, file }));
     }
   }, []);
@@ -69,11 +75,19 @@ function Edit({ setIsOpen, adversting }) {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData();
-
-    Object.entries(formValue).forEach(([key, value]) =>
-      formData.append(key, value)
-    );
-
+    
+    Object.entries(formValue).forEach(([key, value]) => {
+      // Просто добавьте файл, даже если он не изменился
+      if (key === 'file' && !value) {
+        console.log(`Не обновляем файл, он не изменен`);
+        // Если вы не хотите обновлять файл, вы можете просто пропустить эту проверку
+        // Или же добавьте существующий файл
+      } else {
+        console.log(`Key: ${key}, Value: ${value}`);
+        formData.append(key, value);
+      }
+    });
+    
     try {
       await dispatch(putAdversting({ id: adversting.id, putData: formData }));
       setIsOpen(false);
@@ -83,7 +97,7 @@ function Edit({ setIsOpen, adversting }) {
       setLoading(false);
     }
   };
-
+  
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex items-center justify-between w-full">
@@ -95,7 +109,7 @@ function Edit({ setIsOpen, adversting }) {
             <img
               onClick={() => document.getElementById("avatar").click()}
               className="w-full h-full border rounded"
-              src={imagePreview}
+              src={imagePreview || gallery}
               alt="Preview"
             />
           </div>

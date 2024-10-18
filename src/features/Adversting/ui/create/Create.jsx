@@ -49,7 +49,6 @@ function Create({ setIsOpen }) {
       setFormValue((prev) => ({ ...prev, file }));
     }
   }, []);
-
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
     setFormValue((prev) => ({ ...prev, [name]: value }));

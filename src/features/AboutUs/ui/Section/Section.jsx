@@ -2,36 +2,30 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBarContainer from "../../../../shared/helpers/NavBarContainer";
 import { fetchAdminCircles, deleteAdminCircle } from "../../store/action";
-import log from "../../../../shared/assets/svg/admin_logo.svg";
 import delate from "../../../../shared/assets/svg/admin-delete.svg";
 import edit from "../../../../shared/assets/svg/admin-edit.svg";
-import ModalSection from "./ModalSection";
 import FullScreenModal from "../../../../shared/FullScreenModal/FullScreenModal";
-
-const inputGroups = [
-  [
-    { name: "header1", placeholder: "1.Добавить заголовок ..." },
-    { name: "description1", placeholder: "1.Добавить описание ..." }
-  ],
-  [
-    { name: "header2", placeholder: "2.Добавить заголовок ..." },
-    { name: "description2", placeholder: "2.Добавить описание ..." }
-  ],
-  [
-    { name: "header3", placeholder: "3.Добавить заголовок ..." },
-    { name: "description3", placeholder: "3.Добавить описание ..." }
-  ]
-];
-
+import Create from "./create/Create";
+import Edit from "./edit/Edit";
+import log from "../../../../shared/assets/svg/admin_logo.svg"
 
 function Section() {
   const dispatch = useDispatch();
-  const { circles, status, error } = useSelector((state) => state.section);
-  const [open, setIsOpen] = useState(false);
+  const { circles, status, error } = useSelector((state) => state.about);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
+    setIsEditMode(false);
   }, []);
+  console.log(circles);
+  const handleEdit = (product) => {
+    setSelectedProduct(product);
+    setIsOpen(true);
+    setIsEditMode(true);
+  };
 
   const handleDeleteCircle = (circleId) => {
     dispatch(deleteAdminCircle(circleId));
@@ -56,9 +50,13 @@ function Section() {
           </button>
         </div>
 
-        {open && (
-          <FullScreenModal>
-            <ModalSection setIsOpen={setIsOpen} />
+        {isOpen && (
+          <FullScreenModal setIsOpen={setIsOpen}>
+            {isEditMode ? (
+              <Edit setIsOpen={setIsOpen} circles={selectedProduct} />
+            ) : (
+              <Create setIsOpen={setIsOpen} />
+            )}
           </FullScreenModal>
         )}
         <hr className="border-[#B6B7BC] border w-full mt-[15px] mb-[50px]" />
@@ -96,6 +94,7 @@ function Section() {
                     />
                     <hr className="w-[1px] h-[36px] mx-[25px] border border-[#B6B7BC]" />
                     <img
+                      onClick={() => handleEdit(item)}
                       className="cursor-pointer"
                       src={edit}
                       alt="Редактировать"

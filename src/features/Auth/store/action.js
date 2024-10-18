@@ -51,7 +51,6 @@ export const login = createAsyncThunk(
       const response = await api.login(credentials);
       console.log("Ответ сервера при входе:", response.data);
 
-      // Сохраняем токен в localStorage
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
       }

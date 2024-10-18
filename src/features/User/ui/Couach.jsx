@@ -218,7 +218,7 @@ const TrainerModal = ({ isOpen }) => {
               <option value="">Выберите спорт</option>
               <option value="basketball">Баскетбол</option>
               <option value="football">Футбол</option>
-              <option value="volleyball">Волейбол</option>
+              <option value="volleyball">Валейбол</option>
               <option value="tennis">Теннис</option>
               <option value="boxing">Бокс</option>
               <option value="cycling">Велоспорт</option>

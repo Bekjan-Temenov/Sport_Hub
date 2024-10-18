@@ -11,7 +11,6 @@ const trainerSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Обработка получения тренеров
       .addCase(getTrainers.pending, (state) => {
         state.status = "loading";
       })

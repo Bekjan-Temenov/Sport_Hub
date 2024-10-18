@@ -25,7 +25,7 @@ function Adversting() {
   
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
-    setIsEditMode(false); // Reset to create mode when toggling
+    setIsEditMode(false); 
   }, []);
 
   const deleteMenu = useCallback(() => {
@@ -41,7 +41,7 @@ function Adversting() {
   const handleEdit = (product) => {
     setSelectedProduct(product);
     setIsOpen(true);
-    setIsEditMode(true); // Set edit mode
+    setIsEditMode(true); 
   };
   useEffect(() => {
     dispatch(fetchAdminAdversting());
@@ -157,9 +157,9 @@ function Adversting() {
   );
 }
 
-const ModalDelete = ({ handleDelete, deleteMenu, item }) => {
+export const ModalDelete = ({ handleDelete, deleteMenu, item }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20 ">
       <div className="bg-white p-8 rounded-lg shadow-xl w-[250px] md:w-[350px] h-[250px] flex flex-col justify-between">
         <h2 className="mb-4 text-2xl font-semibold text-center text-gray-800">
           Удалить рекламу?

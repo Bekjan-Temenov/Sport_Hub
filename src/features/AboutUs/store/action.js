@@ -84,16 +84,15 @@ export const postHalls = createAsyncThunk(
       try {
         const res = await api.postHall(hallsData);
         console.log("редактирована реклама:", res.data);
-        return res.data; // Возвращаем данные
+        return res.data; 
       } catch (error) {
         console.error("ошибка редакторе рекламы:", error);
-        
-        // Определяем корректное сообщение об ошибке
         const message = 
           error.response?.data?.message || "Ошибка редактировании рекламы.";
-        
-        return rejectWithValue(message); // Возвращаем ошибку через rejectWithValue
+        return rejectWithValue(message); 
       }
     }
   );
+  
+
   

@@ -1,15 +1,34 @@
-import React, { useState } from "react";
-import axios from "axios";
-import gallery from "../../../../shared/assets/svg/admin_gallery.svg";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import TimeSelector from "../../../Adversting/ui/TimeSelector";
-import Hours from "../../../Adversting/ui/Hours";
-import Schedule from "../../../Adversting/ui/Schedule";
+import { ToastContainer, toast } from "react-toastify";
+import { putHall } from "../../store/action";
+import gallery from "../../../../../shared/assets/svg/admin_gallery.svg";
+import TimeSelector from "../../../../Adversting/ui/TimeSelector";
 
-const ModalGym = ({ setIsOpen }) => {
+const daysOfWeek = [
+  { id: 1, name: "Понедельник" },
+  { id: 4, name: "Четверг" },
+  { id: 2, name: "Вторник" },
+  { id: 5, name: "Пятница" },
+  { id: 3, name: "Среда" },
+  { id: 6, name: "Суббота" },
+];
+
+const Create = ({ setIsOpen, halls }) => {
   const notify = () => toast.success("Реклама успешно создана!");
-  const errorfy = () => toast.error("ошибка!");
+  const errorfy = () => toast.error("Ошибка!");
+  const dispatch = useDispatch();
+
+  const [workSchedules, setWorkSchedules] = useState(
+    daysOfWeek.map((day) => ({
+      day_of_week: day.name,
+      opening_time: "09:00",
+      closing_time: "18:00",
+      is_active: false,
+    }))
+  );
+
   const [formData, setFormData] = useState({
     sports: "",
     title: "",
@@ -25,10 +44,45 @@ const ModalGym = ({ setIsOpen }) => {
     shower: false,
     lighting: false,
     dressing_room: false,
+    image: null,
+    image1: null,
+    image2: null,
+    image3: null,
   });
-  const [mainImage, setMainImage] = useState(null);
-  const [additionalImages, setAdditionalImages] = useState([null, null, null]);
-  const [loading, setLoading] = useState(false);
+
+  const [mainImage, setMainImage] = useState(halls.image || null);
+  const [image1, setImage1] = useState(halls.image1 || null);
+  const [image2, setImage2] = useState(halls.image2 || null);
+  const [image3, setImage3] = useState(halls.image3 || null);
+
+  const { loading, error } = useSelector((state) => state.hall);
+
+  const handleCheckboxChange = (index) => {
+    setWorkSchedules((prevSchedules) =>
+      prevSchedules.map((schedule, i) =>
+        i === index ? { ...schedule, is_active: !schedule.is_active } : schedule
+      )
+    );
+  };
+
+  useEffect(() => {
+    if (halls) {
+      setFormData((prev) => ({
+        ...prev,
+        ...halls,
+      }));
+      setMainImage(halls.image);
+    }
+  }, [halls]);
+
+  const handleTimeChange = (index, field, value) => {
+    setWorkSchedules((prevSchedules) =>
+      prevSchedules.map((schedule, i) =>
+        i === index ? { ...schedule, [field]: value } : schedule
+      )
+    );
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
@@ -39,73 +93,93 @@ const ModalGym = ({ setIsOpen }) => {
   };
 
   const handleMainImageChange = (e) => {
-    setMainImage(e.target.files[0]);
+    const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setMainImage(imageUrl);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      image: file,
+    }));
   };
 
   const handleAdditionalImageChange = (index) => (e) => {
-    const newImages = [...additionalImages];
-    newImages[index] = e.target.files[0];
-    setAdditionalImages(newImages);
+    const file = e.target.files[0];
+
+    if (index === 0) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage1(imageUrl);
+      setFormData((prevFormData) => ({ ...prevFormData, image1: file }));
+    } else if (index === 1) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage2(imageUrl);
+      setFormData((prevFormData) => ({ ...prevFormData, image2: file }));
+    } else if (index === 2) {
+      const imageUrl = URL.createObjectURL(file);
+      setImage3(imageUrl);
+      setFormData((prevFormData) => ({ ...prevFormData, image3: file }));
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData();
-    for (const key in formData) {
-      data.append(key, formData[key]);
-    }
-    if (mainImage) {
-      data.append("image", mainImage);
-    } else {
-      console.error("Главное изображение не выбрано");
-    }
-    additionalImages.forEach((image, index) => {
-      if (image) {
-        data.append(`additional_image${index + 1}`, image);
-      } else {
-        console.error(`Дополнительное изображение ${index + 1} не выбрано`);
+
+    const requiredFields = [
+      "address",
+      "coverage",
+      "description",
+      "hall_type",
+      "inventory",
+      "phone",
+      "price_per_hour",
+      "quantity",
+      "size",
+      "sports",
+      "title",
+    ];
+
+    for (const field of requiredFields) {
+      if (!formData[field]) {
+        alert(`Пожалуйста, заполните поле: ${field}`);
+        return;
       }
-    });
-
-    setLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://192.168.68.103:3000/administrator/halls",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      notify();
-      setTimeout(() => {
-        setIsOpen();
-      }, 800);
-      console.log("Зал успешно создан:", response.data);
-    } catch (error) {
-      console.error(
-        "Ошибка при отправке данных:",
-        error.response?.data || error
-      );
-      errorfy();
-    } finally {
-      setLoading(false);
     }
-  };
 
-  console.log(formData);
+    const formDataToSend = new FormData();
+    for (const [key, value] of Object.entries(formData)) {
+      formDataToSend.append(key, value);
+    }
+
+    if (mainImage) formDataToSend.append("image", mainImage);
+    if (image1) formDataToSend.append("image1", image1);
+    if (image2) formDataToSend.append("image2", image2);
+    if (image3) formDataToSend.append("image3", image3);
+
+    console.log(formDataToSend);
+
+    dispatch(
+      putHall({
+        formData: formDataToSend,
+        id: halls.id,
+        setIsOpen,
+        notify,
+        errorfy,
+      })
+      );
+    };
+    console.log(formData)
+
   return (
     <div className="flex flex-col items-center justify-center text-white ">
-      <h2 className="text-2xl font-bold text-center ">Создать новый зал</h2>
       <form onSubmit={handleSubmit} className="w-full p-4 mx-auto ">
         <div className="flex flex-col gap-14 ">
           <div className="flex items-center justify-between w-full ">
             <h1 className="ml-[50px] font-sans text-3xl font-semibold">
               Заголовок
             </h1>
-            <div className="w-[355px] h-[225px] border rounded cursor-pointer bg-[#131313]">
+            <div
+              onClick={() => document.getElementById("mainImage").click()}
+              className="w-[355px] items-center justify-center flex overflow-hidden  h-[225px] border rounded cursor-pointer bg-[#131313]"
+            >
               <input
                 type="file"
                 id="mainImage"
@@ -114,15 +188,14 @@ const ModalGym = ({ setIsOpen }) => {
                 accept="image/*"
               />
               <img
-                onClick={() => document.getElementById("mainImage").click()}
-                src={mainImage ? URL.createObjectURL(mainImage) : gallery}
-                className="w-full h-full border rounded"
+                src={mainImage}
+                className={mainImage ? "w-full" : ""}
                 alt="Главное изображение"
               />
             </div>
           </div>
           <div className="flex items-center justify-between">
-            {additionalImages.map((image, index) => (
+            {[image1, image2, image3].map((image, index) => (
               <div
                 key={index}
                 className="w-[207px] flex items-center overflow-hidden justify-center h-[140px] border rounded cursor-pointer bg-[#131313]"
@@ -138,8 +211,8 @@ const ModalGym = ({ setIsOpen }) => {
                   accept="image/*"
                 />
                 <img
-                  src={image ? URL.createObjectURL(image) : gallery}
-                  className="rounded "
+                  src={image}
+                  className="rounded"
                   alt={`Дополнительное изображение ${index + 1}`}
                 />
               </div>
@@ -159,7 +232,7 @@ const ModalGym = ({ setIsOpen }) => {
             <option></option>
             <option value="Баскетбол">Баскетбол</option>
             <option value="Футбол">Футбол</option>
-            <option value="Волейбол">Волейбол</option>
+            <option value="Валейбол">Валейбол</option>
             <option value="Бокс">Бокс</option>
             <option value="Теннис">Теннис</option>
             <option value="Тхэквондо">Тхэквондо</option>
@@ -223,9 +296,46 @@ const ModalGym = ({ setIsOpen }) => {
           </div>
         </div>
 
-        <div className=" my-9">
-          <Schedule />
+        <div className="grid grid-cols-2 gap-4 gap-x-7 my-9">
+          {workSchedules.map((schedule, index) => (
+            <div key={index} className="flex items-center justify-between ">
+              <input
+                type="checkbox"
+                checked={schedule.is_active}
+                onChange={() => handleCheckboxChange(index)}
+                className="accent-[#FF0000] w-[22px] cursor-pointer h-[22px]"
+              />
+              <label className="block ml-2 text-sm text-white">
+                {schedule.day_of_week}
+              </label>
+              <div className="flex items-center gap-3">
+                <TimeSelector
+                  defaultHour={
+                    parseInt(schedule.opening_time.split(":")[0], 10) || 0
+                  }
+                  defaultMinute={
+                    parseInt(schedule.opening_time.split(":")[1], 10) || 0
+                  }
+                  onChange={(time) =>
+                    handleTimeChange(index, "opening_time", time)
+                  }
+                />
+                <TimeSelector
+                  defaultHour={
+                    parseInt(schedule.closing_time.split(":")[0], 10) || 0
+                  }
+                  defaultMinute={
+                    parseInt(schedule.closing_time.split(":")[1], 10) || 0
+                  }
+                  onChange={(time) =>
+                    handleTimeChange(index, "closing_time", time)
+                  }
+                />
+              </div>
+            </div>
+          ))}
         </div>
+
         <div className="grid grid-cols-2 gap-8">
           <div className="flex flex-col gap-2">
             <label className="font-sans">Размеры зала</label>
@@ -328,6 +438,7 @@ const ModalGym = ({ setIsOpen }) => {
         </div>
         <div className="flex items-center justify-around">
           <button
+        onClick={() => setIsOpen(false)}
             type="button"
             className="text-center bg-[#FE04044D] hover:bg-red-900 px-[55px] py-[10px] rounded-md"
           >
@@ -345,9 +456,14 @@ const ModalGym = ({ setIsOpen }) => {
           </button>
           <ToastContainer />
         </div>
+        {error && (
+          <p className="mx-[30%] my-4 text-red-600">
+            Ошибка при отправление формы.
+          </p>
+        )}
       </form>
     </div>
   );
 };
 
-export default ModalGym;
+export default Create;
