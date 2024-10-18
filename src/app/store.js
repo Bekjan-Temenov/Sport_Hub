@@ -2,8 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from '../features/Auth/store/slice'
 import reviewReducer from '../features/InfoGym/store/slice'
 import aboutReducer from '../features/AboutUs/store/slice'
-import trainersReducer from '../features/User/store/slice'
-import clientsReducer from '../features/User/store/slice'
+import {trainersReducer, clientsReducer} from '../features/User/store/slice'
 
 
 export const store = configureStore({

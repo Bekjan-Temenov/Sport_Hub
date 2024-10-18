@@ -1,7 +1,5 @@
-import React from "react";
 
 const Reviews = ({ content, rating, author, photo }) => {
-  // Убедитесь, что рейтинг является числом от 0 до 5
   const safeRating = Math.max(0, Math.min(5, rating));
 
   return (
