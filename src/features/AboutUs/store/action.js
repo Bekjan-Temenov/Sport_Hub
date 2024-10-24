@@ -1,5 +1,21 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../api";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import  api  from '../api';
+
+export const section = createAsyncThunk(
+    'section/create', 
+    async (circleData, { rejectWithValue }) => {
+      try {
+        console.log(circleData)
+        const response = await api.postSection( circleData);
+        console.log("Response from create section:", response.data);
+        return response.data;
+      } catch (error) {
+        console.log(error)
+        return rejectWithValue(error.response?.data || "Error creating section");
+      }
+    }
+  );
+  
 
 export const fetchAdminHalls = createAsyncThunk(
     'admin/fetchHalls',
@@ -10,7 +26,7 @@ export const fetchAdminHalls = createAsyncThunk(
             return response.data;
         } catch (error) {
             console.error("Ошибка при получении залов:", error);
-            return rejectWithValue(error.response.data); // Возвращаем ошибку для обработки в slice
+            return rejectWithValue(error.response.data); 
         }
     }
 );
@@ -21,7 +37,7 @@ export const deleteAdminHall = createAsyncThunk(
         try {
             const response = await api.deleteHall(hallId);
             console.log("Зал удалён:", response.data);
-            return hallId; // Возвращаем id, чтобы удалить его из состояния
+            return hallId; 
         } catch (error) {
             console.error("Ошибка при удалении зала:", error);
             const message = error.response?.data?.message || "Ошибка при удалении зала.";
@@ -40,7 +56,6 @@ export const fetchAdminCircles = createAsyncThunk(
             return res.data;
         } catch (error) {
             console.error("Ошибка при получении кружков:", error);
-            // Проверяем наличие поля response в ошибке и возвращаем нужные данные
             const message = error.response?.data?.message || "Ошибка при загрузке кружков.";
             return rejectWithValue(message);
         }
@@ -53,7 +68,7 @@ export const deleteAdminCircle = createAsyncThunk(
         try {
             const response = await api.deleteCircle(circleId);
             console.log("Кружок удалён:", response.data);
-            return circleId; // Возвращаем id, чтобы удалить его из состояния
+            return circleId; 
         } catch (error) {
             console.error("Ошибка при удалении кружка:", error);
             const message = error.response?.data?.message || "Ошибка при удалении кружка.";
@@ -61,3 +76,13 @@ export const deleteAdminCircle = createAsyncThunk(
         }
     }
 );
+
+export const updateAdvertisement = createAsyncThunk(
+    'advertisements/updateAdvertisement',
+    async ({ id, data }) => {
+      const response = await axios.put(`/administrator/advertisements/${id}/`, {
+        data, // Данные из формы
+      });
+      return response.data; // Возвращаем обновленные данные
+    }
+  );

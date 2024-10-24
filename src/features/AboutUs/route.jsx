@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Gym from "./ui/Gym";
-import Section from "./ui/Section";
+import Index from "./ui/Section"
 
 export const AboutUsRoute = {
     path:"about_us",
@@ -12,7 +12,7 @@ export const AboutUsRoute = {
         },
         {
             path:"section",
-            element:<Section/>
+            element:<Index/>
         }
     ]
 }

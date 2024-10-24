@@ -1,26 +1,46 @@
-import React from 'react'
-import NavBarContainer from '../../../shared/helpers/NavBarContainer'
+import { useEffect } from "react";
+import NavBarContainer from "../../../shared/helpers/NavBarContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { getClients } from "../store/action";
 
 const Client = () => {
+  const dispatch = useDispatch();
+  const clients = useSelector((state) => state.clients?.clients);
+  console.log(clients, "clients");
+
+  useEffect(() => {
+    dispatch(getClients());
+    console.log(dispatch(getClients()));
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log(clients);
+  }, [clients]);
+
   return (
-  <NavBarContainer>
-    <div className='border-b border-[#B6B7BC] flex justify-between items-center'>
-        <h1 className='text-[34px] font-bold'>Kлиент</h1>
+    <NavBarContainer>
+      <div className="border-b border-[#B6B7BC] flex justify-between items-center">
+        <h1 className="text-[34px] font-bold">Клиенты</h1>
       </div>
-      <div className='border text-[24] mb-6  font-bold text-black border-red-500 bg-slate-200 rounded-[8px] px-10 flex justify-between'>
+      <div className=" h-[45px] border text-[24px] mb-6 mt-5 font-bold  text-black  bg-slate-200 rounded-[8px] px-10 flex justify-between items-center">
         <p>Имя</p>
         <p>Тренер</p>
         <p>Спорт</p>
         <p>Оплата</p>
       </div>
-      <div className='border-b font-normal border-[#B6B7BC] px-10 flex justify-between '>
-        <p>Рахманалиев Абай</p>
-        <p>Махмудов Термирлан</p>
-        <p>Волейбол</p>
-        <p>не оплатил</p>
-      </div>
-  </NavBarContainer>
-  )
-}
+      {clients.map((client) => (
+        <div
+          key={client.id}
+          className="border-b font-normal border-[#B6B7BC] flex justify-between items-center p-3 transition duration-300"
+        >
+          <p className="w-1/5 text-left">{client.name}</p>
+          <p className="w-1/5 text-center">{client.trainer.name}</p>
+          <p className="w-1/5 text-center">{client.sport}</p>
+          <p className="w-1/5 text-right pr-5">{client.payment_method}</p>
+        </div>
+      ))}
+    </NavBarContainer>
+  );
+};
 
-export default Client
+export default Client;

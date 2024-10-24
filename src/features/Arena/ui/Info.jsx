@@ -25,7 +25,7 @@ function Info() {
           <div className="flex lg:p-4 lg:w-[500px] z-10  max-w-[500px] ">
           <img
             className="w-full h-full border rounded-lg shadow-lg "
-              src="https://weproject.media/upload/iblock/a50/a5045e5d61614aa385fe29c88921962a.jpg"
+              src="https://scontent.ffru2-1.fna.fbcdn.net/v/t1.6435-9/188131458_246983717223789_2363293312121498488_n.jpg?stp=dst-jpg_s960x960&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=EUaAbhxu0F0Q7kNvgFzv0gf&_nc_ht=scontent.ffru2-1.fna&_nc_gid=ABEEFLwOGKcwPkvte3GfX-3&oh=00_AYCalq6W8Fpx0PdGAuhF_BknejNJ9irXfjfheWalH3X81g&oe=671EDDFE"
               alt="Bilimkana Arena"
             />
           </div>

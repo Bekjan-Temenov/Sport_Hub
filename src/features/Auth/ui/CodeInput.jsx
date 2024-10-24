@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import istockphoto from "../../../shared/assets/svg/istockphoto.svg";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch , useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { activateUser, resendActivationCode } from "../store/action";
+import { Alert } from "@mui/material";
 
 const CodeInput = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [code, setCode] = useState(["", "", "", ""]);
   const [timer, setTimer] = useState(30);
-  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [isTimerActive, setIsTimerActive] = useState(true);
   const email = useSelector((state) => state.auth.email);
-
+  
   const validationSchema = Yup.object({
-    code: Yup.string().length(4, "Код должен состоять из 4 цифр").required("Обязательное поле"),
+    code: Yup.string()
+    .length(4, "Код должен состоять из 4 цифр")
+    .required("Обязательное поле"),
   });
-
+  
   const handleChange = (e, index, setFieldValue) => {
     const { value } = e.target;
     if (/^\d*$/.test(value) && value.length <= 1) {
@@ -25,30 +28,28 @@ const CodeInput = () => {
       newCode[index] = value;
       setCode(newCode);
       setFieldValue("code", newCode.join(""));
-
+      
       if (value && index < 3) {
         document.getElementById(`code-input-${index + 1}`).focus();
       }
     }
   };
-
+  
   const handleSubmit = (values) => {
     const { code } = values;
-
-    console.log("Отправляемый payload:", code);
-
+      
     dispatch(activateUser(code))
-      .unwrap()
-      .then((response) => {
-        console.log("Код успешно отправлен:", response);
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error("Ошибка активации:", error);
-      });
+    .unwrap()
+    .then((response) => {
+      console.log("Код успешно отправлен:", response);
+      navigate("/");
+    })
+    .catch((error) => {
+      console.error("Ошибка активации:", error);
+    });
   };
-
-  const handleResendSMS = () => {
+  
+  const handleResendSMS = (email) => {
     if (!email) {
       console.error("Email не указан для повторной отправки");
       return;
@@ -57,14 +58,16 @@ const CodeInput = () => {
     dispatch(resendActivationCode(email))
       .unwrap()
       .then(() => {
-        console.log("Код активации отправлен снова");
+        console.log("Код активации отправлен снова", email);
+        setTimer(30);
+        setIsTimerActive(true);
+        Alert("Код активации отправлен снова");
       })
       .catch((error) => {
         console.error("Ошибка при повторной отправке кода:", error);
+        Alert("Ошибка при повторной отправке кода: " + error.message);
       });
   };
-
-
 
   useEffect(() => {
     let interval = null;
@@ -73,9 +76,9 @@ const CodeInput = () => {
         setTimer((prev) => prev - 1);
       }, 1000);
     } else if (timer === 0) {
-      setIsTimerActive(false);
+      setIsTimerActive(false); // Деактивируем таймер, когда он достигает 0
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Очищаем таймер при размонтировании компонента
   }, [isTimerActive, timer]);
 
   return (
@@ -94,7 +97,8 @@ const CodeInput = () => {
               Введите 4-значный код
             </h1>
             <p className="text-gray-700 mb-6 text-[16px] md:text-[20px] w-[80%] md:w-[400px] text-center md:text-start">
-              На адрес электронной почты, который вы указали, должен был прийти четырехзначный код.
+              На адрес электронной почты, который вы указали, должен был прийти
+              четырехзначный код.
             </p>
             <div className="mb-6 flex gap-3">
               {Array.from({ length: 4 }).map((_, index) => (
@@ -106,7 +110,9 @@ const CodeInput = () => {
                   maxLength={1}
                   onChange={(e) => handleChange(e, index, setFieldValue)}
                   value={code[index]}
-                  className={`w-[50px] h-[50px] md:w-[80px] md:h-[80px] bg-gray-200 rounded text-center text-lg ${errors.code && touched.code ? 'border-red-500' : ''}`}
+                  className={`w-[50px] h-[50px] md:w-[80px] md:h-[80px] bg-gray-200 rounded text-center text-lg ${
+                    errors.code && touched.code ? "border-red-500" : ""
+                  }`}
                 />
               ))}
             </div>
@@ -118,9 +124,9 @@ const CodeInput = () => {
               <div className="flex justify-between items-center gap-[190px] text-blue-500">
                 <button
                   type="button"
-                  onClick={handleResendSMS}
+                  onClick={() => handleResendSMS(email)}
                   disabled={isTimerActive}
-                  className={`py-2 px-4 rounded ${isTimerActive ? 'bg-gray-400' : 'bg-transparent'}`}
+                  className={`py-2 px-4 rounded `}
                 >
                   Отправить SMS ещё раз
                 </button>
@@ -144,7 +150,7 @@ const CodeInput = () => {
                 type="submit"
                 className="bg-[#FE0404] text-white rounded hover:bg-red-600 w-[120px] md:w-[200px] h-[40px] md:h-[50px]"
               >
-                Отправить
+                Подтвердить
               </button>
             </div>
           </Form>

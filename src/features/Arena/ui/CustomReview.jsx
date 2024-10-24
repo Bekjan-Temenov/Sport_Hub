@@ -4,7 +4,7 @@ import fon from "../../../shared/assets/png/ReviewsFon.png";
 import Container from "../../../shared/helpers/Container";
 import { Link } from "react-router-dom";
 
-const reviews = [
+export const reviews = [
   {
     text: "Баскетбол - это удивительный спорт, который сочетает в себе физическую активность, стратегию и командную работу. Я играю в баскетбол уже несколько лет и могу с уверенностью сказать, что это одна из самых захватывающих игр.",
     rating: 5,
