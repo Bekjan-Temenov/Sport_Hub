@@ -27,7 +27,6 @@ const reviewSlice = createSlice({
             })
             .addCase(postReview.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                // Можно добавить логику для обновления состояния с новым отзывом
                 state.reviews.push(action.payload);
             })
             .addCase(postReview.rejected, (state, action) => {

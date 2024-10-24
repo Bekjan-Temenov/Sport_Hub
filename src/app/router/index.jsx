@@ -45,7 +45,7 @@ const MyRoutes = () => {
         { path: "", element: <Adversting /> },
         AboutUsRoute, // Из ветки feature/main_adversting
         { path: "reviewn", element: <ReviewN /> },
-        { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
+        { path: "paymants", element: <Paymentn /> }, // Объединение двух путей
         {path: "trainer", element: <Trainer/>},
         {path: "client", element: <Client/> },
         

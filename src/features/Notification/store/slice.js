@@ -1,31 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { administratorpayments,  } from "./action"; // Импортируем новое действие
+import { getPaymentData } from "./action";
 
 const aboutSlice = createSlice({
-    name: 'about',
+    name: 'payments',
     initialState: {
-        
-        payments: [], // Новое состояние для кружков
-        status: 'idle', // idle | loading | succeeded | failed
+        payments: [], // Исправлено: пустой массив для начального состояния
+        status: 'paid', // 'idle' вместо 'paid', чтобы обозначать начальное состояние ожидания
         error: null,
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(administratorpayments.pending, (state) => {
-                state.status = 'loading';
+            .addCase(getPaymentData.pending, (state) => {
+                state.status = 'loading'; // Когда запрос выполняется
             })
-            .addCase(administratorpayments.fulfilled, (state, action) => {
-                state.status = 'succeeded';
-                state.payments = action.payload;
+            .addCase(getPaymentData.fulfilled, (state, action) => {
+                state.status = 'succeeded'; 
+                state.payments = action.payload; 
             })
-            .addCase(administratorpayments.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message;
-            })
-          
-        
+            .addCase(getPaymentData.rejected, (state, action) => {
+                state.status = 'failed'; // Если запрос завершился с ошибкой
+                state.error = action.payload; // Записываем сообщение об ошибке в состояние
+            });
     }
 });
 
 export default aboutSlice.reducer;
+

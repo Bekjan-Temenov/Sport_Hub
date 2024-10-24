@@ -68,7 +68,7 @@ const Sidebar = () => {
           onClick={() => toggleMenu("notifications")}
           items={[
             { text: "Отзыв", to: "reviewn" },
-            { text: "Оплата", to: "paymantn" },
+            { text: "Оплата", to: "paymants" },
           ]}
         />
         <SidebarItem text="Настройка" img={setting} />
