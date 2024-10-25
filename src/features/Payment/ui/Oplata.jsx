@@ -1,8 +1,12 @@
 import React from "react";
 import NavBarContainer from "../../../shared/helpers/NavBarContainer";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const PaymentStatus = ({ isPaid, date }) => {
+  const payment = useSelector((state) => state.payment.payment)
+
+  console.log(payment);
   return (
     <div className="my-4">
       <span className="flex justify-center font-sans items-end text-[15px] p-2 mt-4 mb-2">

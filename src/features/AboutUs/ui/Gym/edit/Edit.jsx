@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { putHall } from "../../store/action";
+import { putHall, putShedule } from "../../store/action";
 import gallery from "../../../../../shared/assets/svg/admin_gallery.svg";
 import TimeSelector from "../../../../Adversting/ui/TimeSelector";
 
@@ -15,20 +15,27 @@ const daysOfWeek = [
   { id: 6, name: "Суббота" },
 ];
 
-const Create = ({ setIsOpen, halls }) => {
+const Edit = ({ setIsOpen, halls }) => {
+  const { loading, schedules, error } = useSelector((state) => state.shedules);
   const notify = () => toast.success("Реклама успешно создана!");
   const errorfy = () => toast.error("Ошибка!");
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
+  const idToFind = halls.id
+  const filteredHalls = schedules.filter(
+    (schedule) => schedule.hall === idToFind
+  );
   const [workSchedules, setWorkSchedules] = useState(
     daysOfWeek.map((day) => ({
       day_of_week: day.name,
       opening_time: "09:00",
       closing_time: "18:00",
       is_active: false,
+      hall: idToFind,
     }))
   );
 
+  console.log(workSchedules);
   const [formData, setFormData] = useState({
     sports: "",
     title: "",
@@ -44,18 +51,16 @@ const Create = ({ setIsOpen, halls }) => {
     shower: false,
     lighting: false,
     dressing_room: false,
-    image: null,
-    image1: null,
-    image2: null,
-    image3: null,
+    image: halls.image || null,
+    image1: halls.image1 || null,
+    image2: halls.image2 || null,
+    image3: halls.image3 || null,
   });
 
-  const [mainImage, setMainImage] = useState(halls.image || null);
-  const [image1, setImage1] = useState(halls.image1 || null);
-  const [image2, setImage2] = useState(halls.image2 || null);
-  const [image3, setImage3] = useState(halls.image3 || null);
-
-  const { loading, error } = useSelector((state) => state.hall);
+  const [mainImage, setMainImage] = useState(halls.image || gallery);
+  const [image1, setImage1] = useState(halls.image1 || gallery);
+  const [image2, setImage2] = useState(halls.image2 || gallery);
+  const [image3, setImage3] = useState(halls.image3 || gallery);
 
   const handleCheckboxChange = (index) => {
     setWorkSchedules((prevSchedules) =>
@@ -63,8 +68,37 @@ const Create = ({ setIsOpen, halls }) => {
         i === index ? { ...schedule, is_active: !schedule.is_active } : schedule
       )
     );
-  };
+  }
 
+  if (filteredHalls.length > 0) {
+    console.log("Найденные данные для зала с hall:", idToFind, filteredHalls);
+  } else {
+    console.log("Данные с таким hall не найдены");
+  }
+
+  useEffect(() => {
+    if (filteredHalls.length > 0) {
+      setWorkSchedules((prevSchedules) =>
+        prevSchedules.map((schedule) => {
+          const matchedDay = filteredHalls.find(
+            (hallSchedule) => hallSchedule.day_of_week === schedule.day_of_week
+          )
+          return matchedDay
+            ? {
+                ...schedule,
+                opening_time: matchedDay.opening_time,
+                closing_time: matchedDay.closing_time,
+                is_active: true,
+              }
+            : schedule;
+        })
+      );
+    } else {
+      console.log("Данные с таким hall не найдены");
+    }
+  }, []);
+
+  console.log("Полученные данные залов:", filteredHalls);
   useEffect(() => {
     if (halls) {
       setFormData((prev) => ({
@@ -82,7 +116,7 @@ const Create = ({ setIsOpen, halls }) => {
       )
     );
   };
-
+  console.log(workSchedules);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
@@ -104,22 +138,35 @@ const Create = ({ setIsOpen, halls }) => {
 
   const handleAdditionalImageChange = (index) => (e) => {
     const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      const imageKey = `image${index + 1}`;
 
-    if (index === 0) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage1(imageUrl);
-      setFormData((prevFormData) => ({ ...prevFormData, image1: file }));
-    } else if (index === 1) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage2(imageUrl);
-      setFormData((prevFormData) => ({ ...prevFormData, image2: file }));
-    } else if (index === 2) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage3(imageUrl);
-      setFormData((prevFormData) => ({ ...prevFormData, image3: file }));
+      if (index === 0) {
+        setImage1(imageUrl);
+      } else if (index === 1) {
+        setImage2(imageUrl);
+      } else if (index === 2) {
+        setImage3(imageUrl);
+      }
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [imageKey]: file,
+      }));
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (mainImage) URL.revokeObjectURL(mainImage);
+      if (image1) URL.revokeObjectURL(image1);
+      if (image2) URL.revokeObjectURL(image2);
+      if (image3) URL.revokeObjectURL(image3);
+    };
+  }, [mainImage, image1, image2, image3]);
+
+  console.log(workSchedules);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -135,27 +182,55 @@ const Create = ({ setIsOpen, halls }) => {
       "size",
       "sports",
       "title",
+      "workSchedules",
     ];
 
-    for (const field of requiredFields) {
-      if (!formData[field]) {
-        alert(`Пожалуйста, заполните поле: ${field}`);
-        return;
-      }
-    }
-
     const formDataToSend = new FormData();
-    for (const [key, value] of Object.entries(formData)) {
-      formDataToSend.append(key, value);
+    Object.entries(formData).forEach(([key, value]) => {
+      if (
+        key === "image" ||
+        key === "image1" ||
+        key === "image2" ||
+        key === "image3"
+      ) {
+        if (value instanceof File) {
+          formDataToSend.append(key, value);
+        } else if (typeof value === "string" && value.startsWith("http")) {
+          formDataToSend.append(
+            `existing${key.charAt(0).toUpperCase() + key.slice(1)}Url`,
+            value
+          );
+        }
+      } else {
+        formDataToSend.append(key, value);
+      }
+    });
+    formDataToSend.append("workSchedules", JSON.stringify(workSchedules));
+    const selectedSchedules = workSchedules.filter(
+      (schedule) => schedule.is_active
+    );
+
+    if (selectedSchedules.length === 0) {
+      alert("Пожалуйста, выберите хотя бы один день для работы.");
+      return;
     }
 
-    if (mainImage) formDataToSend.append("image", mainImage);
-    if (image1) formDataToSend.append("image1", image1);
-    if (image2) formDataToSend.append("image2", image2);
-    if (image3) formDataToSend.append("image3", image3);
-
-    console.log(formDataToSend);
-
+    try {
+      for (const schedule of selectedSchedules) {
+        const scheduleData = {
+          day_of_week: schedule.day_of_week,
+          opening_time: schedule.opening_time,
+          closing_time: schedule.closing_time,
+          is_active: schedule.is_active,
+          hall: halls.id,
+        };
+        dispatch(putShedule({ putData: scheduleData, id: halls.id }));
+      }
+      console.log("Все расписания успешно отправлены");
+    } catch (error) {
+      console.error("Ошибка при отправке расписания:", error);
+      alert("Произошла ошибка при отправке расписания.");
+    }
     dispatch(
       putHall({
         formData: formDataToSend,
@@ -164,9 +239,8 @@ const Create = ({ setIsOpen, halls }) => {
         notify,
         errorfy,
       })
-      );
-    };
-    console.log(formData)
+    );
+  };
 
   return (
     <div className="flex flex-col items-center justify-center text-white ">
@@ -295,7 +369,6 @@ const Create = ({ setIsOpen, halls }) => {
             </p>
           </div>
         </div>
-
         <div className="grid grid-cols-2 gap-4 gap-x-7 my-9">
           {workSchedules.map((schedule, index) => (
             <div key={index} className="flex items-center justify-between ">
@@ -438,7 +511,7 @@ const Create = ({ setIsOpen, halls }) => {
         </div>
         <div className="flex items-center justify-around">
           <button
-        onClick={() => setIsOpen(false)}
+            onClick={() => setIsOpen(false)}
             type="button"
             className="text-center bg-[#FE04044D] hover:bg-red-900 px-[55px] py-[10px] rounded-md"
           >
@@ -466,4 +539,4 @@ const Create = ({ setIsOpen, halls }) => {
   );
 };
 
-export default Create;
+export default Edit;

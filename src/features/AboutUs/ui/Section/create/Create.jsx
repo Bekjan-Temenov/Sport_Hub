@@ -161,7 +161,7 @@ const Create = ({ setIsOpen }) => {
               />
               <img
                 src={mainImage ? URL.createObjectURL(mainImage) : gallery}
-                className={mainImage ? "w-full" : ""}
+                
                 alt="Главное изображение"
               />
             </div>
@@ -184,7 +184,7 @@ const Create = ({ setIsOpen }) => {
               />
               <img
                 src={image ? URL.createObjectURL(image) : gallery}
-                className="rounded"
+                className="rounded "
                 alt={`Дополнительное изображение ${index + 1}`}
               />
             </div>
@@ -327,6 +327,86 @@ const Create = ({ setIsOpen }) => {
           </div>
         </div>
         <h1 className="font-sans text-[24px]">Расписание для взрослых</h1>
+        <div className="grid grid-cols-2 gap-4 gap-x-7 my-9">
+          {workSchedules.map((schedule, index) => (
+            <div key={index} className="flex items-center justify-between ">
+              <input
+                type="checkbox"
+                checked={schedule.is_active}
+                onChange={() => handleCheckboxChange(index)}
+                className="accent-[#FF0000] w-[22px] cursor-pointer h-[22px]"
+              />
+              <label className="block ml-2 text-sm text-white">
+                {schedule.day_of_week}
+              </label>
+              <div className="flex items-center gap-3">
+                <TimeSelector
+                  defaultHour={
+                    parseInt(schedule.opening_time.split(":")[0], 10) || 0
+                  }
+                  defaultMinute={
+                    parseInt(schedule.opening_time.split(":")[1], 10) || 0
+                  }
+                  onChange={(time) =>
+                    handleTimeChange(index, "opening_time", time)
+                  }
+                />
+                <TimeSelector
+                  defaultHour={
+                    parseInt(schedule.closing_time.split(":")[0], 10) || 0
+                  }
+                  defaultMinute={
+                    parseInt(schedule.closing_time.split(":")[1], 10) || 0
+                  }
+                  onChange={(time) =>
+                    handleTimeChange(index, "closing_time", time)
+                  }
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <h1 className="font-sans text-[24px]">Расписание для подростков </h1>
+        <div className="grid grid-cols-2 gap-4 gap-x-7 my-9">
+          {workSchedules.map((schedule, index) => (
+            <div key={index} className="flex items-center justify-between ">
+              <input
+                type="checkbox"
+                checked={schedule.is_active}
+                onChange={() => handleCheckboxChange(index)}
+                className="accent-[#FF0000] w-[22px] cursor-pointer h-[22px]"
+              />
+              <label className="block ml-2 text-sm text-white">
+                {schedule.day_of_week}
+              </label>
+              <div className="flex items-center gap-3">
+                <TimeSelector
+                  defaultHour={
+                    parseInt(schedule.opening_time.split(":")[0], 10) || 0
+                  }
+                  defaultMinute={
+                    parseInt(schedule.opening_time.split(":")[1], 10) || 0
+                  }
+                  onChange={(time) =>
+                    handleTimeChange(index, "opening_time", time)
+                  }
+                />
+                <TimeSelector
+                  defaultHour={
+                    parseInt(schedule.closing_time.split(":")[0], 10) || 0
+                  }
+                  defaultMinute={
+                    parseInt(schedule.closing_time.split(":")[1], 10) || 0
+                  }
+                  onChange={(time) =>
+                    handleTimeChange(index, "closing_time", time)
+                  }
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <h1 className="font-sans text-[24px]">Расписание для детей</h1>
         <div className="grid grid-cols-2 gap-4 gap-x-7 my-9">
           {workSchedules.map((schedule, index) => (
             <div key={index} className="flex items-center justify-between ">

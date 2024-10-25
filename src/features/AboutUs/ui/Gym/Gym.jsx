@@ -8,15 +8,29 @@ import { fetchAdminHalls, deleteAdminHall } from "../../store/action";
 import FullScreenModal from "../../../../shared/FullScreenModal/FullScreenModal";
 import EditModal from "./edit/Edit";
 import Create from "./create/Create";
+import { fetchWorkSchedules } from "../store/action";
+
 
 function Gym() {
   const dispatch = useDispatch();
   const { halls, status } = useSelector((state) => state.about);
+  const { schedules,  error } = useSelector((state) => state.shedules)
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
 
+  console.log("Полученные данные залов:", schedules);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchWorkSchedules());
+    }
+  }, [dispatch, status]);
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>;
+  }
   const deleteMenu = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);

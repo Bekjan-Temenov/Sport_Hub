@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { createWorkSchedule, postCircles, putCircle } from "../../store/action";
+import { putShedule, putCircle } from "../../store/action";
 import gallery from "../../../../../shared/assets/svg/admin_gallery.svg";
 import TimeSelector from "../../../../Adversting/ui/TimeSelector";
 
@@ -15,7 +15,7 @@ const daysOfWeek = [
   { id: 6, name: "Суббота" },
 ];
 
-const Edit = ({ setIsOpen , circles}) => {
+const Edit = ({ setIsOpen, circles }) => {
   const notify = () => toast.success("Зал успешно реадктировано !");
   const errorfy = () => toast.error("ошибка!");
   const dispatch = useDispatch();
@@ -39,21 +39,21 @@ const Edit = ({ setIsOpen , circles}) => {
     description3: "",
     header4: "",
     description4: "",
-    image: null,
-    image1: null,
-    image2: null,
-    image3: null,
-  })
+    image: circles.image || null,
+    image1: circles.image1 || null,
+    image2: circles.image2 || null,
+    image3: circles.image3 || null,
+  });
   const [mainImage, setMainImage] = useState(circles.image || gallery);
   const [image1, setImage1] = useState(circles.image1 || gallery);
   const [image2, setImage2] = useState(circles.image2 || gallery);
   const [image3, setImage3] = useState(circles.image3 || gallery);
-  const { loadinghall, errorhall } = useSelector((state) => state.hall)
+  const { loadinghall, errorhall } = useSelector((state) => state.hall);
 
-  console.log(circles);
+  console.log(image1);
   useEffect(() => {
     if (circles) {
-        setFormData((prev) => ({
+      setFormData((prev) => ({
         ...prev,
         ...circles,
       }));
@@ -85,37 +85,44 @@ const Edit = ({ setIsOpen , circles}) => {
     }
   };
 
-  const handleMainImageChange = useCallback((e) => {
+  const handleMainImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const validTypes = ["image/jpeg", "image/png", "image/gif"]; // Добавьте все поддерживаемые типы файлов
-      if (!validTypes.includes(file.type)) {
-        alert("Пожалуйста, загрузите файл в формате JPEG, PNG или GIF.");
-        return;
-      }
-      const imageUrl = URL.createObjectURL(file);
-      setMainImage(imageUrl);
-      setFormData((prev) => ({ ...prev, file }));
-    }
-  }, []);
-  
+    const imageUrl = URL.createObjectURL(file);
+    setMainImage(imageUrl);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      image: file,
+    }));
+  };
   const handleAdditionalImageChange = (index) => (e) => {
     const file = e.target.files[0];
-
-    if (index === 0) {
+    if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setImage1(imageUrl);
-      setFormData((prevFormData) => ({ ...prevFormData, image1: file }));
-    } else if (index === 1) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage2(imageUrl);
-      setFormData((prevFormData) => ({ ...prevFormData, image2: file }));
-    } else if (index === 2) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage3(imageUrl);
-      setFormData((prevFormData) => ({ ...prevFormData, image3: file }));
+      const imageKey = `image${index + 1}`; 
+  
+      if (index === 0) {
+        setImage1(imageUrl);
+      } else if (index === 1) {
+        setImage2(imageUrl);
+      } else if (index === 2) {
+        setImage3(imageUrl);
+      }
+  
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [imageKey]: file,
+      }));
     }
-  };
+  }
+  
+  useEffect(() => {
+    return () => {
+      if (mainImage) URL.revokeObjectURL(mainImage);
+      if (image1) URL.revokeObjectURL(image1);
+      if (image2) URL.revokeObjectURL(image2);
+      if (image3) URL.revokeObjectURL(image3);
+    };
+  }, [mainImage, image1, image2, image3]);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -135,27 +142,35 @@ const Edit = ({ setIsOpen , circles}) => {
     formDataToSend.append("lighting", formData.lighting);
     formDataToSend.append("dressing_room", formData.dressing_room);
 
-    if (mainImage) {
-      formDataToSend.append("image", mainImage);
-    }
-  
-    if (image1) {
-      formDataToSend.append("image1", image1);
-    }
-  
-    if (image2) {
-      formDataToSend.append("image2", image2);
-    }
-  
-    if (image3) {
-      formDataToSend.append("image3", image3);
-    }
+    Object.entries(formData).forEach(([key, value]) => {
+      if (
+        key === "image" ||
+        key === "image1" ||
+        key === "image2" ||
+        key === "image3"
+      ) {
+        if (value instanceof File) {
+          formDataToSend.append(key, value);
+        } else if (typeof value === "string" && value.startsWith("http")) {
+          formDataToSend.append(
+            `existing${key.charAt(0).toUpperCase() + key.slice(1)}Url`,
+            value
+          );
+        }
+      } else {
+        formDataToSend.append(key, value);
+      }
+    });
 
     dispatch(
-      putCircle({ formData: formDataToSend,id:circles.id ,  setIsOpen, notify, errorfy })
+      putCircle({
+        formData: formDataToSend,
+        id: circles.id,
+        setIsOpen,
+        notify,
+        errorfy,
+      })
     );
-
-    console.log("Форма отправляется");
 
     const selectedSchedules = workSchedules.filter(
       (schedule) => schedule.is_active
@@ -174,7 +189,7 @@ const Edit = ({ setIsOpen , circles}) => {
           closing_time: schedule.closing_time,
           is_active: schedule.is_active,
         };
-        dispatch(createWorkSchedule({ workScheduleData: scheduleData }));
+        dispatch(putShedule({ workScheduleData: scheduleData }));
       }
       console.log("Все расписания успешно отправлены");
     } catch (error) {
@@ -203,35 +218,34 @@ const Edit = ({ setIsOpen , circles}) => {
                 accept="image/*"
               />
               <img
-                src={mainImage }
-                className={mainImage ? "w-full" : ""}
+                src={mainImage}               
                 alt="Главное изображение"
               />
             </div>
           </div>
           <div className="flex items-center justify-between">
-          {[image1, image2, image3].map((image, index) => (
-            <div
-              key={index}
-              className="w-[207px] flex items-center overflow-hidden justify-center h-[140px] border rounded cursor-pointer bg-[#131313]"
-              onClick={() =>
-                document.getElementById(`additionalImage${index}`).click()
-              }
-            >
-              <input
-                type="file"
-                id={`additionalImage${index}`}
-                onChange={handleAdditionalImageChange(index)}
-                className="hidden"
-                accept="image/*"
-              />
-              <img
-                src={image}
-                className="rounded"
-                alt={`Дополнительное изображение `}
-              />
-            </div>
-          ))}
+            {[image1, image2, image3].map((image, index) => (
+              <div
+                key={index}
+                className="w-[207px] flex items-center overflow-hidden justify-center h-[140px] border rounded cursor-pointer bg-[#131313]"
+                onClick={() =>
+                  document.getElementById(`additionalImage${index}`).click()
+                }
+              >
+                <input
+                  type="file"
+                  id={`additionalImage${index}`}
+                  onChange={handleAdditionalImageChange(index)}
+                  className="hidden"
+                  accept="image/*"
+                />
+                <img
+                  src={image}
+                  className="rounded"
+                  alt={`Дополнительное изображение ${index + 1}`}
+                />
+              </div>
+            ))}
           </div>
         </div>
         <hr className="my-10 bg-[#D9D9D9]" />
@@ -412,7 +426,7 @@ const Edit = ({ setIsOpen , circles}) => {
 
         <div className="flex items-center justify-around">
           <button
-          onClick={() => setIsOpen(false)}
+            onClick={() => setIsOpen(false)}
             type="button"
             className="text-center bg-[#FE04044D] hover:bg-red-900 px-[55px] py-[10px] rounded-md"
           >

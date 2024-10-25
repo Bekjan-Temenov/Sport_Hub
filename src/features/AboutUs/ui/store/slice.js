@@ -1,13 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { postHall, createWorkSchedule, putHall, putShedule, postCircles } from './action';
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  postHall,
+  createWorkSchedule,
+  putHall,
+  putShedule,
+  postCircles,
+  fetchWorkSchedules,
+} from "./action";
 
 const hallSlice = createSlice({
-  name: 'hall',
+  name: "hall",
   initialState: {
     loading: false,
     error: null,
     success: false,
-    schedules:[]
+    schedules: [],
   },
   reducers: {
     resetState: (state) => {
@@ -18,6 +25,19 @@ const hallSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+
+      .addCase(fetchWorkSchedules.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchWorkSchedules.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.schedules = action.payload;
+      })
+      .addCase(fetchWorkSchedules.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+
       .addCase(postHall.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -29,7 +49,7 @@ const hallSlice = createSlice({
       })
       .addCase(postHall.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Ошибка при создании зала';
+        state.error = action.payload || "Ошибка при создании зала";
       })
 
       .addCase(postCircles.pending, (state) => {
@@ -43,9 +63,8 @@ const hallSlice = createSlice({
       })
       .addCase(postCircles.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Ошибка при создании зала';
+        state.error = action.payload || "Ошибка при создании зала";
       })
-
 
       .addCase(createWorkSchedule.pending, (state) => {
         state.loading = true;
@@ -57,7 +76,7 @@ const hallSlice = createSlice({
       })
       .addCase(createWorkSchedule.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload
+        state.error = action.payload;
       })
 
       .addCase(putHall.fulfilled, (state, action) => {

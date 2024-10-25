@@ -1,13 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../api";
 
-// Создаем asyncThunk для получения тренеров
 export const getTrainers = createAsyncThunk(
   "trainers/fetchTrainers",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.getTrainers(); 
-      console.log("Полученные данные тренеров:", response.data);
+      const response = await api.getTrainers();
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -26,7 +24,6 @@ export const createTrainer = createAsyncThunk(
     }
   }
 )
-// Создаем asyncThunk для получения клиентов
 export const getClients = createAsyncThunk(
   "clients/fetchClients",
   async (_, { rejectWithValue }) => {
@@ -39,7 +36,6 @@ export const getClients = createAsyncThunk(
   }
 );
 
-// Создаем asyncThunk для создания клиента
 export const createClient = createAsyncThunk(
   "clients/createClient",
   async (clientData, { rejectWithValue }) => {

@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import NavBarContainer from "../../../shared/helpers/NavBarContainer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getClients } from "../store/action";
 
 const Client = () => {
-  const [clients, setClients] = useState([]); // Локальное состояние для хранения данных клиентов
   const dispatch = useDispatch();
+  const clients = useSelector((state) => state.trainers?.clients);
+  console.log(clients, "clients");
 
   useEffect(() => {
-    dispatch(getClients())
+    dispatch(getClients());
+    console.log(dispatch(getClients()));
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log(clients);
+  }, [clients]);
 
   return (
     <NavBarContainer>
@@ -25,12 +31,12 @@ const Client = () => {
       {clients.map((client) => (
         <div
           key={client.id}
-          className="border-b font-normal border-[#B6B7BC] px-10 flex justify-between"
+          className="border-b font-normal border-[#B6B7BC] flex justify-between items-center p-3 transition duration-300"
         >
-          <p>{client.name}</p>
-          <p>{client.trainer}</p>
-          <p>{client.sport}</p>
-          <p>{client.paymentStatus}</p>
+          <p className="w-1/5 text-left">{client.name}</p>
+          <p className="w-1/5 text-center">{client.trainer.name}</p>
+          <p className="w-1/5 text-center">{client.sport}</p>
+          <p className="w-1/5 pr-5 text-right">{client.payment_method}</p>
         </div>
       ))}
     </NavBarContainer>

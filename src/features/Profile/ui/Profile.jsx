@@ -4,8 +4,12 @@ import profile from "../../../shared/assets/png/profile.png";
 import foto from "../../../shared/assets/svg/foto.svg";
 import fotoparat from "../../../shared/assets/svg/fotoparat.svg";
 import edit from "../../../shared/assets/svg/edit.svg";
+import { useSelector } from "react-redux";
 
 function Profile({handleOpen}) {
+  const {error , loading , profile} = useSelector((state) => state.profile)
+
+  console.log(profile);
   return (
     <div
       className="relative w-full h-[253px] flex flex-col justify-end border border-red-600 rounded-lg bg-cover bg-center"
@@ -33,7 +37,7 @@ function Profile({handleOpen}) {
           </div>
 
           <h1 className="ml-4 text-2xl font-medium font-comfortaa">
-            Асанова Амина
+            {profile.full_name}
           </h1>
         </div>
 

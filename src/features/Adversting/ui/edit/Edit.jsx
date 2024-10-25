@@ -47,7 +47,7 @@ function Edit({ setIsOpen, adversting }) {
         ...prev,
         ...adversting,
       }));
-      setImagePreview(adversting.file); // Убедитесь, что вы обновляете изображение при изменении adversting
+      setImagePreview(adversting.file);
     }
   }, [adversting]);
 
@@ -61,7 +61,6 @@ function Edit({ setIsOpen, adversting }) {
       }
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
-      // Обновляем file только если изображение действительно изменилось
       setFormValue((prev) => ({ ...prev, file }));
     }
   }, []);
@@ -74,22 +73,30 @@ function Edit({ setIsOpen, adversting }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     const formData = new FormData();
-    
+
     Object.entries(formValue).forEach(([key, value]) => {
-      // Просто добавьте файл, даже если он не изменился
-      if (key === 'file' && !value) {
-        console.log(`Не обновляем файл, он не изменен`);
-        // Если вы не хотите обновлять файл, вы можете просто пропустить эту проверку
-        // Или же добавьте существующий файл
+      if (key === "file") {
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else if (typeof value === "string" && value.startsWith("http")) {
+          formData.append("existingFileUrl", value);
+        }
       } else {
-        console.log(`Key: ${key}, Value: ${value}`);
         formData.append(key, value);
       }
     });
-    
+
     try {
-      await dispatch(putAdversting({ id: adversting.id, putData: formData }));
+      const result = await dispatch(
+        putAdversting({ id: adversting.id, putData: formData })
+      );
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
       setIsOpen(false);
     } catch (error) {
       console.error("Submission failed:", error);
@@ -97,7 +104,7 @@ function Edit({ setIsOpen, adversting }) {
       setLoading(false);
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex items-center justify-between w-full">
@@ -154,7 +161,10 @@ function Edit({ setIsOpen, adversting }) {
           />
         </div>
         <div className="flex flex-col justify-between gap-7">
-          <div className="flex flex-col border rounded gap-y-3 w-[356px] items-center py-[35px] px-[20px] bg-[#131313]">
+          <div
+            onClick={() => document.getElementById("avatar").click()}
+            className="flex flex-col cursor-pointer border rounded gap-y-3 w-[356px] items-center py-[35px] px-[20px] bg-[#131313]"
+          >
             <input
               type="file"
               id="avatar"
@@ -163,12 +173,9 @@ function Edit({ setIsOpen, adversting }) {
               accept="image/png, image/jpeg"
               onChange={handleImageClick}
             />
-            <button
-              onClick={() => document.getElementById("avatar").click()}
-              className="bg-[#C8180C] py-2 px-6 rounded-full"
-            >
+            <div className="bg-[#C8180C] py-2 px-6 rounded-full" alt="Preview">
               Загрузить изображение
-            </button>
+            </div>
             <p className="text-center text-md">
               Допустимые форматы: PNG, GIF, WEBP, MP4, и MP3
             </p>

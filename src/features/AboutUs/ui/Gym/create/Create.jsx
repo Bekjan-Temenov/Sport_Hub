@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { postHall , createWorkSchedule } from "../../store/action";
+import { postHall, createWorkSchedule } from "../../store/action";
 import gallery from "../../../../../shared/assets/svg/admin_gallery.svg";
 import TimeSelector from "../../../../Adversting/ui/TimeSelector";
 
@@ -15,18 +15,11 @@ const daysOfWeek = [
   { id: 6, name: "Суббота" },
 ];
 
-const Create = ({ setIsOpen , halls}) => {
+const Create = ({ setIsOpen }) => {
   const notify = () => toast.success("Реклама успешно создана!");
   const errorfy = () => toast.error("ошибка!");
   const dispatch = useDispatch();
-  const [workSchedules, setWorkSchedules] = useState(
-    daysOfWeek.map((day) => ({
-      day_of_week: day.name,
-      opening_time: "09:00",
-      closing_time: "18:00",
-      is_active: false,
-    }))
-  );
+
   const [formData, setFormData] = useState({
     sports: "",
     title: "",
@@ -47,13 +40,36 @@ const Create = ({ setIsOpen , halls}) => {
     image2: null,
     image3: null,
   });
+  const [workSchedules, setWorkSchedules] = useState(
+    daysOfWeek.map((day) => ({
+      day_of_week: day.name,
+      opening_time: "09:00",
+      closing_time: "18:00",
+      is_active: false,
+    }))
+  );
   const [mainImage, setMainImage] = useState(null);
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
-  const { loading, error , success } = useSelector((state) => state.hall);
+  const { loading, error } = useSelector((state) => state.shedules);
 
+  useEffect(() => {
+    if (formData.title) {
+      setWorkSchedules(
+        daysOfWeek.map((day) => ({
+          day_of_week: day.name,
+          opening_time: "09:00",
+          closing_time: "18:00",
+          is_active: false,
+        }))
+      );
+    }
+  }, [formData.title, daysOfWeek])
+  
   console.log(workSchedules);
+  console.log(formData);
+
   const handleCheckboxChange = (index) => {
     setWorkSchedules((prevSchedules) =>
       prevSchedules.map((schedule, i) =>
@@ -89,7 +105,7 @@ const Create = ({ setIsOpen , halls}) => {
 
   const handleAdditionalImageChange = (index) => (e) => {
     const file = e.target.files[0];
-  
+
     if (index === 0) {
       setImage1(file);
       setFormData((prevFormData) => ({ ...prevFormData, image1: file }));
@@ -101,7 +117,6 @@ const Create = ({ setIsOpen , halls}) => {
       setFormData((prevFormData) => ({ ...prevFormData, image3: file }));
     }
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -129,15 +144,15 @@ const Create = ({ setIsOpen , halls}) => {
     if (mainImage) {
       formDataToSend.append("image", mainImage);
     }
-  
+
     if (image1) {
       formDataToSend.append("image1", image1);
     }
-  
+
     if (image2) {
       formDataToSend.append("image2", image2);
     }
-  
+
     if (image3) {
       formDataToSend.append("image3", image3);
     }
@@ -164,6 +179,7 @@ const Create = ({ setIsOpen , halls}) => {
           opening_time: schedule.opening_time,
           closing_time: schedule.closing_time,
           is_active: schedule.is_active,
+         
         };
         dispatch(createWorkSchedule({ workScheduleData: scheduleData }));
       }
@@ -201,28 +217,28 @@ const Create = ({ setIsOpen , halls}) => {
             </div>
           </div>
           <div className="flex items-center justify-between">
-          {[image1, image2, image3].map((image, index) => (
-            <div
-              key={index}
-              className="w-[207px] flex items-center overflow-hidden justify-center h-[140px] border rounded cursor-pointer bg-[#131313]"
-              onClick={() =>
-                document.getElementById(`additionalImage${index}`).click()
-              }
-            >
-              <input
-                type="file"
-                id={`additionalImage${index}`}
-                onChange={handleAdditionalImageChange(index)}
-                className="hidden"
-                accept="image/*"
-              />
-              <img
-                src={image ? URL.createObjectURL(image) : gallery}
-                className="rounded"
-                alt={`Дополнительное изображение ${index + 1}`}
-              />
-            </div>
-          ))}
+            {[image1, image2, image3].map((image, index) => (
+              <div
+                key={index}
+                className="w-[207px] flex items-center overflow-hidden justify-center h-[140px] border rounded cursor-pointer bg-[#131313]"
+                onClick={() =>
+                  document.getElementById(`additionalImage${index}`).click()
+                }
+              >
+                <input
+                  type="file"
+                  id={`additionalImage${index}`}
+                  onChange={handleAdditionalImageChange(index)}
+                  className="hidden"
+                  accept="image/*"
+                />
+                <img
+                  src={image ? URL.createObjectURL(image) : gallery}
+                  className="rounded"
+                  alt={`Дополнительное изображение ${index + 1}`}
+                />
+              </div>
+            ))}
           </div>
         </div>
         <hr className="my-10 bg-[#D9D9D9]" />
@@ -452,7 +468,7 @@ const Create = ({ setIsOpen , halls}) => {
           <button
             type="submit"
             className={
-              loading 
+              loading
                 ? "bg-gray-400 cursor-disabled text-center px-[55px] py-[10px] rounded-md"
                 : "text-center bg-[#FE0404] hover:bg-red-700 px-[55px] py-[10px] rounded-md"
             }
