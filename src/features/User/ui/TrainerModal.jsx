@@ -30,7 +30,7 @@ const TrainerModal = ({ onClosed }) => {
       ...prevData,
       [name]: value,
     }));
-    setErrorMessages((prev) => ({ ...prev, [name]: "" })); // Clear error for the field being edited
+    setErrorMessages((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleImageChange = (e) => {
@@ -50,7 +50,6 @@ const TrainerModal = ({ onClosed }) => {
     const { first_name, last_name, email, phone, sport } = formData;
     const newErrors = {};
 
-    // Validation checks
     if (!first_name) {
       newErrors.first_name = "Введите имя";
     }
@@ -90,7 +89,6 @@ const TrainerModal = ({ onClosed }) => {
         onClosed();
       }
     } catch (error) {
-      // Handle error in adding trainer
       if (error.response) {
         setErrorMessages({
           general: "Ошибка при добавлении тренера: " + error.response.data,
@@ -101,7 +99,6 @@ const TrainerModal = ({ onClosed }) => {
     }
   };
 
-  // Email validation function
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -120,29 +117,28 @@ const TrainerModal = ({ onClosed }) => {
     setErrorMessages({}); // Reset all error messages
   };
 
-  console.log(formData);
 
   return (
-    <div className="absolute top-0 bg-black bg-opacity-50 left-0 w-full h-full">
+    <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50">
       <div className="w-[610px] h-[540px] absolute mx-[25%] my-[7%] rounded-[10px] bg-[#222224]">
         <div className="border border-red-500 py-4 bg-[#FE0404] rounded-[10px] flex justify-center">
           <h1 className="text-[32px] font-normal">Добавить тренера</h1>
         </div>
 
         {errorMessages.general && (
-          <div className="text-red-500 text-center">
+          <div className="text-center text-red-500">
             {errorMessages.general}
           </div>
         )}
 
-        <div className="flex flex-col items-center m-2 gap-1">
+        <div className="flex flex-col items-center gap-1 m-2">
           <img
             id="image"
             className="w-[100px] h-[100px] rounded-full object-cover"
             src={formData.imagePreview}
             alt="Предпросмотр"
           />
-          <label className="block" htmlFor="imageInput">
+          <label className="block " htmlFor="imageInput">
             Добавить фото
           </label>
           <input
@@ -157,7 +153,7 @@ const TrainerModal = ({ onClosed }) => {
 
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-2 mx-5 p-2 gap-4 mt-4"
+          className="grid grid-cols-2 gap-4 p-2 mx-5 mt-4"
         >
           <div>
             <label className="block text-white" htmlFor="first_name">
@@ -175,7 +171,7 @@ const TrainerModal = ({ onClosed }) => {
               required
               maxLength="255"
               minLength="1"
-              className="w-full p-2 rounded text-black"
+              className="w-full p-2 text-black rounded"
             />
           </div>
           <div>
@@ -194,7 +190,7 @@ const TrainerModal = ({ onClosed }) => {
               required
               maxLength="255"
               minLength="1"
-              className="w-full p-2 rounded text-black"
+              className="w-full p-2 text-black rounded"
             />
           </div>
           <div>
@@ -213,7 +209,7 @@ const TrainerModal = ({ onClosed }) => {
               required
               maxLength="254"
               minLength="1"
-              className="w-full p-2 rounded text-black"
+              className="w-full p-2 text-black rounded"
             />
           </div>
           <div>
@@ -232,7 +228,7 @@ const TrainerModal = ({ onClosed }) => {
               required
               maxLength="20"
               minLength="1"
-              className="w-full p-2 rounded text-black"
+              className="w-full p-2 text-black rounded"
             />
           </div>
           <div>
@@ -248,12 +244,12 @@ const TrainerModal = ({ onClosed }) => {
               value={formData.sport}
               onChange={handleChange}
               required
-              className="w-full p-2 bg-black text-white rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full p-2 text-white bg-black rounded focus:outline-none focus:ring-2 focus:ring-red-600"
             >
               <option value="">Выберите спорт</option>
               <option value="Баскетбол">Баскетбол</option>
               <option value="Футбол">Футбол</option>
-              <option value="Валейбол">Волейбол</option>
+              <option value="Валейбол">Валейбол</option>
               <option value="Тенис">Теннис</option>
               <option value="Бокс">Бокс</option>
               <option value="Велоспорт">Велоспорт</option>
@@ -263,7 +259,7 @@ const TrainerModal = ({ onClosed }) => {
             </select>
           </div>
         </form>
-        <div className="mt-5 flex justify-end space-x-3">
+        <div className="flex justify-end mt-5 space-x-3">
           <button
             onClick={() => {
               resetForm();

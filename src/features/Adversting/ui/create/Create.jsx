@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
-import gallery from "../../../../shared/assets/svg/admin_gallery.svg";
-import { postAdminAdversting } from "../../store/action"; // Import only the POST action
 import { useDispatch } from "react-redux";
+import gallery from "../../../../shared/assets/svg/admin_gallery.svg";
+import { postAdminAdversting } from "../../store/action";
+
+
 
 const InputField = ({
   label,
@@ -49,7 +51,6 @@ function Create({ setIsOpen }) {
       setFormValue((prev) => ({ ...prev, file }));
     }
   }, []);
-
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
     setFormValue((prev) => ({ ...prev, [name]: value }));
@@ -201,7 +202,6 @@ function Create({ setIsOpen }) {
           />
         </div>
       </div>
-
       <div className="flex items-center mt-[60px] justify-evenly">
         <button
           type="button"
@@ -223,4 +223,4 @@ function Create({ setIsOpen }) {
     </form>
   );
 }
-export default Create;
+export default Create; 

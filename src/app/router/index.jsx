@@ -34,7 +34,7 @@ const MyRoutes = () => {
         ArenaRouter,
         ReviewRoute,
         GymRoute,
-        MainAdversRoute, 
+        MainAdversRoute,
       ],
     },
     {
@@ -42,10 +42,9 @@ const MyRoutes = () => {
       element: <AdminLayout />,
       children: [
         { path: "", element: <Adversting /> },
-        AboutUsRoute, 
+        AboutUsRoute,
         { path: "reviewn", element: <ReviewN /> },
-        { path: "paymantn", element: <Paymentn /> },
-        { path: "paymantn", element: <Paymentn /> }, // Объединение двух путей
+        { path: "payment", element: <Paymentn /> },
         { path: "trainer", element: <Trainer /> },
         { path: "client", element: <Client /> },
       ],
@@ -57,7 +56,7 @@ const MyRoutes = () => {
         { path: "", element: <Schedule /> },
         PaymentRoute,
         RouteProfile,
-        AttendenceRoute
+        AttendenceRoute,
       ],
     },
   ]);

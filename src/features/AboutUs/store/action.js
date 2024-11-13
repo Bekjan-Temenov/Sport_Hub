@@ -1,88 +1,93 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import  api  from '../api';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import api from "../api";
 
 export const section = createAsyncThunk(
-    'section/create', 
-    async (circleData, { rejectWithValue }) => {
-      try {
-        console.log(circleData)
-        const response = await api.postSection( circleData);
-        console.log("Response from create section:", response.data);
-        return response.data;
-      } catch (error) {
-        console.log(error)
-        return rejectWithValue(error.response?.data || "Error creating section");
-      }
+  "section/create",
+  async (circleData, { rejectWithValue }) => {
+    try {
+      const response = await api.postSection(circleData);
+      return response.data;
+    } catch (error) {
+      console.debug(error);
+      return rejectWithValue(error.response?.data || "Error creating section");
     }
-  );
-  
+  }
+);
 
 export const fetchAdminHalls = createAsyncThunk(
-    'admin/fetchHalls',
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await api.aboutHalls();
-            console.log("Полученные данные залов:", response.data);
-            return response.data;
-        } catch (error) {
-            console.error("Ошибка при получении залов:", error);
-            return rejectWithValue(error.response.data); 
-        }
+  "admin/fetchHalls",
+  async ({  title }, { rejectWithValue }) => {
+    try {
+      const response = await api.aboutHalls( title)
+      return response.data;
+    } catch (error) {
+      console.error("Ошибка при получении залов:", error);
+      return rejectWithValue(error.response?.data || "Unknown error");
     }
+  }
+);
+
+export const fetchAdminCircles = createAsyncThunk(
+  "admin/fetchCircles",
+
+  async ({  title }, { rejectWithValue }) => {
+    try {
+      const res = await api.aboutCircles( title);
+      console.log("Полученные данные кружков:", res.data);
+      return res.data;
+    } catch (error) {
+      console.error("Ошибка при получении кружков:", error);
+      const message =
+        error.response?.data?.message || "Ошибка при загрузке кружков.";
+      return rejectWithValue(message);
+    }
+  }
 );
 
 export const deleteAdminHall = createAsyncThunk(
-    'admin/deleteHall',
-    async (hallId, { rejectWithValue }) => {
-        try {
-            const response = await api.deleteHall(hallId);
-            console.log("Зал удалён:", response.data);
-            return hallId; 
-        } catch (error) {
-            console.error("Ошибка при удалении зала:", error);
-            const message = error.response?.data?.message || "Ошибка при удалении зала.";
-            return rejectWithValue(message);
-        }
+  "admin/deleteHall",
+  async (hallId, { rejectWithValue }) => {
+    try {
+      const response = await api.deleteHall(hallId);
+      console.log("Зал удалён:", response.data);
+      return hallId;
+    } catch (error) {
+      console.error("Ошибка при удалении зала:", error);
+      const message =
+        error.response?.data?.message || "Ошибка при удалении зала.";
+      return rejectWithValue(message);
     }
-);
-
-
-export const fetchAdminCircles = createAsyncThunk(
-    'admin/fetchCircles',
-    async (_, { rejectWithValue }) => {
-        try {
-            const res = await api.aboutCircles();
-            console.log("Полученные данные кружков:", res.data);
-            return res.data;
-        } catch (error) {
-            console.error("Ошибка при получении кружков:", error);
-            const message = error.response?.data?.message || "Ошибка при загрузке кружков.";
-            return rejectWithValue(message);
-        }
-    }
+  }
 );
 
 export const deleteAdminCircle = createAsyncThunk(
-    'admin/deleteCircle',
-    async (circleId, { rejectWithValue }) => {
-        try {
-            const response = await api.deleteCircle(circleId);
-            console.log("Кружок удалён:", response.data);
-            return circleId; 
-        } catch (error) {
-            console.error("Ошибка при удалении кружка:", error);
-            const message = error.response?.data?.message || "Ошибка при удалении кружка.";
-            return rejectWithValue(message);
-        }
+  "admin/deleteCircle",
+  async (circleId, { rejectWithValue }) => {
+    try {
+      const response = await api.deleteCircle(circleId);
+      console.log("Кружок удалён:", response.data);
+      return circleId;
+    } catch (error) {
+      console.error("Ошибка при удалении кружка:", error);
+      const message =
+        error.response?.data?.message || "Ошибка при удалении кружка.";
+      return rejectWithValue(message);
     }
+  }
 );
 
-export const updateAdvertisement = createAsyncThunk(
-    'advertisements/updateAdvertisement',
-    async ({ id, data }) => {
-      const response = await axios.put(`/administrator/advertisements/${id}/`, {
-        data, // Данные из формы
-      });
-      return response.data; // Возвращаем обновленные данные
+export const postHalls = createAsyncThunk(
+  "admin/putHalls",
+  async ({ hallsData }, { rejectWithValue }) => {
+    try {
+      const res = await api.postHall(hallsData);
+      console.log("редактирована реклама:", res.data);
+      return res.data;
+    } catch (error) {
+      console.error("ошибка редакторе рекламы:", error);
+      const message =
+        error.response?.data?.message || "Ошибка редактировании рекламы.";
+      return rejectWithValue(message);
     }
-  );
+  }
+);

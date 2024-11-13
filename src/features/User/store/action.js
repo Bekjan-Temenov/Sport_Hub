@@ -3,15 +3,15 @@ import api from "../api";
 
 export const getTrainers = createAsyncThunk(
   "trainers/fetchTrainers",
-  async (_, { rejectWithValue }) => {
+  async ({first_name}, { rejectWithValue }) => {
     try {
-      const response = await api.getTrainers();
+      const response = await api.getTrainers(first_name);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
-);
+)
 
 export const createTrainer = createAsyncThunk(
   "trainers/createTrainer",
@@ -26,15 +26,15 @@ export const createTrainer = createAsyncThunk(
 )
 export const getClients = createAsyncThunk(
   "clients/fetchClients",
-  async (_, { rejectWithValue }) => {
+  async ({name }, { rejectWithValue }) => {
     try {
-      const response = await api.getClients();
+      const response = await api.getClients(name);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
-);
+)
 
 export const createClient = createAsyncThunk(
   "clients/createClient",

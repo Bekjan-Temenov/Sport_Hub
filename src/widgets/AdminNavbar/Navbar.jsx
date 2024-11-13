@@ -1,10 +1,9 @@
 import React from "react";
-import Input from "./Input";
 
 function Navbar() {
   return (
-    <div className="flex mt-[30px]  w-[957px] justify-between text-white  item-center">
-      <Input />
+    <div className="flex mt-[30px]  w-[957px] justify-end text-white  item-center">
+      
       <div className="flex justify-center gap-2 item-center">
         <div className="flex flex-col justify-center text-sm font-comfortaa">
           <span >Бекенова </span>

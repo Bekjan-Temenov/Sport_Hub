@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useSelector } from "react-redux"; // Import useSelector
 import Container from "../../shared/helpers/Container";
 import logo from "../../shared/assets/svg/header_logo.svg";
 import burger from "../../shared/assets/svg/burger.svg";
+import batman from "../../shared/assets/png/batman.webp";
 import Burger from "./Burger";
 import { Link } from "react-router-dom";
 import Sport from "./Sport";
@@ -9,6 +11,8 @@ import Sport from "./Sport";
 const Header = () => {
   const [open, setOpen] = useState(false);
   const sortRef = useRef(null);
+  
+  const user = useSelector((state) => state.auth.user);
 
   const toggleMenu = useCallback(() => {
     setOpen((prev) => !prev);
@@ -57,7 +61,7 @@ const Header = () => {
             />
           </div>
 
-          <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between md:block lg:gap-11 lg:text-lg">
+          <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between lg:gap-11 lg:text-lg">
             <Link to="/">
               <NavItem text="Главная" />
             </Link>
@@ -67,13 +71,17 @@ const Header = () => {
             </Link>
           </nav>
         </div>
-        <div className="flex items-center  gap-x-[30px]">
-          <Link
-            to="/auth/sign-up"
-            className="py-[3px]  hidden md:block rounded-md"
-          >
-            <ActionButton text="Регистрация"  />
-          </Link>
+        <div className="flex items-center gap-x-[30px]">
+          {!user ? (
+            <Link
+              to="/auth/sign-up"
+              className="py-[3px] hidden md:block rounded-md"
+            >
+              <ActionButton text="Регистрация" />
+            </Link>
+          ) : (
+            <img className="rounded-full cursor-pointer w-[64px] h-[64px]" src={batman} alt="User Profile" />
+          )}
         </div>
       </div>
     </Container>
@@ -87,7 +95,7 @@ const NavItem = ({ text }) => (
 );
 
 export const ActionButton = ({ text }) => (
-  <button className="text-sm whitespace-nowrap border rounded-md  text-lg lg:text-lg  md:block hidden   px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ">
+  <button className="text-sm whitespace-nowrap border rounded-md md:text-lg lg:text-lg md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ">
     {text}
   </button>
 );

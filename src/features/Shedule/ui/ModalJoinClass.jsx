@@ -47,7 +47,7 @@ function ModalJoinClass({handleClick,  setIsOpen }) {
             </option>
             <option value="value3">Теннис</option>
             <option value="value1">Плавание </option>
-            <option value="value2">Волейбол</option>
+            <option value="value2"></option>
             <option value="value3"> Тхэквондо</option>
             <option value="value1">Бокс </option>
             <option value="value2">Велоспорт</option>

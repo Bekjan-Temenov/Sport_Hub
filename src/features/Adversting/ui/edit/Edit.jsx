@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import gallery from "../../../../shared/assets/svg/admin_gallery.svg";
-import { putAdversting } from "../../store/action"; // Removed postAdminAdversting import
+import { putAdversting } from "../../store/action";
 import { useDispatch } from "react-redux";
 
 const InputField = ({
@@ -24,13 +24,11 @@ const InputField = ({
 
 function Edit({ setIsOpen, adversting }) {
   const dispatch = useDispatch();
-  const [imagePreview, setImagePreview] = useState(adversting?.file || gallery);
+  const [imagePreview, setImagePreview] = useState(adversting.file);
   const [loading, setLoading] = useState(false);
-
-  console.log(adversting);
   const [formValue, setFormValue] = useState({
     title: "",
-    file: null,
+    file: adversting.file,
     title1: "",
     description: "",
     phone: "",
@@ -41,19 +39,26 @@ function Edit({ setIsOpen, adversting }) {
     title2: "",
     title3: "",
   });
-
+  console.log(formValue);
+  console.log(imagePreview);
   useEffect(() => {
     if (adversting) {
       setFormValue((prev) => ({
         ...prev,
         ...adversting,
       }));
+      setImagePreview(adversting.file);
     }
   }, [adversting]);
 
   const handleImageClick = useCallback((e) => {
     const file = e.target.files[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!validTypes.includes(file.type)) {
+        alert("Пожалуйста, загрузите файл в формате JPEG, PNG или GIF.");
+        return;
+      }
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
       setFormValue((prev) => ({ ...prev, file }));
@@ -68,14 +73,30 @@ function Edit({ setIsOpen, adversting }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     const formData = new FormData();
 
-    Object.entries(formValue).forEach(([key, value]) =>
-      formData.append(key, value)
-    );
+    Object.entries(formValue).forEach(([key, value]) => {
+      if (key === "file") {
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else if (typeof value === "string" && value.startsWith("http")) {
+          formData.append("existingFileUrl", value);
+        }
+      } else {
+        formData.append(key, value);
+      }
+    });
 
     try {
-      await dispatch(putAdversting({ id: adversting.id, putData: formData }));
+      const result = await dispatch(
+        putAdversting({ id: adversting.id, putData: formData })
+      );
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
       setIsOpen(false);
     } catch (error) {
       console.error("Submission failed:", error);
@@ -95,7 +116,7 @@ function Edit({ setIsOpen, adversting }) {
             <img
               onClick={() => document.getElementById("avatar").click()}
               className="w-full h-full border rounded"
-              src={imagePreview}
+              src={imagePreview || gallery}
               alt="Preview"
             />
           </div>
@@ -140,7 +161,10 @@ function Edit({ setIsOpen, adversting }) {
           />
         </div>
         <div className="flex flex-col justify-between gap-7">
-          <div className="flex flex-col border rounded gap-y-3 w-[356px] items-center py-[35px] px-[20px] bg-[#131313]">
+          <div
+            onClick={() => document.getElementById("avatar").click()}
+            className="flex flex-col cursor-pointer border rounded gap-y-3 w-[356px] items-center py-[35px] px-[20px] bg-[#131313]"
+          >
             <input
               type="file"
               id="avatar"
@@ -149,12 +173,9 @@ function Edit({ setIsOpen, adversting }) {
               accept="image/png, image/jpeg"
               onChange={handleImageClick}
             />
-            <button
-              onClick={() => document.getElementById("avatar").click()}
-              className="bg-[#C8180C] py-2 px-6 rounded-full"
-            >
+            <div className="bg-[#C8180C] py-2 px-6 rounded-full" alt="Preview">
               Загрузить изображение
-            </button>
+            </div>
             <p className="text-center text-md">
               Допустимые форматы: PNG, GIF, WEBP, MP4, и MP3
             </p>
