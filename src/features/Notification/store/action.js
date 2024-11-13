@@ -8,15 +8,17 @@ export const fetchReviews = createAsyncThunk(
     }
 );
 
-export const getPaymentData = createAsyncThunk(
+
+export const fetchPayments = createAsyncThunk(
     'administrator/payments',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await api.paymentHalls();
+            const response = await api.aboutHalls();
+            console.log("sdfghjkl;", response.data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
            
-        }1
+        }
     }
 );

@@ -1,11 +1,17 @@
 import apiRoot from "../../app/api";
 
 const api = {
-  postSection: (circleData) => apiRoot.post("/administrator//circles/" , circleData),
-  aboutHalls: () => apiRoot.get("/administrator/halls/"),
-  aboutCircles: () => apiRoot.get("/administrator//circles/"),
+  postCircles: (circleData) =>apiRoot.post("/administrator/circles/", circleData),
+  postWorkShedule: (workScheduleData) =>apiRoot.post("/administrator/workschedules", workScheduleData),
+  postShedule: (ScheduleData) => apiRoot.post("/administrator/schedul/", ScheduleData),
+  postHalls: (hallsData) => apiRoot.post("/administrator/halls", hallsData),
+  aboutHalls: (title) => {return apiRoot.get(`/administrator/halls?title=${title}`);},
+  aboutShedule: () => apiRoot.get("/administrator/workschedules"),
+  aboutCircles: ( title ) => {return  apiRoot.get(`/administrator/circles/?title=${title}`)},
   deleteHall: (id) => apiRoot.delete(`/administrator/halls/${id}`),
   deleteCircle: (id) => apiRoot.delete(`/administrator/circles/${id}/`),
-  
+  putHalls: (id, putHalls) =>apiRoot.put(`/administrator/halls/${id}`, putHalls),
+  putCircles: (id, putCircles) =>apiRoot.put(`/administrator/circles/${id}/`, putCircles),
+  putShedule: (id, putData) =>apiRoot.put(`/administrator/workschedules/${id}`, putData),
 };
 export default api;

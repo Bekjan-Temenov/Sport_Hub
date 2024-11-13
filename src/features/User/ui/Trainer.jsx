@@ -1,13 +1,25 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NavBarContainer from "../../../shared/helpers/NavBarContainer";
 import TrainerModal from "./TrainerModal";
 import { getTrainers } from "../store/action";
-
+import SearchInput from "../../../shared/SearchInput/SearchInput";
 const Trainer = () => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const trainers = useSelector((state) => state.trainers?.trainers);
+
+  console.log(trainers);
+  const handleSearch = useCallback(
+    (query) => {
+      const params = { first_name: query } 
+  
+      dispatch(getTrainers(params));
+      console.log(params)
+    },
+    [dispatch]
+  );
+  
 
   useEffect(() => {
     dispatch(getTrainers());
@@ -21,6 +33,7 @@ const Trainer = () => {
     <NavBarContainer>
       <div className="border-b border-[#B6B7BC] flex justify-between items-center">
         <h1 className="text-[34px] font-bold">Тренеры</h1>
+        <SearchInput onSearch={handleSearch} />
         <button
           onClick={() => setShowModal(true)}
           className="w-[204px] h-[40px] bg-red-700 rounded-[8px]"
@@ -39,9 +52,9 @@ const Trainer = () => {
             key={trainer.id}
             className="border-b font-normal border-[#B6B7BC] flex justify-between items-center p-3 transition duration-300"
           >
-            <p className="flex items-center gap-4 w-1/5 text-left">
+            <p className="flex items-center w-1/5 gap-4 text-left">
               <img
-                className="w-1/5 h-10 object-cover rounded-full"
+                className="object-cover w-1/5 h-10 rounded-full"
                 src={trainer.photo}
                 alt={`${trainer.first_name}`}
               />

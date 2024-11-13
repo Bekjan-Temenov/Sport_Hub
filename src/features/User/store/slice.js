@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {  createTrainer, getClients, getTrainers } from "./action";
+import { createTrainer, getClients, getTrainers } from "./action";
 
 const trainerSlice = createSlice({
   name: "trainers",
   initialState: {
     trainers: [],
-    status: "idle", // idle | loading | succeeded | failed
+    clients: [],
+    status: "idle",
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Обработка получения тренеров
       .addCase(getTrainers.pending, (state) => {
         state.status = "loading";
       })
@@ -21,35 +21,22 @@ const trainerSlice = createSlice({
       })
       .addCase(getTrainers.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
+        state.error = action.error.message; 
       })
 
-      // Обработка создания тренера
+      
       .addCase(createTrainer.pending, (state) => {
         state.status = "loading";
       })
       .addCase(createTrainer.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.trainers.push(action.payload); // Добавляем нового тренера в список
+        state.trainers.push(action.payload);
       })
       .addCase(createTrainer.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
-      });
-  },
-});
+        state.error = action.error.message; 
+      })
 
-const clientSlice = createSlice({
-  name: "clients",
-  initialState: {
-    clients: [],
-    status: "idle", // idle | loading | succeeded | failed
-    error: null,
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      // Обработка получения клиентов
       .addCase(getClients.pending, (state) => {
         state.status = "loading";
       })
@@ -59,12 +46,11 @@ const clientSlice = createSlice({
       })
       .addCase(getClients.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload;
+        state.error = action.error.message; // Используем action.error.message
       });
   },
 });
 
-// Экспорт редукторов
-export const trainersReducer = trainerSlice.reducer;
-export const clientsReducer = clientSlice.reducer;
+
+export default trainerSlice.reducer 
 export { getClients, getTrainers, createTrainer };

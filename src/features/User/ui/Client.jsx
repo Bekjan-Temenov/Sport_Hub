@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import NavBarContainer from "../../../shared/helpers/NavBarContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { getClients } from "../store/action";
+import { getClients} from "../store/action";
+import SearchInput from "../../../shared/SearchInput/SearchInput";
 
 const Client = () => {
   const dispatch = useDispatch();
-  const clients = useSelector((state) => state.clients?.clients);
+  const clients = useSelector((state) => state.trainers?.clients);
   console.log(clients, "clients");
 
   useEffect(() => {
@@ -17,10 +18,20 @@ const Client = () => {
     console.log(clients);
   }, [clients]);
 
+  const handleSearch = useCallback(
+    (query) => {
+      const params = { name : query } 
+  
+      dispatch(getClients(params));
+    },
+    [dispatch]
+  );
+  
   return (
     <NavBarContainer>
       <div className="border-b border-[#B6B7BC] flex justify-between items-center">
         <h1 className="text-[34px] font-bold">Клиенты</h1>
+        <SearchInput onSearch={handleSearch}/>
       </div>
       <div className=" h-[45px] border text-[24px] mb-6 mt-5 font-bold  text-black  bg-slate-200 rounded-[8px] px-10 flex justify-between items-center">
         <p>Имя</p>
@@ -36,7 +47,7 @@ const Client = () => {
           <p className="w-1/5 text-left">{client.name}</p>
           <p className="w-1/5 text-center">{client.trainer.name}</p>
           <p className="w-1/5 text-center">{client.sport}</p>
-          <p className="w-1/5 text-right pr-5">{client.payment_method}</p>
+          <p className="w-1/5 pr-5 text-right">{client.payment_method}</p>
         </div>
       ))}
     </NavBarContainer>

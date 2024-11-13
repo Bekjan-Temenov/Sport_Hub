@@ -3,9 +3,11 @@ import Profile from "./ui/Profile";
 import NavBarContainer from "../../shared/helpers/NavBarContainer";
 import PersonaInformation from "./ui/PersonaInformation";
 import ModalProfile from "./ui/ModalProfile";
+import { useSelector } from "react-redux";
 
 function index() {
   const [open , setOpen] = useState(false)
+  const { profiles} = useSelector((state) => state.profiles);
   
   const handleOpen = useCallback(() => {
     setOpen((prev) => !prev)
@@ -16,9 +18,9 @@ function index() {
       <div className="flex flex-col w-full gap-[25px]">
         <h1 className="font-sans text-2xl font-bold">Профиль</h1>
         <hr className=" border border-[#B6B7BC] rounded-full my-7"></hr>
-        <Profile handleOpen={handleOpen}/>
-        <PersonaInformation/>
-        {open && <ModalProfile setOpen={setOpen}/>}
+        <Profile  handleOpen={handleOpen}/>
+        <PersonaInformation />
+        {open && <ModalProfile profile={profiles} setOpen={setOpen}/>}
       </div>
     </NavBarContainer>
   );
