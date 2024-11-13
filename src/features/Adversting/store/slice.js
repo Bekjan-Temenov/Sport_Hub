@@ -5,12 +5,15 @@ import {
   deleteAdminAdversting,
   postShedule,
   putAdversting,
+  createWorkSchedule,
 } from "./action";
 
 const adverstingSlice = createSlice({
   name: "adversting",
   initialState: {
     adversting: [],
+    schedules: [],
+    loading: false,
     error: null,
     status: "idle",
   },
@@ -78,6 +81,19 @@ const adverstingSlice = createSlice({
       .addCase(putAdversting.pending, (state) => {
         state.status = "loading";
         state.error = null;
+      })
+
+      .addCase(createWorkSchedule.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createWorkSchedule.fulfilled, (state, action) => {
+        state.loading = false;
+        state.schedules.push(action.payload);
+      })
+      .addCase(createWorkSchedule.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
       });
   },
 });

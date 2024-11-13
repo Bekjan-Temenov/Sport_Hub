@@ -5,14 +5,14 @@ import {
   login,
   requestPasswordReset,
   resetPasswordVerify,
-  resendActivationCode, // Импортируем новое действие
+  resendActivationCode, 
 } from "./action";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    email: localStorage.getItem("email") || null, // Восстановление email из localStorage
+    email: localStorage.getItem("email") || null, 
     status: "idle",
     error: null,
     isActivated: false,
@@ -97,7 +97,6 @@ const authSlice = createSlice({
       })
       .addCase(resetPasswordVerify.fulfilled, (state) => {
         state.status = "succeeded";
-        // Обработка успешного ответа
       })
       .addCase(resetPasswordVerify.rejected, (state, action) => {
         state.status = "failed";

@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,36 +6,13 @@ import { putHall, putShedule } from "../../store/action";
 import gallery from "../../../../../shared/assets/svg/admin_gallery.svg";
 import TimeSelector from "../../../../Adversting/ui/TimeSelector";
 
-const daysOfWeek = [
-  { id: 1, name: "Понедельник" },
-  { id: 4, name: "Четверг" },
-  { id: 2, name: "Вторник" },
-  { id: 5, name: "Пятница" },
-  { id: 3, name: "Среда" },
-  { id: 6, name: "Суббота" },
-];
-
 const Edit = ({ setIsOpen, halls }) => {
   const { loading, schedules, error } = useSelector((state) => state.shedules);
-  const notify = () => toast.success("Реклама успешно создана!");
+  const notify = () => toast.success("Реклама успешно редактирована!");
   const errorfy = () => toast.error("Ошибка!");
-
   const dispatch = useDispatch();
-  const idToFind = halls.id
-  const filteredHalls = schedules.filter(
-    (schedule) => schedule.hall === idToFind
-  );
-  const [workSchedules, setWorkSchedules] = useState(
-    daysOfWeek.map((day) => ({
-      day_of_week: day.name,
-      opening_time: "09:00",
-      closing_time: "18:00",
-      is_active: false,
-      hall: idToFind,
-    }))
-  );
-
-  console.log(workSchedules);
+  const hallsId = halls.id;
+  const [filteredHalls, setFilteredHalls] = useState([]);
   const [formData, setFormData] = useState({
     sports: "",
     title: "",
@@ -56,49 +33,11 @@ const Edit = ({ setIsOpen, halls }) => {
     image2: halls.image2 || null,
     image3: halls.image3 || null,
   });
-
   const [mainImage, setMainImage] = useState(halls.image || gallery);
   const [image1, setImage1] = useState(halls.image1 || gallery);
   const [image2, setImage2] = useState(halls.image2 || gallery);
   const [image3, setImage3] = useState(halls.image3 || gallery);
 
-  const handleCheckboxChange = (index) => {
-    setWorkSchedules((prevSchedules) =>
-      prevSchedules.map((schedule, i) =>
-        i === index ? { ...schedule, is_active: !schedule.is_active } : schedule
-      )
-    );
-  }
-
-  if (filteredHalls.length > 0) {
-    console.log("Найденные данные для зала с hall:", idToFind, filteredHalls);
-  } else {
-    console.log("Данные с таким hall не найдены");
-  }
-
-  useEffect(() => {
-    if (filteredHalls.length > 0) {
-      setWorkSchedules((prevSchedules) =>
-        prevSchedules.map((schedule) => {
-          const matchedDay = filteredHalls.find(
-            (hallSchedule) => hallSchedule.day_of_week === schedule.day_of_week
-          )
-          return matchedDay
-            ? {
-                ...schedule,
-                opening_time: matchedDay.opening_time,
-                closing_time: matchedDay.closing_time,
-                is_active: true,
-              }
-            : schedule;
-        })
-      );
-    } else {
-      console.log("Данные с таким hall не найдены");
-    }
-  }, []);
-
-  console.log("Полученные данные залов:", filteredHalls);
   useEffect(() => {
     if (halls) {
       setFormData((prev) => ({
@@ -109,14 +48,6 @@ const Edit = ({ setIsOpen, halls }) => {
     }
   }, [halls]);
 
-  const handleTimeChange = (index, field, value) => {
-    setWorkSchedules((prevSchedules) =>
-      prevSchedules.map((schedule, i) =>
-        i === index ? { ...schedule, [field]: value } : schedule
-      )
-    );
-  };
-  console.log(workSchedules);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
@@ -166,25 +97,30 @@ const Edit = ({ setIsOpen, halls }) => {
     };
   }, [mainImage, image1, image2, image3]);
 
-  console.log(workSchedules);
+  //WorkShedule
+  useEffect(() => {
+    const filtered = schedules.filter((schedule) => schedule.hall === hallsId);
+    setFilteredHalls(filtered);
+  }, [schedules, hallsId]);
+
+  function handleChangeActive(index) {
+    setFilteredHalls((prevSchedules) =>
+      prevSchedules.map((schedule, i) =>
+        i === index ? { ...schedule, is_active: !schedule.is_active } : schedule
+      )
+    );
+  }
+  console.log(schedules);
+  console.log(filteredHalls);
+  const handleTimeChange = (newTime, index, type) => {
+    setFilteredHalls((prevSchedules) =>
+      prevSchedules.map((schedule, i) =>
+        i === index ? { ...schedule, [type]: newTime } : schedule
+      )
+    );
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const requiredFields = [
-      "address",
-      "coverage",
-      "description",
-      "hall_type",
-      "inventory",
-      "phone",
-      "price_per_hour",
-      "quantity",
-      "size",
-      "sports",
-      "title",
-      "workSchedules",
-    ];
-
     const formDataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       if (
@@ -205,32 +141,7 @@ const Edit = ({ setIsOpen, halls }) => {
         formDataToSend.append(key, value);
       }
     });
-    formDataToSend.append("workSchedules", JSON.stringify(workSchedules));
-    const selectedSchedules = workSchedules.filter(
-      (schedule) => schedule.is_active
-    );
 
-    if (selectedSchedules.length === 0) {
-      alert("Пожалуйста, выберите хотя бы один день для работы.");
-      return;
-    }
-
-    try {
-      for (const schedule of selectedSchedules) {
-        const scheduleData = {
-          day_of_week: schedule.day_of_week,
-          opening_time: schedule.opening_time,
-          closing_time: schedule.closing_time,
-          is_active: schedule.is_active,
-          hall: halls.id,
-        };
-        dispatch(putShedule({ putData: scheduleData, id: halls.id }));
-      }
-      console.log("Все расписания успешно отправлены");
-    } catch (error) {
-      console.error("Ошибка при отправке расписания:", error);
-      alert("Произошла ошибка при отправке расписания.");
-    }
     dispatch(
       putHall({
         formData: formDataToSend,
@@ -240,6 +151,22 @@ const Edit = ({ setIsOpen, halls }) => {
         errorfy,
       })
     );
+    //WorkShedule
+    try {
+      for (const schedule of filteredHalls) {
+        const scheduleData = {
+          day_of_week: schedule.day_of_week,
+          opening_time: schedule.opening_time,
+          closing_time: schedule.closing_time,
+          is_active: schedule.is_active,
+          hall: hallsId,
+        };
+        dispatch(putShedule({ putData: scheduleData, id: schedule.id }));
+      }
+    } catch (error) {
+      console.error("Ошибка при отправке расписания:", error);
+      alert("Произошла ошибка при отправке расписания.");
+    }
   };
 
   return (
@@ -369,39 +296,41 @@ const Edit = ({ setIsOpen, halls }) => {
             </p>
           </div>
         </div>
+
         <div className="grid grid-cols-2 gap-4 gap-x-7 my-9">
-          {workSchedules.map((schedule, index) => (
+          {filteredHalls.map((day, index) => (
             <div key={index} className="flex items-center justify-between ">
               <input
                 type="checkbox"
-                checked={schedule.is_active}
-                onChange={() => handleCheckboxChange(index)}
                 className="accent-[#FF0000] w-[22px] cursor-pointer h-[22px]"
+                checked={day.is_active}
+                onChange={() => handleChangeActive(index)}
               />
               <label className="block ml-2 text-sm text-white">
-                {schedule.day_of_week}
+                {day.day_of_week}
               </label>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 ">
                 <TimeSelector
                   defaultHour={
-                    parseInt(schedule.opening_time.split(":")[0], 10) || 0
+                    parseInt(day.opening_time.split(":")[0], 10) || 0
                   }
                   defaultMinute={
-                    parseInt(schedule.opening_time.split(":")[1], 10) || 0
+                    parseInt(day.opening_time.split(":")[1], 10) || 0
                   }
-                  onChange={(time) =>
-                    handleTimeChange(index, "opening_time", time)
+                  onChange={(newTime) =>
+                    handleTimeChange(newTime, index, "opening_time")
                   }
                 />
+
                 <TimeSelector
                   defaultHour={
-                    parseInt(schedule.closing_time.split(":")[0], 10) || 0
+                    parseInt(day.closing_time.split(":")[0], 10) || 0
                   }
                   defaultMinute={
-                    parseInt(schedule.closing_time.split(":")[1], 10) || 0
+                    parseInt(day.closing_time.split(":")[1], 10) || 0
                   }
-                  onChange={(time) =>
-                    handleTimeChange(index, "closing_time", time)
+                  onChange={(newTime) =>
+                    handleTimeChange(newTime, index, "closing_time")
                   }
                 />
               </div>

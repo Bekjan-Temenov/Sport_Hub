@@ -1,19 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../api";
 
+
 export const fetchPayment = createAsyncThunk(
-    "admin/fetchPayment",
-    async (_, { rejectWithValue }) => {
-      try {
-        const res = await api.getPayment();
-        console.log("Полученные данные рекламы :", res.data);
-        return res.data;
-      } catch (error) {
-        console.error("Ошибка при получении рекламы:", error);
-        const message =
-          error.response?.data?.message || "Ошибка при загрузке рекламы.";
-        return rejectWithValue(message);
-      }
+  "admin/fetchPayment",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.getPayment() 
+        return response.data;
+    } catch (error) {
+      console.error('Fetch error details:', error); 
+      return rejectWithValue(error.response?.data || 'Failed to fetch client profiles');
     }
-  );
-  
+  }
+);

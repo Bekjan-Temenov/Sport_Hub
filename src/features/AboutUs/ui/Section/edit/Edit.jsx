@@ -48,7 +48,7 @@ const Edit = ({ setIsOpen, circles }) => {
   const [image1, setImage1] = useState(circles.image1 || gallery);
   const [image2, setImage2] = useState(circles.image2 || gallery);
   const [image3, setImage3] = useState(circles.image3 || gallery);
-  const { loadinghall, errorhall } = useSelector((state) => state.hall);
+  const { loadinghall, errorhall } = useSelector((state) => state.shedules);
 
   console.log(image1);
   useEffect(() => {

@@ -1,28 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchPayment } from "./action";
 
-const paymentSlice = createSlice({
-  name: "payment",
+const profileSlice = createSlice({
+  name: 'clientProfiles',
   initialState: {
     payment: [],
+    loading: false,
     error: null,
-    status: "idle",
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPayment.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
+        state.error = null;
       })
       .addCase(fetchPayment.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.loading = false;
         state.payment = action.payload;
       })
       .addCase(fetchPayment.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
+        state.loading = false;
+        state.error = action.payload || 'Failed to fetch client profiles';
       });
   },
 });
 
-export default paymentSlice.reducer;
+export default profileSlice.reducer;

@@ -18,7 +18,7 @@ export const signup = createAsyncThunk(
       return rejectWithValue(error.response?.data || "Ошибка регистрации");
     }
   }
-);
+)
 
 export const activateUser = createAsyncThunk(
   "auth/activateUser",
@@ -27,7 +27,6 @@ export const activateUser = createAsyncThunk(
       console.error("Некорректный код активации:", activation_code);
       return rejectWithValue("Некорректный код активации");
     }
-
     try {
       const response = await api.activateUser(activation_code);
       console.log("Ответ сервера при активации:", response.data);
@@ -42,7 +41,7 @@ export const activateUser = createAsyncThunk(
       return rejectWithValue(errorMessage);
     }
   }
-);
+)
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -61,7 +60,7 @@ export const login = createAsyncThunk(
       return rejectWithValue(error.response?.data || "Ошибка входа");
     }
   }
-);
+)
 
 export const requestPasswordReset = createAsyncThunk(
   "auth/requestPasswordReset",

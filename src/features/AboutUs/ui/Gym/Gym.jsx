@@ -9,56 +9,67 @@ import FullScreenModal from "../../../../shared/FullScreenModal/FullScreenModal"
 import EditModal from "./edit/Edit";
 import Create from "./create/Create";
 import { fetchWorkSchedules } from "../store/action";
-
+import { ModalDelete } from "./ModalDelete";
+import SearchInput from "../../../../shared/SearchInput/SearchInput";
 
 function Gym() {
   const dispatch = useDispatch();
   const { halls, status } = useSelector((state) => state.about);
-  const { schedules,  error } = useSelector((state) => state.shedules)
+  const { error } = useSelector((state) => state.shedules);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [open, setOpen] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
 
-  console.log("Полученные данные залов:", schedules);
-
+  const handleSearch = useCallback(
+    (query) => {
+      const params = { title : query } 
+  
+      dispatch(fetchAdminHalls(params));
+      console.log(params);
+    },
+    [dispatch]
+  );
+  
   useEffect(() => {
-    if (status === 'idle') {
       dispatch(fetchWorkSchedules());
-    }
-  }, [dispatch, status]);
+    
+  }, [dispatch]);
 
-  if (status === 'failed') {
-    return <div>Error: {error}</div>;
-  }
-  const deleteMenu = useCallback(() => {
-    setOpen((prev) => !prev);
+ 
+
+  const deleteMenu = useCallback((id) => {
+    setCurrentId(id);
   }, []);
+
+  const handleDelete = useCallback(
+    (deleteId) => {
+      dispatch(deleteAdminHall(deleteId));
+      setCurrentId(null);
+    },
+    [dispatch]
+  );
 
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
-    setIsEditMode(false)
+    setIsEditMode(false);
   }, []);
-  
+
   const handleEdit = (product) => {
     setSelectedProduct(product);
     setIsOpen(true);
-    setIsEditMode(true); 
+    setIsEditMode(true);
   };
-  const handleDelete = (deleteId) => {
-    setOpen(true);
-    dispatch(deleteAdminHall(deleteId));
-  };
-
   useEffect(() => {
     dispatch(fetchAdminHalls());
-  }, [dispatch]);
-
+  }, [dispatch, isOpen]);
+ 
   return (
     <NavBarContainer>
       <div className="flex flex-col text-white ">
         <div className="flex items-center justify-between w-full">
           <h1 className="font-sans text-2xl font-bold">Залы</h1>
+          <SearchInput onSearch={handleSearch} debounceDelay={500} />
           <button
             onClick={toggleMenu}
             className="bg-[#FE0404] hover:bg-red-700 rounded-md py-1 px-6 font-comfortaa"
@@ -81,9 +92,9 @@ function Gym() {
         {status === "failed" && <p>Ошибка при загрузке залов.</p>}
 
         <div className="flex flex-col gap-y-[30px]">
-          {halls.map((item, index) => (
+          {halls.map((item) => (
             <div
-              key={index}
+              key={item.id}
               className="flex bg-[#252525] rounded-md items-center justify-between px-[20px] py-[15px]"
             >
               <div className="flex items-center justify-between w-[49%]">
@@ -102,16 +113,16 @@ function Gym() {
 
               <div className="flex items-center ml-[50px]">
                 <img
-                  onClick={deleteMenu}
-                  className="cursor-pointer "
+                  onClick={() => deleteMenu(item.id)}
+                  className="cursor-pointer"
                   src={delate}
                   alt=""
                 />
-                {!open && (
+                {currentId === item.id && (
                   <ModalDelete
                     handleDelete={handleDelete}
-                    deleteMenu={deleteMenu}
-                    item={item.id}
+                    closeModal={() => setCurrentId(null)}
+                    itemId={item.id}
                   />
                 )}
                 <hr className="w-[1px] h-[36px] mx-[25px] border border-[#B6B7BC]" />
@@ -129,34 +140,5 @@ function Gym() {
     </NavBarContainer>
   );
 }
-export const ModalDelete = ({ handleDelete, deleteMenu, item }) => {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20 ">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-[250px] md:w-[350px] h-[250px] flex flex-col justify-between">
-        <h2 className="mb-4 text-2xl font-semibold text-center text-gray-800">
-          Удалить рекламу?
-        </h2>
-        <p className="mb-6 text-center text-gray-600">
-          Вы уверены, что хотите удалить этот элемент? Это действие нельзя
-          отменить.
-        </p>
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={deleteMenu}
-            className="px-6 py-2 text-sm font-medium text-gray-800 transition-all duration-300 ease-in-out bg-gray-200 rounded-full hover:bg-gray-300"
-          >
-            Нет
-          </button>
-          <button
-            onClick={() => handleDelete(item)}
-            className="px-6 py-2 text-sm font-medium text-white transition-all duration-300 ease-in-out bg-red-600 rounded-full hover:bg-red-700"
-          >
-            Да
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default Gym;

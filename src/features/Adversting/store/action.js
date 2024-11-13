@@ -3,10 +3,9 @@ import api from "../api";
 
 export const fetchAdminAdversting = createAsyncThunk(
   "admin/fetchAdversting",
-  async (_, { rejectWithValue }) => {
+  async ({ title }, { rejectWithValue }) => {
     try {
-      const res = await api.getAdversting();
-      console.log("Полученные данные рекламы :", res.data);
+      const res = await api.getAdversting(title);    
       return res.data;
     } catch (error) {
       console.error("Ошибка при получении рекламы:", error);
@@ -50,7 +49,6 @@ export const deleteAdminAdversting = createAsyncThunk(
   }
 );
 
-
 export const postShedule = createAsyncThunk(
   "admin/postShedule",
   async (postShedule, { rejectWithValue }) => {
@@ -66,20 +64,33 @@ export const postShedule = createAsyncThunk(
       return rejectWithValue(message);
     }
   }
-)
+);
 export const putAdversting = createAsyncThunk(
   "admin/putAdversting",
   async ({ id, putData }, { rejectWithValue }) => {
-    console.log(id); 
+    console.log(id);
     try {
-      const res = await api.putAdversting(id, putData); 
+      const res = await api.putAdversting(id, putData);
       console.log("редактирована реклама:", res.data);
-      return res.data; 
+      return res.data;
     } catch (error) {
       console.error("ошибка редакторе рекламы:", error);
       const message =
         error.response?.data?.message || "Ошибка редактировании рекламы.";
       return rejectWithValue(message);
+    }
+  }
+);
+
+export const createWorkSchedule = createAsyncThunk(
+  "workSchedules/create",
+  async ({ workScheduleData }, { rejectWithValue }) => {
+    try {
+      const response = await api.fetchWorkShedule(workScheduleData);
+      return response.data;
+    } catch (error) {
+      console.error("Ошибка при создании расписания:", error);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );

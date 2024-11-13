@@ -6,42 +6,53 @@ import NavBarContainer from "../../../shared/helpers/NavBarContainer";
 import delate from "../../../shared/assets/svg/admin-delete.svg";
 import edit from "../../../shared/assets/svg/admin-edit.svg";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteAdminAdversting,
-  fetchAdminAdversting
-} from "../store/action";
+import { deleteAdminAdversting, fetchAdminAdversting } from "../store/action";
 import { Link } from "react-router-dom";
 import FullScreenModal from "../../../shared/FullScreenModal/FullScreenModal";
 import Create from "./create/Create";
 import Edit from "./edit/Edit";
+import { ModalDelete } from "../../AboutUs/ui/Gym/ModalDelete";
+import SearchInput from "../../../shared/SearchInput/SearchInput";
 
 function Adversting() {
   const dispatch = useDispatch();
   const { adversting } = useSelector((state) => state.adversting);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [currentId, setCurrentId] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+
+
+  const handleSearch = useCallback(
+    (query) => {
+      const params = { title: query } 
+      console.log("Отправляем параметры:", params);
   
+      dispatch(fetchAdminAdversting(params));
+    },
+    [dispatch]
+  );
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
-    setIsEditMode(false); 
+    setIsEditMode(false);
   }, []);
 
-  const deleteMenu = useCallback(() => {
-    setOpen((prev) => !prev);
+  const deleteMenu = useCallback((id) => {
+    setCurrentId(id);
   }, []);
 
-  const handleDelete = (deleteId) => {
-    setOpen(true);
-    dispatch(deleteAdminAdversting(deleteId));
-  };
+  const handleDelete = useCallback(
+    (deleteId) => {
+      dispatch(deleteAdminCircle(deleteId));
+      setCurrentId(null);
+    },
+    [dispatch]
+  );
 
- 
   const handleEdit = (product) => {
     setSelectedProduct(product);
     setIsOpen(true);
-    setIsEditMode(true); 
+    setIsEditMode(true);
   };
   useEffect(() => {
     dispatch(fetchAdminAdversting());
@@ -52,6 +63,10 @@ function Adversting() {
       <div className="flex flex-col items-center gap-y-[50px] ">
         <div className="flex items-center justify-between w-full">
           <h1 className="font-sans text-2xl font-bold">Мои рекламы</h1>
+          <SearchInput
+            onSearch={handleSearch}
+            debounceDelay={500}
+          />
           <button
             onClick={toggleMenu}
             className="bg-[#FE0404] hover:bg-red-7  00 rounded-md  py-1 px-6 font-comfortaa"
@@ -61,15 +76,16 @@ function Adversting() {
         </div>
         {isOpen && (
           <FullScreenModal setIsOpen={setIsOpen}>
-          {isEditMode ? ( // Conditional rendering based on mode
-            <Edit setIsOpen={setIsOpen} adversting={selectedProduct} />
-          ) : (
-            <Create setIsOpen={setIsOpen} />
-          )}
-        </FullScreenModal>
+            {isEditMode ? ( // Conditional rendering based on mode
+              <Edit setIsOpen={setIsOpen} adversting={selectedProduct} />
+            ) : (
+              <Create setIsOpen={setIsOpen} />
+            )}
+          </FullScreenModal>
         )}
 
         <hr className="border-[#B6B7BC] border w-full mt-[15px] mb-[50px]" />
+
         {adversting.map((item, index) => (
           <div
             key={index}
@@ -130,16 +146,16 @@ function Adversting() {
             </div>
             <div className="flex items-center ml-[50px]">
               <img
-                onClick={deleteMenu}
-                className="cursor-pointer "
+                onClick={() => deleteMenu(item.id)}
+                className="cursor-pointer"
                 src={delate}
                 alt=""
               />
-              {!open && (
+              {currentId === item.id && (
                 <ModalDelete
                   handleDelete={handleDelete}
-                  deleteMenu={deleteMenu}
-                  item={item.id}
+                  closeModal={() => setCurrentId(null)}
+                  itemId={item.id}
                 />
               )}
               <hr className="w-[1px] h-[36px] mx-[25px] border border-[#B6B7BC]" />
@@ -156,35 +172,5 @@ function Adversting() {
     </NavBarContainer>
   );
 }
-
-export const ModalDelete = ({ handleDelete, deleteMenu, item }) => {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20 ">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-[250px] md:w-[350px] h-[250px] flex flex-col justify-between">
-        <h2 className="mb-4 text-2xl font-semibold text-center text-gray-800">
-          Удалить рекламу?
-        </h2>
-        <p className="mb-6 text-center text-gray-600">
-          Вы уверены, что хотите удалить этот элемент? Это действие нельзя
-          отменить.
-        </p>
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={deleteMenu}
-            className="px-6 py-2 text-sm font-medium text-gray-800 transition-all duration-300 ease-in-out bg-gray-200 rounded-full hover:bg-gray-300"
-          >
-            Нет
-          </button>
-          <button
-            onClick={() => handleDelete(item)}
-            className="px-6 py-2 text-sm font-medium text-white transition-all duration-300 ease-in-out bg-red-600 rounded-full hover:bg-red-700"
-          >
-            Да
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default Adversting;

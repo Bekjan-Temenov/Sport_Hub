@@ -44,7 +44,7 @@ const MyRoutes = () => {
         { path: "", element: <Adversting /> },
         AboutUsRoute,
         { path: "reviewn", element: <ReviewN /> },
-        { path: "paymantn", element: <Paymentn /> },
+        { path: "payment", element: <Paymentn /> },
         { path: "trainer", element: <Trainer /> },
         { path: "client", element: <Client /> },
       ],

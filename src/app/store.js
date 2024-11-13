@@ -6,9 +6,9 @@ import arenaSlice from "../features/Arena/store/slice";
 import aboutSlice from "../features/AboutUs/store/slice";
 import adverstingSlice from "../features/Adversting/store/slice";
 import hallSlice from "../features/AboutUs/ui/store/slice";
-import workScheduleSlice from "../features/Adversting/shedule";
+import workScheduleSlice from "../features/Adversting/store/slice";
 import trainerSlice from "../features/User/store/slice"
-import paymentSlice from "../features/Payment/store/slice"
+import paymentSlice from "../features/Notification/store/slice"
 import profileSlice from "../features/Profile/store/slice"
 
 export const store = configureStore({
@@ -23,6 +23,6 @@ export const store = configureStore({
     shedules:hallSlice,
     workSchedules:workScheduleSlice,
     payment:paymentSlice,
-    profile:profileSlice,
+    profiles:profileSlice,
   },
 });

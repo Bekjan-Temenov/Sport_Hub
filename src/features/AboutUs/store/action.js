@@ -5,12 +5,10 @@ export const section = createAsyncThunk(
   "section/create",
   async (circleData, { rejectWithValue }) => {
     try {
-      console.log(circleData);
       const response = await api.postSection(circleData);
-      console.log("Response from create section:", response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
+      console.debug(error);
       return rejectWithValue(error.response?.data || "Error creating section");
     }
   }
@@ -18,14 +16,30 @@ export const section = createAsyncThunk(
 
 export const fetchAdminHalls = createAsyncThunk(
   "admin/fetchHalls",
-  async (_, { rejectWithValue }) => {
+  async ({  title }, { rejectWithValue }) => {
     try {
-      const response = await api.aboutHalls();
-      console.log("Полученные данные залов:", response.data);
+      const response = await api.aboutHalls( title)
       return response.data;
     } catch (error) {
       console.error("Ошибка при получении залов:", error);
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || "Unknown error");
+    }
+  }
+);
+
+export const fetchAdminCircles = createAsyncThunk(
+  "admin/fetchCircles",
+
+  async ({  title }, { rejectWithValue }) => {
+    try {
+      const res = await api.aboutCircles( title);
+      console.log("Полученные данные кружков:", res.data);
+      return res.data;
+    } catch (error) {
+      console.error("Ошибка при получении кружков:", error);
+      const message =
+        error.response?.data?.message || "Ошибка при загрузке кружков.";
+      return rejectWithValue(message);
     }
   }
 );
@@ -41,22 +55,6 @@ export const deleteAdminHall = createAsyncThunk(
       console.error("Ошибка при удалении зала:", error);
       const message =
         error.response?.data?.message || "Ошибка при удалении зала.";
-      return rejectWithValue(message);
-    }
-  }
-);
-
-export const fetchAdminCircles = createAsyncThunk(
-  "admin/fetchCircles",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await api.aboutCircles();
-      console.log("Полученные данные кружков:", res.data);
-      return res.data;
-    } catch (error) {
-      console.error("Ошибка при получении кружков:", error);
-      const message =
-        error.response?.data?.message || "Ошибка при загрузке кружков.";
       return rejectWithValue(message);
     }
   }
@@ -79,20 +77,17 @@ export const deleteAdminCircle = createAsyncThunk(
 );
 
 export const postHalls = createAsyncThunk(
-    "admin/putHalls",
-    async ({ hallsData }, { rejectWithValue }) => {
-      try {
-        const res = await api.postHall(hallsData);
-        console.log("редактирована реклама:", res.data);
-        return res.data; 
-      } catch (error) {
-        console.error("ошибка редакторе рекламы:", error);
-        const message = 
-          error.response?.data?.message || "Ошибка редактировании рекламы.";
-        return rejectWithValue(message); 
-      }
+  "admin/putHalls",
+  async ({ hallsData }, { rejectWithValue }) => {
+    try {
+      const res = await api.postHall(hallsData);
+      console.log("редактирована реклама:", res.data);
+      return res.data;
+    } catch (error) {
+      console.error("ошибка редакторе рекламы:", error);
+      const message =
+        error.response?.data?.message || "Ошибка редактировании рекламы.";
+      return rejectWithValue(message);
     }
-  );
-  
-
-  
+  }
+);

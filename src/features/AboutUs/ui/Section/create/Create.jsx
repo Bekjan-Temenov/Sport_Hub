@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { createWorkSchedule, postCircles } from "../../store/action";
+import { createSchedule, createWorkSchedule, postCircles } from "../../store/action";
 import gallery from "../../../../../shared/assets/svg/admin_gallery.svg";
 import TimeSelector from "../../../../Adversting/ui/TimeSelector";
 
@@ -25,6 +25,7 @@ const Create = ({ setIsOpen }) => {
       opening_time: "09:00",
       closing_time: "18:00",
       is_active: false,
+      hall:null
     }))
   );
   const [formData, setFormData] = useState({
@@ -44,15 +45,14 @@ const Create = ({ setIsOpen }) => {
     image2: null,
     image3: null,
   });
+  console.log(formData);
 
   const [mainImage, setMainImage] = useState(null);
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [image3, setImage3] = useState(null);
-  const { loading, error } = useSelector((state) => state.hall);
+  const { loading, error } = useSelector((state) => state.shedules);
 
-  console.log(formData);
-  console.log(workSchedules);
   const handleCheckboxChange = (index) => {
     setWorkSchedules((prevSchedules) =>
       prevSchedules.map((schedule, i) =>
@@ -88,7 +88,7 @@ const Create = ({ setIsOpen }) => {
 
   const handleAdditionalImageChange = (index) => (e) => {
     const file = e.target.files[0];
-  
+
     if (index === 0) {
       setImage1(file);
       setFormData((prevFormData) => ({ ...prevFormData, image1: file }));
@@ -101,10 +101,9 @@ const Create = ({ setIsOpen }) => {
     }
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("sports", formData.sports);
@@ -117,19 +116,19 @@ const Create = ({ setIsOpen }) => {
     formDataToSend.append("description2", formData.description2);
     formDataToSend.append("description3", formData.description3);
     formDataToSend.append("description4", formData.description4);
-  
+
     if (mainImage) {
       formDataToSend.append("image", mainImage);
     }
-  
+
     if (image1) {
       formDataToSend.append("image1", image1);
     }
-  
+
     if (image2) {
       formDataToSend.append("image2", image2);
     }
-  
+
     if (image3) {
       formDataToSend.append("image3", image3);
     }
@@ -137,8 +136,53 @@ const Create = ({ setIsOpen }) => {
     dispatch(
       postCircles({ formData: formDataToSend, setIsOpen, notify, errorfy })
     );
+
+    const selectedSchedules = workSchedules.filter(
+      (schedule) => schedule.is_active
+    );
+
+    if (selectedSchedules.length === 0) {
+      alert("Пожалуйста, выберите хотя бы один день для работы.");
+      return;
+    }
+
+    try {
+      for (const schedule of selectedSchedules) {
+        const scheduleData = {
+          day_of_week: schedule.day_of_week,
+          opening_time: schedule.opening_time,
+          closing_time: schedule.closing_time,
+          is_active: schedule.is_active,
+        };
+        dispatch(createSchedule({ ScheduleData: scheduleData }));
+      }
+      console.log("Все расписания успешно отправлены");
+    } catch (error) {
+      console.error("Ошибка при отправке расписания:", error);
+      alert("Произошла ошибка при отправке расписания.");
+    }
+
+    if (uniqueSchedules.length === 0) {
+      alert("Пожалуйста, выберите хотя бы один уникальный день для работы.");
+      return;
+    }
+
+    try {
+      for (const schedule of uniqueSchedules) {
+        const scheduleData = {
+          day_of_week: schedule.day_of_week,
+          opening_time: schedule.opening_time,
+          closing_time: schedule.closing_time,
+          is_active: schedule.is_active,
+        };
+        dispatch(createWorkSchedule({ workScheduleData: scheduleData }));
+      }
+      console.log("Все уникальные расписания успешно отправлены");
+    } catch (error) {
+      console.error("Ошибка при отправке расписания:", error);
+      alert("Произошла ошибка при отправке расписания.");
+    }
   };
-  
 
   return (
     <div className="flex flex-col items-center justify-center text-white ">
@@ -161,34 +205,33 @@ const Create = ({ setIsOpen }) => {
               />
               <img
                 src={mainImage ? URL.createObjectURL(mainImage) : gallery}
-                
                 alt="Главное изображение"
               />
             </div>
           </div>
           <div className="flex items-center justify-between">
-          {[image1, image2, image3].map((image, index) => (
-            <div
-              key={index}
-              className="w-[207px] flex items-center overflow-hidden justify-center h-[140px] border rounded cursor-pointer bg-[#131313]"
-              onClick={() =>
-                document.getElementById(`additionalImage${index}`).click()
-              }
-            >
-              <input
-                type="file"
-                id={`additionalImage${index}`}
-                onChange={handleAdditionalImageChange(index)}
-                className="hidden"
-                accept="image/*"
-              />
-              <img
-                src={image ? URL.createObjectURL(image) : gallery}
-                className="rounded "
-                alt={`Дополнительное изображение ${index + 1}`}
-              />
-            </div>
-          ))}
+            {[image1, image2, image3].map((image, index) => (
+              <div
+                key={index}
+                className="w-[207px] flex items-center overflow-hidden justify-center h-[140px] border rounded cursor-pointer bg-[#131313]"
+                onClick={() =>
+                  document.getElementById(`additionalImage${index}`).click()
+                }
+              >
+                <input
+                  type="file"
+                  id={`additionalImage${index}`}
+                  onChange={handleAdditionalImageChange(index)}
+                  className="hidden"
+                  accept="image/*"
+                />
+                <img
+                  src={image ? URL.createObjectURL(image) : gallery}
+                  className="rounded "
+                  alt={`Дополнительное изображение ${index + 1}`}
+                />
+              </div>
+            ))}
           </div>
         </div>
         <hr className="my-10 bg-[#D9D9D9]" />
@@ -449,7 +492,7 @@ const Create = ({ setIsOpen }) => {
 
         <div className="flex items-center justify-around">
           <button
-          onClick={() => setIsOpen(false)}
+            onClick={() => setIsOpen(false)}
             type="button"
             className="text-center bg-[#FE04044D] hover:bg-red-900 px-[55px] py-[10px] rounded-md"
           >

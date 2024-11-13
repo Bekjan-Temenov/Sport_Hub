@@ -21,8 +21,10 @@ const trainerSlice = createSlice({
       })
       .addCase(getTrainers.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message; // Используем action.error.message
+        state.error = action.error.message; 
       })
+
+      
       .addCase(createTrainer.pending, (state) => {
         state.status = "loading";
       })
@@ -32,7 +34,7 @@ const trainerSlice = createSlice({
       })
       .addCase(createTrainer.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message; // Используем action.error.message
+        state.error = action.error.message; 
       })
 
       .addCase(getClients.pending, (state) => {

@@ -1,6 +1,6 @@
 import apiRoot from "../../app/api";
 
 const api = {
-  getPayment: () => apiRoot.get("/administrator/advertisements/"),
+  getPayment: () => apiRoot.get("/client/payments/"),
 }
 export default api;

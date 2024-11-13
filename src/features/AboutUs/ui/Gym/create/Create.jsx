@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { postHall, createWorkSchedule } from "../../store/action";
+import "react-toastify/dist/ReactToastify.css";
 import gallery from "../../../../../shared/assets/svg/admin_gallery.svg";
 import TimeSelector from "../../../../Adversting/ui/TimeSelector";
 
 const daysOfWeek = [
   { id: 1, name: "Понедельник" },
-  { id: 4, name: "Четверг" },
   { id: 2, name: "Вторник" },
-  { id: 5, name: "Пятница" },
   { id: 3, name: "Среда" },
+  { id: 4, name: "Четверг" },
+  { id: 5, name: "Пятница" },
   { id: 6, name: "Суббота" },
 ];
 
@@ -19,7 +19,7 @@ const Create = ({ setIsOpen }) => {
   const notify = () => toast.success("Реклама успешно создана!");
   const errorfy = () => toast.error("ошибка!");
   const dispatch = useDispatch();
-
+  
   const [formData, setFormData] = useState({
     sports: "",
     title: "",
@@ -46,6 +46,7 @@ const Create = ({ setIsOpen }) => {
       opening_time: "09:00",
       closing_time: "18:00",
       is_active: false,
+      hall:null
     }))
   );
   const [mainImage, setMainImage] = useState(null);
@@ -54,6 +55,7 @@ const Create = ({ setIsOpen }) => {
   const [image3, setImage3] = useState(null);
   const { loading, error } = useSelector((state) => state.shedules);
 
+  console.log(workSchedules);
   useEffect(() => {
     if (formData.title) {
       setWorkSchedules(
@@ -62,13 +64,17 @@ const Create = ({ setIsOpen }) => {
           opening_time: "09:00",
           closing_time: "18:00",
           is_active: false,
+          hall:null
+  
         }))
       );
     }
-  }, [formData.title, daysOfWeek])
-  
+  }, [formData.title, daysOfWeek]);
+
   console.log(workSchedules);
-  console.log(formData);
+  console.log(formData.title);
+  const isEditing = formData.id !== undefined;
+
 
   const handleCheckboxChange = (index) => {
     setWorkSchedules((prevSchedules) =>
@@ -118,9 +124,9 @@ const Create = ({ setIsOpen }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formDataToSend = new FormData();
     formDataToSend.append("sports", formData.sports);
     formDataToSend.append("title", formData.title);
@@ -136,59 +142,64 @@ const Create = ({ setIsOpen }) => {
     formDataToSend.append("shower", formData.shower);
     formDataToSend.append("lighting", formData.lighting);
     formDataToSend.append("dressing_room", formData.dressing_room);
-
+  
+    if (isEditing) {
+      formDataToSend.append("hall", formData.hall);
+    }
+  
     if (mainImage) {
       formDataToSend.append("image", mainImage);
     }
-
-    if (mainImage) {
-      formDataToSend.append("image", mainImage);
-    }
-
     if (image1) {
       formDataToSend.append("image1", image1);
     }
-
     if (image2) {
       formDataToSend.append("image2", image2);
     }
-
     if (image3) {
       formDataToSend.append("image3", image3);
     }
-
-    dispatch(
-      postHall({ formData: formDataToSend, setIsOpen, notify, errorfy })
-    );
-
-    console.log("Форма отправляется");
-
-    const selectedSchedules = workSchedules.filter(
-      (schedule) => schedule.is_active
-    );
-
-    if (selectedSchedules.length === 0) {
+  
+    const uniqueSchedules = workSchedules.reduce((acc, current) => {
+      const exists = acc.some(
+        (schedule) =>
+          schedule.day_of_week === current.day_of_week &&
+          schedule.opening_time === current.opening_time
+      );
+      return exists ? acc : [...acc, current];
+    }, []);
+  
+    if (uniqueSchedules.length === 0) {
       alert("Пожалуйста, выберите хотя бы один день для работы.");
       return;
     }
-
+  
     try {
-      for (const schedule of selectedSchedules) {
+      const hallId = await dispatch(postHall({ formData: formDataToSend, setIsOpen, notify, errorfy })).unwrap();
+  
+      if (!hallId) {
+        console.error("ID зала не найден, расписание не будет отправлено.");
+        return;
+      }
+  
+      for (const schedule of uniqueSchedules) {
         const scheduleData = {
           day_of_week: schedule.day_of_week,
           opening_time: schedule.opening_time,
           closing_time: schedule.closing_time,
           is_active: schedule.is_active,
-         
+          hall: hallId,
         };
-        dispatch(createWorkSchedule({ workScheduleData: scheduleData }));
+        await dispatch(createWorkSchedule({ workScheduleData: scheduleData }));
       }
+  
       console.log("Все расписания успешно отправлены");
     } catch (error) {
       console.error("Ошибка при отправке расписания:", error);
       alert("Произошла ошибка при отправке расписания.");
     }
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center text-white ">

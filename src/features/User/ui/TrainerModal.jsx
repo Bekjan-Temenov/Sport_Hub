@@ -30,7 +30,7 @@ const TrainerModal = ({ onClosed }) => {
       ...prevData,
       [name]: value,
     }));
-    setErrorMessages((prev) => ({ ...prev, [name]: "" })); // Clear error for the field being edited
+    setErrorMessages((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleImageChange = (e) => {
@@ -89,7 +89,6 @@ const TrainerModal = ({ onClosed }) => {
         onClosed();
       }
     } catch (error) {
-      // Handle error in adding trainer
       if (error.response) {
         setErrorMessages({
           general: "Ошибка при добавлении тренера: " + error.response.data,
@@ -100,7 +99,6 @@ const TrainerModal = ({ onClosed }) => {
     }
   };
 
-  // Email validation function
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -119,7 +117,6 @@ const TrainerModal = ({ onClosed }) => {
     setErrorMessages({}); // Reset all error messages
   };
 
-  console.log(formData);
 
   return (
     <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50">
@@ -141,7 +138,7 @@ const TrainerModal = ({ onClosed }) => {
             src={formData.imagePreview}
             alt="Предпросмотр"
           />
-          <label className="block border" htmlFor="imageInput">
+          <label className="block " htmlFor="imageInput">
             Добавить фото
           </label>
           <input

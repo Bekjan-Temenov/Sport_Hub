@@ -101,14 +101,11 @@ const hallSlice = createSlice({
 
       .addCase(putShedule.fulfilled, (state, action) => {
         const index = state.schedules.findIndex(
-          (ad) => ad.id === action.payload.id
+          (schedule) => schedule.id === action.payload.id
         );
         if (index !== -1) {
           state.schedules[index] = action.payload;
-        } else {
-          state.schedules.push(action.payload);
         }
-        state.status = "succeeded";
       })
       .addCase(putShedule.rejected, (state, action) => {
         state.status = "failed";

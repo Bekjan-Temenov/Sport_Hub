@@ -1,24 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api";
-import axios from "axios";
+import api from "../../api"
 
 export const postHall = createAsyncThunk(
   "admin/postHalls",
-  async ({ formData, notify, errorfy, setIsOpen }, { rejectWithValue }) => {
+  async ({ formData, notify, errorfy, setIsOpen,  }, { rejectWithValue }) => {
     try {
       const res = await api.postHalls(formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      notify();
-      setTimeout(() => setIsOpen(false), 1000);
 
-      return res.data;
+      if (res.data && res.data.id) {
+        notify();
+        setTimeout(() => setIsOpen(false), 1000);
+        return res.data.id; 
+      } else {
+        throw new Error("ID не найден для данного title");
+      }
     } catch (error) {
       console.error("Ошибка отправка данных расписания:", error);
-      const message =
-        error.response?.data?.message || "Ошибка при отправке расписания.";
+      const message = error.response?.data?.message || "Ошибка при отправке расписания.";
       if (errorfy) errorfy();
       return rejectWithValue(message);
     }
@@ -49,9 +51,23 @@ export const postCircles = createAsyncThunk(
 
 export const createWorkSchedule = createAsyncThunk(
   "workSchedules/create",
-  async ({ workScheduleData }, { rejectWithValue }) => {
+  async ({ ScheduleData }, { rejectWithValue }) => {
     try {
-      const res = await api.postShedule(workScheduleData);
+      const res = await api.postWorkShedule(ScheduleData);
+      
+      return res.data;
+    } catch (error) {
+      console.error("Ошибка при создании расписания:", error);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+export const createSchedule = createAsyncThunk(
+  "createSchedule/create",
+  async ({ createSchedule }, { rejectWithValue }) => {
+    try {
+      const res = await api.postShedule(createSchedule);
+      
       return res.data;
     } catch (error) {
       console.error("Ошибка при создании расписания:", error);
@@ -85,7 +101,6 @@ export const putHall = createAsyncThunk(
   async ({ id, formData, notify, errorfy, setIsOpen }, { rejectWithValue }) => {
     try {
       const res = await api.putHalls(id, formData);
-      console.log("редактирована заллы:", res.data);
       notify();
       setTimeout(() => setIsOpen(false), 1000);
       return res.data;
@@ -117,14 +132,15 @@ export const putShedule = createAsyncThunk(
 );
 
 export const fetchWorkSchedules = createAsyncThunk(
-  'workSchedule/fetchWorkSchedules',
+  "workSchedule/fetchWorkSchedules",
   async () => {
     try {
-      const response = await axios.get('http://192.168.68.103:3000/administrator/workschedules');
+      const response = await api.aboutShedule();
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Failed to fetch work schedules');
+      throw new Error(
+        error.response?.data?.message || "Failed to fetch work schedules"
+      );
     }
   }
 );
-

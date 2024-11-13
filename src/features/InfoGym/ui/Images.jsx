@@ -11,8 +11,7 @@ function Images() {
 
   const ImgClick = (img) => {
     setactiveImage(img);
-  };
-
+  }
   return (
     <Container>
       <div className="text-white   mb-[53px]">

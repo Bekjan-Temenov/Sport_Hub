@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../api";
 
-export const administratorpayments = createAsyncThunk(
+export const fetchPayments = createAsyncThunk(
     'administrator/payments',
     async (_, { rejectWithValue }) => {
         try {
-            const response = await api.aboutpay();
+            const response = await api.aboutHalls();
             console.log("sdfghjkl;", response.data);
             return response.data;
         } catch (error) {
