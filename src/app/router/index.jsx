@@ -21,7 +21,6 @@ import { PaymentRoute } from "../../features/Payment/route";
 import { RouteProfile } from "../../features/Profile/route";
 import { AttendenceRoute } from "../../features/Attendense/Route";
 import { AdminRouter } from "../../features/Admin/route";
-
 const MyRoutes = () => {
   return useRoutes([
     AdminRouter,
@@ -44,7 +43,7 @@ const MyRoutes = () => {
       element: <AdminLayout />,
       children: [
         { path: "", element: <Adversting /> },
-        AboutUsRoute,
+AboutUsRoute,
         { path: "reviewn", element: <ReviewN /> },
         { path: "payment", element: <Paymentn /> },
         { path: "trainer", element: <Trainer /> },

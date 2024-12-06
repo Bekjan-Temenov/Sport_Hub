@@ -14,7 +14,6 @@ const HomeSelect = () => {
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
     };
-
     return (
         <Container>
             <div className="flex items-center justify-between mb-8 mt-[30px]  sm:ml-4  md:ml-[70px] ">

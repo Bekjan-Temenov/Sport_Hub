@@ -1,8 +1,5 @@
 import apiRoot from "../../app/api";
 
-const api = {
-    aboutHalls: () => apiRoot.get('/administrator/payments/'),
-   
+export const api = {
+    paymentHalls: () => apiRoot.get('/administrator/payments/'),
 };
-
-export default api;
