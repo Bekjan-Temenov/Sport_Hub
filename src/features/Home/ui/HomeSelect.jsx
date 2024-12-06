@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import search from '../../../shared/assets/svg/search.svg';
 import Container from '../../../shared/helpers/Container';
-import { sports } from '../../../shared/api/api';
 
 const HomeSelect = () => {
     const options = [
@@ -26,7 +25,7 @@ const HomeSelect = () => {
                         className="text-black p-2  rounded-l-lg h-[50px] shadow-inset-custom bg-white-opacity w-[30%] sm:w-[120px]"
                     >
                         {!selectedOption && (
-                            <option value="">Выбрать</option>
+                            <option value=""></option>
                         )}
                         {options.map((option, index) => (
                             <option key={index} value={option}>

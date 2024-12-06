@@ -25,7 +25,7 @@ const Sport = () => {
         className="flex w-full items-center justify-center py-1 gap-1 px-[5px] lg:px-5 rounded-md"
       >
         <h1 className="text-white hover:text-red-600 hover:underline">
-          {selectedOption || "Спорт"}
+          { selectedOption  || "Спорт"}
         </h1>
         <img src={isOpen ? up : down} alt="Toggle" />
       </div>
