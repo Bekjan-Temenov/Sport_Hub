@@ -3,7 +3,6 @@ import MyRoutes from './router'
 import { ToastContainer } from 'react-toastify'
 
 function App() {
-
   return (
     <BrowserRouter >
       <MyRoutes/>

@@ -54,13 +54,21 @@ const Header = () => {
               />
               {open && <Burger setOpen={setOpen} sortRef={sortRef} />}
             </div>
+        <Link to="/">
+          <img
+            className="lg:h-[30px] h-[25px] hidden md:block"
+            src={logo}
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex items-center block w-full md:hidden">
+          <div>
             <img
               className="lg:h-[30px] h-[25px] mx-auto"
               src={logo}
               alt="Logo"
             />
           </div>
-
           <nav className="hidden gap-3 text-sm no-underline list-none md:flex md:items-center md:justify-between lg:gap-11 lg:text-lg">
             <Link to="/">
               <NavItem text="Главная" />
@@ -70,6 +78,10 @@ const Header = () => {
               <NavItem text="Рекламы" />
             </Link>
           </nav>
+          <Link to={"/"} className="mx-auto">
+            <img className="lg:h-[30px] h-[25px] mx-auto" src={logo} alt="Logo" />
+          </Link>
+
         </div>
         <div className="flex items-center gap-x-[30px]">
           {!user ? (
@@ -96,6 +108,13 @@ const NavItem = ({ text }) => (
 
 export const ActionButton = ({ text }) => (
   <button className="text-sm whitespace-nowrap border rounded-md md:text-lg lg:text-lg md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ">
+const ActionButton = ({ text, isOutlined }) => (
+  <button
+    className={`text-sm lg:text-lg rounded-md md:block hidden px-[10px] lg:px-[19px] md:h-[25px] lg:h-[30px] ${isOutlined
+      ? "border text-lg"
+      : "bg-red-600 hover:bg-red-700 md:font-thin lg:font-extralight"
+      }`}
+  >
     {text}
   </button>
 );

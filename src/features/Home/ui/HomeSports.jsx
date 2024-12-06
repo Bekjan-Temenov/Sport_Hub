@@ -42,7 +42,8 @@ const HomeSports = () => {
                 <img
                   src={sport.image}
                   alt={sport.name}
-                  className="relative w-[93%] mx-auto bg-cover cursor-pointer h-[300px] object-cover z-10"
+
+                  className="relative w-[93%] mx-auto bg-cover  cursor-pointer h-[300px] object-cover  z-10"
                 />
               </Link>
               <div className="text-[32px] mt-2">{sport.name}</div>
@@ -52,6 +53,8 @@ const HomeSports = () => {
       </div>
     </Container>
   );      
+  );
+
 };
 
 export default HomeSports;

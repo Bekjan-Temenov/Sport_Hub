@@ -20,15 +20,16 @@ import Schedule from "../../features/Shedule/ui/Schedule";
 import { PaymentRoute } from "../../features/Payment/route";
 import { RouteProfile } from "../../features/Profile/route";
 import { AttendenceRoute } from "../../features/Attendense/Route";
- 
+import { AdminRouter } from "../../features/Admin/route";
 const MyRoutes = () => {
   return useRoutes([
+    AdminRouter,
     AuthRouter,
     {
       path: "",
       element: <Layout />,
       children: [
-        { path: "", element: <Home /> },
+        { path: "/", element: <Home /> },
         HomeRoute,
         zallyRoute,
         ArenaRouter,
