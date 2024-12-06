@@ -20,7 +20,7 @@ import Schedule from "../../features/Shedule/ui/Schedule";
 import { PaymentRoute } from "../../features/Payment/route";
 import { RouteProfile } from "../../features/Profile/route";
 import { AttendenceRoute } from "../../features/Attendense/Route";
-
+ 
 const MyRoutes = () => {
   return useRoutes([
     AuthRouter,
